@@ -87,7 +87,7 @@ foreach ($points as $username => $amount) {
             <?= $templates->botCommandForm('points all', 'Send an amount of points to everyone', '[amount]') ?>
           </div>
           <div class="col-sm-4">
-            <?= $templates->botCommandForm('letitrain', 'Divide an amount of points randomly over current viewers', '[amount]') ?>
+            <?= $templates->botCommandForm('makeitrain', 'Divide an amount of points randomly over current viewers', '[amount]') ?>
           </div>
         </div>
         <div class="row">
