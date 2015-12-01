@@ -42,7 +42,8 @@ function saveError()
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
-  <link href="../css/<?= (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 'style_dark') ?>.css" rel="stylesheet" type="text/css"/>
+  <link href="../css/<?= (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 'style_dark') ?>.css"
+        rel="stylesheet" type="text/css"/>
   <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="../js/spark-md5.min.js" type="text/javascript"></script>
   <script src="../js/install.min.js" type="text/javascript"></script>
@@ -151,9 +152,9 @@ function saveError()
   <div class="panel panel-default page-footer">
     <div class="panel-body text-muted">
       PhantomBot Control Panel
-      <small><?=$config->version?></small>
-      Developed by <a href="//juraji.nl" target="_blank">Juraji</a> &copy;<?=date('Y')?><br/>
-      Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?=$config->pBCompat?></a>,
+      <small><?= $config->version ?></small>
+      Developed by <a href="//juraji.nl" target="_blank">Juraji</a> &copy;<?= date('Y') ?><br/>
+      Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?= $config->pBCompat ?></a>,
       developed by <a href="//phantombot.net/members/phantomindex.1/" target="_blank">PhantomIndex</a>,
       <a href="//phantombot.net/members/gloriouseggroll.2/" target="_blank">GloriousEggroll</a> &amp;
       <a href="//phantombot.net/members/gmt2001.28/" target="_blank">gmt2001</a>.

@@ -7,6 +7,7 @@
 .web-font(@path) {
   @import url("@{path}");
 }
+
 .web-font(@web-font-path);
 
 // Navbar =====================================================================
@@ -250,10 +251,10 @@ textarea {
   }
 
   .disabled {
-    &>a,
-    &>a:hover,
-    &>a:focus,
-    &>span {
+    & > a,
+    & > a:hover,
+    & > a:focus,
+    & > span {
       background-color: @pagination-disabled-bg;
     }
   }
@@ -323,7 +324,7 @@ a.list-group-item {
     &.active {
       background-color: @state-warning-bg;
     }
-    
+
     &.active:hover,
     &.active:focus {
       background-color: darken(@state-warning-bg, 5%);
@@ -334,7 +335,7 @@ a.list-group-item {
     &.active {
       background-color: @state-danger-bg;
     }
-    
+
     &.active:hover,
     &.active:focus {
       background-color: darken(@state-danger-bg, 5%);

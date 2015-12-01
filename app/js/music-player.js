@@ -10,7 +10,7 @@ var player,
     r = false,
     videos = [],
     i = -1,
-    //noinspection JSUnresolvedVariable
+//noinspection JSUnresolvedVariable
     connection = new WebSocket('ws://' + botAddress);
 
 //noinspection JSUnusedGlobalSymbols

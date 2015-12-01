@@ -56,7 +56,8 @@ if ($updateInstalledTo > -1) {
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
-  <link href="app/css/<?= (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 'style_dark') ?>.css" rel="stylesheet" type="text/css"/>
+  <link href="app/css/<?= (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 'style_dark') ?>.css"
+        rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="page-wrapper">
@@ -77,7 +78,7 @@ if ($updateInstalledTo > -1) {
         <ul class="list-unstyled">
           <?= $installedUpdates ?>
         </ul>
-        <p><?=join('<br /><br />', $updateNotes)?></p>
+        <p><?= join('<br /><br />', $updateNotes) ?></p>
         <?= $notification[1] ?>
         <p>
           Proceed to <a href="index.php">login</a>!

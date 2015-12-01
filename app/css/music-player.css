@@ -1,1 +1,44 @@
-body{margin:0;padding:0;background-color:#303030;overflow:hidden;color:#fff;font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:15px;line-height:21px}.player-wrapper{position:absolute;top:0;bottom:0;left:0;right:0}.player-wrapper iframe{width:100%;height:100%;border:0}.info{position:absolute;text-align:center;top:0;width:100%;padding:5px;background-color:#222;border-bottom:1px solid #999}.info .title{margin:0;padding:0}.info .title a{color:#fff;text-decoration:none}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #303030;
+    overflow: hidden;
+    color: #fff;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 21px
+}
+
+.player-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0
+}
+
+.player-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0
+}
+
+.info {
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    padding: 5px;
+    background-color: #222;
+    border-bottom: 1px solid #999
+}
+
+.info .title {
+    margin: 0;
+    padding: 0
+}
+
+.info .title a {
+    color: #fff;
+    text-decoration: none
+}

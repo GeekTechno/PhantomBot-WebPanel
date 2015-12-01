@@ -8,11 +8,11 @@
  */
 define('BASEPATH', realpath(dirname(__FILE__)));
 
-require_once BASEPATH . '/app/php/classes/Configuration.class.php';
-require_once BASEPATH . '/app/php/classes/ConnectionHandler.class.php';
-require_once BASEPATH . '/app/php/classes/Functions.class.php';
-require_once BASEPATH . '/app/php/classes/ComponentTemplates.class.php';
-require_once BASEPATH . '/app/php/classes/PanelSession.class.php';
+require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
+require_once(BASEPATH . '/app/php/classes/ConnectionHandler.class.php');
+require_once(BASEPATH . '/app/php/classes/Functions.class.php');
+require_once(BASEPATH . '/app/php/classes/ComponentTemplates.class.php');
+require_once(BASEPATH . '/app/php/classes/PanelSession.class.php');
 
 $session = new PanelSession();
 $config = new Configuration();
@@ -167,7 +167,7 @@ if ($subscribeHandlerActive == 1) {
 </div>
 <div id="general-alert" class="alert"></div>
 <div id="music-player-controls">
-  <?php require_once BASEPATH . '/app/parts/static/music-player-controls.php'; ?>
+  <?php require_once(BASEPATH . '/app/parts/static/music-player-controls.php'); ?>
 </div>
 </body>
 </html>

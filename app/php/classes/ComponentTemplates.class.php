@@ -28,39 +28,6 @@ class ComponentTemplates
   }
 
   /**
-   * @param string $template
-   * @param string $text
-   * @param array $options
-   * @return string
-   */
-  public function addTooltip($template, $text, $options = [])
-  {
-    //$position = 'top', $offsetX = 0, $offsetY = 0, $replaceInRow = 0, $appendToBody = false
-    $s = array_merge([
-        'position' => ComponentTemplates::TOOLTIP_POS_TOP,
-        'offsetX' => 0,
-        'offsetY' => 0,
-        'replaceInRow' => 0,
-        'appendToBody' => false,
-    ], $options);
-
-    if (trim($template) != '') {
-      $elementArray = [];
-      preg_match_all('(<.*>)', $template, $elementArray);
-      $elementArray[0][$s['replaceInRow']] =
-          preg_replace('/class="([a-z0-9\s_-]+)"/i', 'class="$1 has-tooltip"', $elementArray[0][$s['replaceInRow']], 1);
-      $elementArray[0][$s['replaceInRow']] =
-          preg_replace('/(<[a-z0-9]+)/i', '$1 tooltip="' . htmlspecialchars($text) . '" tooltip-position="'
-              . $s['position'] . '" tooltip-offset="' . $s['offsetX'] . ',' . $s['offsetY'] . '"' . ($s['appendToBody'] ? ' tooltip-to-body="1"' : ''),
-              $elementArray[0][$s['replaceInRow']], 1);
-
-      return join('', $elementArray[0]);
-    } else {
-      return '';
-    }
-  }
-
-  /**
    * @param string $command
    * @param string $buttonText
    * @param string $buttonClass
@@ -119,7 +86,7 @@ class ComponentTemplates
     }
     return '<form class="combined-bot-command-form" botcommand="' . $command . '" formnoreload="' . ($noReload ? '1' : '0') . '">
           <div class="form-group' . ($small ? ' form-group-sm' : '') . '">
-            <span>' .  $description . '</span>
+            <span>' . $description . '</span>
             <div class="input-group">
               <div class="input-group-addon input-group-addon-select">
                 <select class="form-control" name="action">' . $optionsString . '</select>
@@ -187,6 +154,39 @@ class ComponentTemplates
             'Enable this module in Extras->Modules Manager to use it.', ['position' => ComponentTemplates::TOOLTIP_POS_LEFT, 'offsetX' => -5]);
       default:
         return '<span class="text-warning pull-right"><span class="fa fa-check-circle"></span> Module Status Unknown</span>';
+    }
+  }
+
+  /**
+   * @param string $template
+   * @param string $text
+   * @param array $options
+   * @return string
+   */
+  public function addTooltip($template, $text, $options = [])
+  {
+    //$position = 'top', $offsetX = 0, $offsetY = 0, $replaceInRow = 0, $appendToBody = false
+    $s = array_merge([
+        'position' => ComponentTemplates::TOOLTIP_POS_TOP,
+        'offsetX' => 0,
+        'offsetY' => 0,
+        'replaceInRow' => 0,
+        'appendToBody' => false,
+    ], $options);
+
+    if (trim($template) != '') {
+      $elementArray = [];
+      preg_match_all('(<.*>)', $template, $elementArray);
+      $elementArray[0][$s['replaceInRow']] =
+          preg_replace('/class="([a-z0-9\s_-]+)"/i', 'class="$1 has-tooltip"', $elementArray[0][$s['replaceInRow']], 1);
+      $elementArray[0][$s['replaceInRow']] =
+          preg_replace('/(<[a-z0-9]+)/i', '$1 tooltip="' . htmlspecialchars($text) . '" tooltip-position="'
+              . $s['position'] . '" tooltip-offset="' . $s['offsetX'] . ',' . $s['offsetY'] . '"' . ($s['appendToBody'] ? ' tooltip-to-body="1"' : ''),
+              $elementArray[0][$s['replaceInRow']], 1);
+
+      return join('', $elementArray[0]);
+    } else {
+      return '';
     }
   }
 

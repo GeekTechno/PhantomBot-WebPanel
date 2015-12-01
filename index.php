@@ -17,9 +17,10 @@ $config = new Configuration();
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
-  <link href="app/css/<?= (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 'style_dark') ?>.css" rel="stylesheet" type="text/css"/>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link href="app/css/<?= (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 'style_dark') ?>.css"
+        rel="stylesheet" type="text/css"/>
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
   <script src="app/js/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="app/js/spark-md5.min.js" type="text/javascript"></script>
   <script src="app/js/login.min.js" type="text/javascript"></script>
@@ -30,7 +31,7 @@ $config = new Configuration();
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand">PhantomBot Control Panel <br/><span
-              class="panel-version text-muted">version <?=$config->version?></span></a>
+              class="panel-version text-muted">version <?= $config->version ?></span></a>
       </div>
     </div>
   </nav>
@@ -54,9 +55,9 @@ $config = new Configuration();
   <div class="panel panel-default page-footer">
     <div class="panel-body text-muted">
       PhantomBot Control Panel
-      <small><?=$config->version?></small>
-      Developed by <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?=date('Y')?><br/>
-      Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?=$config->pBCompat?></a>,
+      <small><?= $config->version ?></small>
+      Developed by <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?><br/>
+      Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?= $config->pBCompat ?></a>,
       developed by <a href="//phantombot.net/members/phantomindex.1/" target="_blank">phantomindex</a>,
       <a href="//phantombot.net/members/gloriouseggroll.2/" target="_blank">gloriouseggroll</a> &amp;
       <a href="//phantombot.net/members/gmt2001.28/" target="_blank">gmt2001</a>.

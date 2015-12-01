@@ -192,7 +192,6 @@ function bindPartEventHandlers() {
     }
 
 
-
     debug(command, action, actionArg);
     event.preventDefault();
   });

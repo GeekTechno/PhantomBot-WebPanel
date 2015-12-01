@@ -11,16 +11,16 @@
  * Changes: Use config for PhantomBot add-on file output paths
  */
 
-require_once BASEPATH . '/app/php/classes/Configuration.class.php';
+require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
 $config = new Configuration();
 
 if (!array_key_exists('latestFollower', $config->paths)) {
   $config->_saveToConfig([
       'paths' => [
-          'latestFollower'     => '/web/latestfollower.txt',
-          'latestDonation'     => '/addons/donationchecker/latestdonation.txt',
+          'latestFollower' => '/web/latestfollower.txt',
+          'latestDonation' => '/addons/donationchecker/latestdonation.txt',
           'youtubeCurrentSong' => '/addons/youtubePlayer/currentsong.txt',
-          'youtubePlaylist'    => '/addons/youtubePlayer/requests.txt',
+          'youtubePlaylist' => '/addons/youtubePlayer/requests.txt',
       ]
   ]);
 }

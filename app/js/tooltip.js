@@ -31,13 +31,13 @@ function bindTooltips(unbindOnly) {
           duration: 500,
         });
     tt.owner().on('mouseleave', function () {
-        tt.tooltip().animate(tt.cssAfter(), {
-          duration: 750,
-          queue: false,
-          complete: function () {
-            tt.done();
-          }
-        });
+      tt.tooltip().animate(tt.cssAfter(), {
+        duration: 750,
+        queue: false,
+        complete: function () {
+          tt.done();
+        }
+      });
     });
   });
 }

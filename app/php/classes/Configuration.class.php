@@ -16,6 +16,7 @@ class Configuration
   public $botOauthToken;
   public $panelUsers;
   public $paths;
+  public $sfxSettings;
 
   public $version;
   public $pBCompat;

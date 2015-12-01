@@ -66,41 +66,6 @@ class Functions
     return array_reverse($directoryContents);
   }
 
-  /**
-   * @param string $action
-   * @param int $status
-   * @param int $errorNo
-   * @param string $error
-   */
-  public function sendBackError($action, $status = 500, $errorNo = 500, $error = '')
-  {
-    echo json_encode([$action, $status, $errorNo, $error]);
-  }
-
-  /**
-   * @param mixed $result
-   * @param int $status
-   */
-  public function sendBackOk($result, $status = 200)
-  {
-    echo json_encode([$result, $status, 0, '']);
-  }
-
-  /**
-   * @param string $YTVideoTitle
-   * @return string
-   */
-  public function cleanYTVideoTitle($YTVideoTitle)
-  {
-    return str_replace([
-            '(OUT NOW!) ',
-            '【Trap】',
-            '(Official Video)',
-            '(HQ)',
-            '"',
-        ], '', $YTVideoTitle);
-  }
-
   public function getCurrentTitle()
   {
     $currentTitle = $this->getOtherFile($this->config->paths['youtubeCurrentSong']);
@@ -139,22 +104,59 @@ class Functions
   }
 
   /**
-   * @param string $iniName
-   * @param bool $internal
-   * @return bool|string
+   * @param mixed $result
+   * @param int $status
    */
-  public function getIniRaw($iniName, $internal = true)
+  public function sendBackOk($result, $status = 200)
   {
-    $iniName = preg_replace('/inistore|[\/.]|ini/i', '', $iniName);
-    $iniStringResult = $this->connection->get('/inistore/' . $iniName . '.ini');
-    if ($iniStringResult[1] == 200) {
-      if ($internal) {
-        return $iniStringResult[0];
-      } else {
-        $this->sendBackOk($iniStringResult[0]);
+    echo json_encode([$result, $status, 0, '']);
+  }
+
+  /**
+   * @param string $action
+   * @param int $status
+   * @param int $errorNo
+   * @param string $error
+   */
+  public function sendBackError($action, $status = 500, $errorNo = 500, $error = '')
+  {
+    echo json_encode([$action, $status, $errorNo, $error]);
+  }
+
+  /**
+   * @param string $YTVideoTitle
+   * @return string
+   */
+  public function cleanYTVideoTitle($YTVideoTitle)
+  {
+    return str_replace([
+        '(OUT NOW!) ',
+        '【Trap】',
+        '(Official Video)',
+        '(HQ)',
+        '"',
+    ], '', $YTVideoTitle);
+  }
+
+  /**
+   * @param string $iniName
+   * @param string $key
+   * @param bool $partialKey
+   * @return string
+   */
+  public function getIniValueByKey($iniName, $key, $partialKey = false)
+  {
+    $ini = $this->getIniArray($iniName, true);
+    if ($ini && $partialKey) {
+      foreach ($ini as $iniKey => $iniValue) {
+        if (strpos($iniKey, $key) > -1) {
+          return $iniValue;
+        }
       }
+      return '';
+    } else {
+      return ($ini && array_key_exists($key, $ini) ? $ini[$key] : '0');
     }
-    return false;
   }
 
   /**
@@ -191,22 +193,37 @@ class Functions
 
   /**
    * @param string $iniName
-   * @param string $key
-   * @param bool $partialKey
-   * @return string
+   * @param bool $internal
+   * @return bool|string
    */
-  public function getIniValueByKey($iniName, $key, $partialKey = false)
+  public function getIniRaw($iniName, $internal = true)
   {
-    $ini = $this->getIniArray($iniName, true);
-    if ($ini && $partialKey) {
-      foreach ($ini as $iniKey => $iniValue) {
-        if (strpos($iniKey, $key) > -1) {
-          return $iniValue;
-        }
+    $iniName = preg_replace('/inistore|[\/.]|ini/i', '', $iniName);
+    $iniStringResult = $this->connection->get('/inistore/' . $iniName . '.ini');
+    if ($iniStringResult[1] == 200) {
+      if ($internal) {
+        return $iniStringResult[0];
+      } else {
+        $this->sendBackOk($iniStringResult[0]);
       }
-      return '';
-    } else {
-      return ($ini && array_key_exists($key, $ini) ? $ini[$key] : '0');
+    }
+    return false;
+  }
+
+  /**
+   * @param string $iniName
+   * @param string $iniArray
+   * @return array
+   */
+  private function _specialIniArrayCases($iniName, &$iniArray)
+  {
+    $iniName = preg_replace('/inistore|[\/.]|ini/i', '', $iniName);
+    switch (strtolower($iniName)) {
+      case 'modules':
+        $iniArray['./util/chatModerator.js_enabled'] = '1';
+        break;
+      default:
+        break;
     }
   }
 
@@ -316,20 +333,7 @@ class Functions
     return 1;
   }
 
-  /**
-   * @param string $iniName
-   * @param string $iniArray
-   * @return array
-   */
-  private function _specialIniArrayCases($iniName, &$iniArray)
-  {
-    $iniName = preg_replace('/inistore|[\/.]|ini/i', '', $iniName);
-    switch (strtolower($iniName)) {
-      case 'modules':
-        $iniArray['./util/chatModerator.js_enabled'] = '1';
-        break;
-      default:
-        break;
-    }
+  public function getSFXPlayerConfig() {
+
   }
 }
