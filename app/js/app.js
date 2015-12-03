@@ -191,8 +191,21 @@ function bindPartEventHandlers() {
       showGeneralAlert();
     }
 
+    event.preventDefault();
+  });
 
-    debug(command, action, actionArg);
+  $('form#sfx-selection').off('submit').on('submit', function (event) {
+    //noinspection JSUnresolvedVariable
+    var file = event.target[0].selectedOptions[0].value,
+        command = event.target[1].value;
+
+    if (file && file != '' && command != '') {
+      doBotRequest('saveSfxCommand', function () {
+        loadPartFromStorage();
+      }, {command: _cleanInput(command), file: file});
+    }
+
+    debug(command, file);
     event.preventDefault();
   });
 
@@ -556,12 +569,26 @@ function togglePlayPause() {
   }, {command: 'pause'});
 }
 
+//noinspection JSUnusedGlobalSymbols
+function toggleSfx(state) {
+  debug(state);
+  doBotRequest('saveToConfig', function () {
+  }, {settingPath: 'sfxSettings/enabled', setting: state});
+}
+
+//noinspection JSUnusedGlobalSymbols
+function deleteSfx(command) {
+  doBotRequest('deleteSfxCommand', function () {
+    loadPartFromStorage();
+  }, {command: command});
+}
+
 function _cleanInput(input) {
   var search = [/^!/],
       replacements = [''],
       i = 0;
   for (i; i < search.length - 1; i++) {
-    input.replace(search[i], replacements[i])
+    input = input.replace(search[i], replacements[i])
   }
   return input;
 }

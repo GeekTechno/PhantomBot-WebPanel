@@ -333,7 +333,46 @@ class Functions
     return 1;
   }
 
-  public function getSFXPlayerConfig() {
+  /**
+   * @return array
+   */
+  public function getSfxFiles()
+  {
+    $sndExt = ['wav', 'mp3', 'ogg'];
+    $it = new SortedDirectoryIterator(BASEPATH . '/app/content/sfx');
+    $files = [];
 
+    /* @var SplFileInfo $item */
+    foreach ($it as $item) {
+      if (in_array($item->getExtension(), $sndExt)) {
+        $files[] = [
+          'fileName' => $item->getFilename(),
+          'path' => 'app/content/sfx/' . $item->getFilename(),
+        ];
+      }
+    }
+
+    return $files;
+  }
+
+  /**
+   * @param $command
+   * @param $file
+   * @return bool
+   */
+  public function saveSfxCommand($command, $file)
+  {
+    $current = $this->config->sfxSettings['commands'];
+    $current[$command] = $file;
+    $this->config->saveToConfigWeb('sfxSettings/commands', $current);
+    return true;
+  }
+
+  public function deleteSfxCommand($command)
+  {
+    $current = $this->config->sfxSettings['commands'];
+    unset($current[$command]);
+    $this->config->saveToConfigWeb('sfxSettings/commands', $current);
+    return true;
   }
 }

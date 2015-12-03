@@ -21,7 +21,8 @@
 </div>
 <div id="current-video-title"><?= $functions->cleanYTVideoTitle($musicPlayerCurrentSong) ?></div>
 <div class="options">
-  <a href="/music-player.php?botControl=true" target="_blank">
+  <!--suppress HtmlUnknownTarget -->
+  <a href="music-player.php?botControl=true" target="_blank">
     <button class="btn btn-primary btn-sm">Open Player</button>
   </a>
 </div>

@@ -1,19 +1,18 @@
 <?php
 /**
- * music-player.php
- * Created with PhpStorm
+ * Created by PhpStorm.
  * User: Robin | Juraji
- * Date: 12 okt 2015
- * Time: 12:48
+ * Date: 3-12-2015
+ * Time: 03:43
  */
+
 define('BASEPATH', realpath(dirname(__FILE__)));
 
 require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
 
 $config = new Configuration();
 
-$botControl = filter_input(INPUT_GET, 'botControl', FILTER_VALIDATE_BOOLEAN);
-$musicServerAdress = $config->botIp . ':' . (intval($config->botBasePort) + 1);
+$eventServerAdress = $config->botIp . ':' . (intval($config->botBasePort) + 2);
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,21 +24,23 @@ $musicServerAdress = $config->botIp . ':' . (intval($config->botBasePort) + 1);
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-    var botAddress = '<?= $musicServerAdress ?>',
-        botControl = <?= ($botControl ? 'true' : 'false') ?>;
+    var botAddress = '<?= $eventServerAdress ?>',
+        sfxEnabled = <?=$config->sfxSettings['enabled']?>,
+        sfxCommands = <?= json_encode($config->sfxSettings['commands']) ?>;
   </script>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="app/js/rsocket.min.js"></script>
-  <script src="app/js/music-player.min.js"></script>
+  <script src="app/js/sfx-host.js"></script>
 </head>
 <body>
-<div class="player-wrapper">
-  <div id="player"></div>
-</div>
 <div class="info">
-  <h3 class="title">Music on <a href="http://twitch.tv/<?= $config->channelOwner ?>"><?= $config->channelOwner ?></a>
+  <h3 class="title">Sfx commands on <a href="http://twitch.tv/<?= $config->channelOwner ?>"><?= $config->channelOwner ?></a>
   </h3>
-  Now playing: <span id="current-video-title">Waiting for next song...</span>
+  <span id="sfx-display">Waiting for commands...</span>
+</div>
+<div id="sfx-history-wrapper">
+  <h3 class="title">History</h3>
+  <div id="sfx-history"></div>
 </div>
 </body>
 </html>

@@ -7,6 +7,8 @@
  * Date: 12 okt 2015
  * Time: 12:45
  */
+require_once('SortedDirectoryIterator.class.php');
+
 class Configuration
 {
   public $botIp;
@@ -46,6 +48,10 @@ class Configuration
             . '". Check if it\'s there and if your webserver has the appropriate rights to read the file.';
         exit;
       }
+    }
+
+    if ($this->hasUpdate()) {
+      header('Location: update.php');
     }
 
     if (!is_array($this->paths)) {
@@ -93,9 +99,6 @@ class Configuration
   {
     if (!file_exists($this->configFileName)) {
       if (@file_put_contents($this->configFileName, '')) {
-        $data['CONFIG HELP'] = [
-            'Slashes' => 'Slashes in this file NEED to be escaped',
-        ];
         return @file_put_contents($this->configFileName, json_encode($data, JSON_PRETTY_PRINT));
       } else {
         return false;
@@ -133,5 +136,22 @@ class Configuration
         'pollSystem',
         'queueSystem',
     ];
+  }
+
+  private function hasUpdate()
+  {
+    $it = new SortedDirectoryIterator(realpath(dirname(__FILE__)) . '/../../../updates');
+    $currentVersion = floatval(@file_get_contents(realpath(dirname(__FILE__)) . '/../../content/vars/current_version.txt'));
+    $latestVersion = 0.8;
+
+    /* @var SplFileInfo $item */
+    foreach ($it as $item) {
+      $version = floatval($item->getBasename('.php'));
+      if ($version > $latestVersion) {
+        $latestVersion = $version;
+      }
+    }
+
+    return ($latestVersion > $currentVersion);
   }
 }

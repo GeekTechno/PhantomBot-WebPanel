@@ -1,4 +1,3 @@
-//noinspection JSUnresolvedVariable
 /**
  * music-player.js
  * Created with PhpStorm

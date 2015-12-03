@@ -79,6 +79,28 @@ if (array_key_exists('action', $input) && $input['action'] != '') {
     case 'testBotConnection':
       echo json_encode($connection->testConnection());
       break;
+    case 'saveSfxCommand';
+      if (array_key_exists('command', $input) && array_key_exists('file', $input)) {
+        if ($functions->saveSfxCommand($input['command'], $input['file'])) {
+          $functions->sendBackOk('Setting Saved');
+        } else {
+          $functions->sendBackError('Failed to save setting', 418, 418);
+        }
+      } else {
+        $functions->sendBackError('Missing parameters');
+      }
+      break;
+    case 'deleteSfxCommand';
+      if (array_key_exists('command', $input)) {
+        if ($functions->deleteSfxCommand($input['command'])) {
+          $functions->sendBackOk('Setting Saved');
+        } else {
+          $functions->sendBackError('Failed to save setting', 418, 418);
+        }
+      } else {
+        $functions->sendBackError('Missing parameters');
+      }
+      break;
     default:
       $functions->sendBackError('Unknown action');
       break;
