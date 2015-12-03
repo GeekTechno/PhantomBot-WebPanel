@@ -573,6 +573,7 @@ function togglePlayPause() {
 function toggleSfx(state) {
   debug(state);
   doBotRequest('saveToConfig', function () {
+    loadPartFromStorage();
   }, {settingPath: 'sfxSettings/enabled', setting: state});
 }
 
