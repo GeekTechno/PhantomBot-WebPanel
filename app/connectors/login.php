@@ -6,14 +6,12 @@
  * Date: 12 okt 2015
  * Time: 12:46
  */
+require_once('../../AppLoader.class.php');
+\PBPanel\AppLoader::load();
 
-require_once('classes/Configuration.class.php');
-require_once('classes/ConnectionHandler.class.php');
-require_once('classes/Functions.class.php');
-
-$config = new Configuration();
-$connection = new ConnectionHandler($config);
-$functions = new Functions($config, $connection);
+$dataStore = new \PBPanel\Util\DataStore();
+$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $input = filter_input_array(INPUT_POST);
 
 if (!array_key_exists('username', $input) || trim($input['username']) == '') {

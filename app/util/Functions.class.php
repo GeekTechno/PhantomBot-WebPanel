@@ -6,22 +6,24 @@
  * Date: 12 okt 2015
  * Time: 12:46
  */
-require_once('SortedDirectoryIterator.class.php');
-require_once('PanelSession.class.php');
+namespace PBPanel\Util;
 
 class Functions
 {
-  private $config;
+  /* @var DataStore $dataStore */
+  private $dataStore;
+  /* @var ConnectionHandler $connection */
   private $connection;
+  /* @var PanelSession $session */
   private $session;
 
   /**
-   * @param Configuration $config
+   * @param DataStore $dataStore
    * @param ConnectionHandler $connection
    */
-  public function Functions($config, $connection)
+  public function __construct($dataStore, $connection)
   {
-    $this->config = $config;
+    $this->dataStore = $dataStore;
     $this->connection = $connection;
     $this->session = new PanelSession();
   }
@@ -33,7 +35,8 @@ class Functions
    */
   public function isValidUser($username, $md5Password)
   {
-    if (array_key_exists($username, $this->config->panelUsers) && $md5Password == $this->config->panelUsers[$username]) {
+    $userHash = $this->dataStore->getVar('users', $username);
+    if ($userHash && $md5Password == $userHash) {
       return true;
     } else {
       return false;
@@ -49,7 +52,7 @@ class Functions
     $currentPath = '';
     $it = new SortedDirectoryIterator('./app/parts');
 
-    /* @var SplFileInfo $file */
+    /* @var \SplFileInfo $file */
     foreach ($it as $file) {
       if ($file->isDir()) {
         $currentPath = $file->getBasename();
@@ -68,7 +71,7 @@ class Functions
 
   public function getCurrentTitle()
   {
-    $currentTitle = $this->getOtherFile($this->config->paths['youtubeCurrentSong']);
+    $currentTitle = $this->getOtherFile($this->dataStore->getVar('paths', 'youtubeCurrentSong'));
     if ($currentTitle) {
       $this->sendBackOk($this->cleanYTVideoTitle($currentTitle));
     } else {
@@ -260,17 +263,17 @@ class Functions
   public function getJSConfig()
   {
     $this->sendBackOk([
-        'owner' => strtolower($this->config->channelOwner),
-        'botName' => strtolower($this->config->botName),
+        'owner' => strtolower($this->dataStore->getVar('connector', 'channelOwner')),
+        'botName' => strtolower($this->dataStore->getVar('connector', 'botName')),
     ]);
   }
 
   public function getConfig()
   {
     $this->sendBackOk([
-        'botAdress' => strtolower($this->config->botIp),
-        'botName' => strtolower($this->config->botName),
-        'owner' => strtolower($this->config->channelOwner),
+        'botAdress' => strtolower($this->dataStore->getVar('connector', 'botIp')),
+        'owner' => strtolower($this->dataStore->getVar('connector', 'channelOwner')),
+        'botName' => strtolower($this->dataStore->getVar('connector', 'botName')),
         'token' => $this->session->getSessionToken(),
     ]);
   }
@@ -281,8 +284,8 @@ class Functions
    */
   public function secondsToTime($seconds)
   {
-    $dtF = new DateTime("@0");
-    $dtT = new DateTime("@$seconds");
+    $dtF = new \DateTime("@0");
+    $dtT = new \DateTime("@$seconds");
     if ($seconds > 86400) {
       return $dtF->diff($dtT)->format('%a days, %h hours and %i minutes');
     } elseif ($seconds > 3600) {
@@ -299,7 +302,7 @@ class Functions
   public function botTimeToStandardFormat($botTime)
   {
     if (preg_match('/([0-9]{2})-([0-9]{2})-([0-9]{4})\s\@\s([0-9:]+)\s([0-9+]+)/', $botTime, $botTimeMatches)) {
-      $dateTime = new DateTime(
+      $dateTime = new \DateTime(
           $botTimeMatches[3] . '-'
           . $botTimeMatches[1] . '-'
           . $botTimeMatches[2] . 'T'
@@ -319,7 +322,7 @@ class Functions
   public function getModuleStatus($scriptName)
   {
     $modules = $this->getIniArray('/inistore/modules.ini', true);
-    $defaultSettings = $this->config->getDefaultDisabledModules();
+    $defaultSettings = $this->getDefaultDisabledModules();
     foreach ($modules as $moduleFullPath => $active) {
       if (strpos(strtolower($moduleFullPath), strtolower($scriptName)) > -1) {
         return $active;
@@ -339,10 +342,10 @@ class Functions
   public function getSfxFiles()
   {
     $sndExt = ['wav', 'mp3', 'ogg'];
-    $it = new SortedDirectoryIterator(BASEPATH . '/app/content/sfx');
+    $it = new SortedDirectoryIterator(\PBPanel\AppLoader::getBaseDir() . '/app/content/sfx');
     $files = [];
 
-    /* @var SplFileInfo $item */
+    /* @var \SplFileInfo $item */
     foreach ($it as $item) {
       if (in_array($item->getExtension(), $sndExt)) {
         $files[] = [
@@ -362,17 +365,33 @@ class Functions
    */
   public function saveSfxCommand($command, $file)
   {
-    $current = $this->config->sfxSettings['commands'];
-    $current[$command] = $file;
-    $this->config->saveToConfigWeb('sfxSettings/commands', $current);
-    return true;
+    return $this->dataStore->setVar('sfxcommands', $command, $file);
   }
 
   public function deleteSfxCommand($command)
   {
-    $current = $this->config->sfxSettings['commands'];
-    unset($current[$command]);
-    $this->config->saveToConfigWeb('sfxSettings/commands', $current);
+    $this->dataStore->delVar('sfxcommands', $command);
     return true;
+  }
+
+  public function getDefaultDisabledModules()
+  {
+    return [
+        '8ballCommand',
+        'killCommand',
+        'marathonCommand',
+        'randomCommand',
+        'donationHandler',
+        'hostHandler',
+        'phraseHandler',
+        'subscribeHandler',
+        'bankheistSystem',
+        'betSystem',
+        'bidSystem',
+        'greetingSystem',
+        'levelQueueSystem',
+        'pollSystem',
+        'queueSystem',
+    ];
   }
 }

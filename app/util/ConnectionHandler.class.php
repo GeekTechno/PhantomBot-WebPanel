@@ -7,17 +7,19 @@
  * Date: 12 okt 2015
  * Time: 12:46
  */
+namespace PBPanel\Util;
+
 class ConnectionHandler
 {
-  private $config;
+  private $dataStore;
   private $curl;
 
   /**
-   * @param Configuration $config
+   * @param DataStore $dataStore
    */
-  public function ConnectionHandler($config)
+  public function __construct($dataStore)
   {
-    $this->config = $config;
+    $this->dataStore = $dataStore;
   }
 
   public function testConnection()
@@ -44,8 +46,8 @@ class ConnectionHandler
       $uri = '/' . $uri;
     }
 
-    $this->curl = curl_init($this->config->botIp . $uri);
-    curl_setopt($this->curl, CURLOPT_PORT, $this->config->botBasePort);
+    $this->curl = curl_init($this->dataStore->getVar('connector', 'botIp') . $uri);
+    curl_setopt($this->curl, CURLOPT_PORT, $this->dataStore->getVar('connector', 'botBasePort'));
     curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($this->curl, CURLOPT_CONNECTTIMEOUT, 5);
     curl_setopt($this->curl, CURLOPT_TIMEOUT, 5);
@@ -72,8 +74,8 @@ class ConnectionHandler
   {
     $this->init();
     curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'PUT');
-    $curlPass = str_replace("oauth:", "", $this->config->botOauthToken);
-    curl_setopt($this->curl, CURLOPT_HTTPHEADER, array('user: ' . $this->config->channelOwner, 'message: ' . urlencode($message), 'password: ' . $curlPass));
+    $curlPass = str_replace("oauth:", "", $this->dataStore->getVar('connector', 'botOauthToken'));
+    curl_setopt($this->curl, CURLOPT_HTTPHEADER, array('user: ' . $this->dataStore->getVar('connector', 'channelOwner'), 'message: ' . urlencode($message), 'password: ' . $curlPass));
     $result = curl_exec($this->curl);
     $err = curl_error($this->curl);
     $status = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
@@ -92,7 +94,7 @@ class ConnectionHandler
   {
     $this->init($uri);
 
-    $curlPass = str_replace("oauth:", "", $this->config->botOauthToken);
+    $curlPass = str_replace("oauth:", "", $this->dataStore->getVar('connector', 'botOauthToken'));
     curl_setopt($this->curl, CURLOPT_HTTPHEADER, array('password: ' . $curlPass));
     $result = curl_exec($this->curl);
     $eno = curl_errno($this->curl);

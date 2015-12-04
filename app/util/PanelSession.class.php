@@ -6,9 +6,11 @@
  * Date: 23-11-2015
  * Time: 08:21
  */
+namespace PBPanel\Util;
+
 class PanelSession
 {
-  public function PanelSession()
+  public function __construct()
   {
     if (session_status() == PHP_SESSION_NONE) {
       session_start();

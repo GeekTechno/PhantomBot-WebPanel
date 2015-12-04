@@ -19,10 +19,9 @@
     </div>
   </div>
 </div>
-<div id="current-video-title"><?= $functions->cleanYTVideoTitle($musicPlayerCurrentSong) ?></div>
+<div id="current-video-title"><?= $musicPlayerCurrentSong ?></div>
 <div class="options">
-  <!--suppress HtmlUnknownTarget -->
-  <a href="music-player.php?botControl=true" target="_blank">
-    <button class="btn btn-primary btn-sm">Open Player</button>
-  </a>
+  <button class="btn btn-primary btn-sm"
+          onclick="openPopup('music-player.php?botControl=true', 'PhantomBot WebPanel Sound Effects')">Open Player
+  </button>
 </div>

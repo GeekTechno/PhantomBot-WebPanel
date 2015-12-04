@@ -6,13 +6,12 @@
  * Time: 03:43
  */
 
-define('BASEPATH', realpath(dirname(__FILE__)));
+require_once('AppLoader.class.php');
+\PBPanel\AppLoader::loadUtil('DataStore');
 
-require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
+$dataStore = new \PBPanel\Util\DataStore();
 
-$config = new Configuration();
-
-$eventServerAdress = $config->botIp . ':' . (intval($config->botBasePort) + 2);
+$eventServerAdress = $dataStore->getVar('connector', 'botIp') . ':' . (intval($dataStore->getVar('connector', 'botBasePort')) + 2);
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,8 +24,8 @@ $eventServerAdress = $config->botIp . ':' . (intval($config->botBasePort) + 2);
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     var botAddress = '<?= $eventServerAdress ?>',
-        sfxEnabled = <?=$config->sfxSettings['enabled']?>,
-        sfxCommands = <?= json_encode($config->sfxSettings['commands']) ?>;
+        sfxEnabled = <?= $dataStore->getVar('misc', 'sfxEnabled', 'false') ?>,
+        sfxCommands = <?= json_encode($dataStore->getTableAsArray('sfxcommands')) ?>;
   </script>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="app/js/rsocket.min.js"></script>
@@ -34,12 +33,14 @@ $eventServerAdress = $config->botIp . ':' . (intval($config->botBasePort) + 2);
 </head>
 <body>
 <div class="info">
-  <h3 class="title">Sfx commands on <a href="http://twitch.tv/<?= $config->channelOwner ?>"><?= $config->channelOwner ?></a>
+  <h3 class="title">Sfx commands on <a
+        href="http://twitch.tv/<?= $dataStore->getVar('connector', 'channelOwner') ?>"><?= $dataStore->getVar('connector', 'channelOwner') ?></a>
   </h3>
   <span id="sfx-display">Waiting for commands...</span>
 </div>
 <div id="sfx-history-wrapper">
   <h3 class="title">History</h3>
+
   <div id="sfx-history"></div>
 </div>
 </body>

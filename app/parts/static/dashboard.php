@@ -6,23 +6,19 @@
  * Date: 12 okt 2015
  * Time: 12:41
  */
-define('BASEPATH', realpath(dirname(__FILE__)) . '/../../..');
 
-require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
-require_once(BASEPATH . '/app/php/classes/ConnectionHandler.class.php');
-require_once(BASEPATH . '/app/php/classes/Functions.class.php');
-require_once(BASEPATH . '/app/php/classes/ComponentTemplates.class.php');
-require_once(BASEPATH . '/app/php/classes/PanelSession.class.php');
+require_once('../../../AppLoader.class.php');
+\PBPanel\AppLoader::load();
 
-$session = new PanelSession();
+$session = new \PBPanel\Util\PanelSession();
 if (!$session->checkSessionToken(filter_input(INPUT_POST, 'token'))) {
   die('Invalid session token. Are you trying to hack me?!');
 }
 
-$config = new Configuration();
-$connection = new ConnectionHandler($config);
-$functions = new Functions($config, $connection);
-$templates = new ComponentTemplates();
+$dataStore = new \PBPanel\Util\DataStore();
+$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$templates = new \PBPanel\Util\ComponentTemplates();
 
 $botSettings = $functions->getIniArray('settings');
 $botStreamInfo = $functions->getIniArray('stream_info', true);
@@ -53,7 +49,7 @@ $noticeCount = $functions->getIniValueByKey('notice', 'num_messages');
         <?= ($noticeCount > 0 ? $templates->botCommandButton('notice get ' . rand(0, $noticeCount - 1), 'Random Notice', 'default btn-sm') : '') ?>
         <?= $templates->botCommandButton('clear', 'Clear Chat', 'default btn-sm') ?>
         <?= $templates->switchToggle('Mute Bot', $templates->_wrapInJsToggledDoQuickCommand('response', (array_key_exists('response_@all', $botSettings) && $botSettings['response_@all'] == 0 ? 'true' : 'false'), 'enable', 'disable'), '[]', '', (array_key_exists('response_@all', $botSettings) && $botSettings['response_@all'] == 0), true) ?>
-        <?= $templates->botCommandButton('d !exit', 'Shutdown ' . $config->botName, 'danger btn-sm') ?>
+        <?= $templates->botCommandButton('d !exit', 'Shutdown ' . $dataStore->getVar('connector', 'botName'), 'danger btn-sm') ?>
       </div>
       <hr/>
       <h4 class="collapsible-master">Edit Stream Title &amp; Game</h4>

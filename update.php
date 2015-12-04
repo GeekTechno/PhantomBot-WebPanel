@@ -1,53 +1,36 @@
 <?php
 /**
- * update.php
- * Created with PhpStorm
+ * Created by PhpStorm.
  * User: Robin | Juraji
- * Date: 12 okt 2015
- * Time: 12:48
+ * Date: 4-12-2015
+ * Time: 16:59
  */
-define('BASEPATH', realpath(dirname(__FILE__)));
 
-require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
+require_once('AppLoader.class.php');
+\PBPanel\AppLoader::loadUtil('DataStore');
 
-$config = new Configuration();
-$updatesDir = array_diff(scandir(BASEPATH . '/updates'), [
-    '.',
-    '..',
-    'current_version.txt',
-    'roadmap.txt',
-]);
+$dataStore = new \PBPanel\Util\DataStore();
 
-$updateInstalledTo = -1;
-$installedUpdates = '';
-$notification = [];
-$updateNotes = [];
+$currentVersion = floatval($dataStore->getVar('misc', 'currentVersion', 0.0));
+$hasUpdate = \PBPanel\AppLoader::updateAvailable($dataStore);
+$messages = [];
+$messagesString = '';
 
-if (touch(BASEPATH . '/app/content/vars/current_version.txt')) {
-  $currentUpdate = @file_get_contents(BASEPATH . '/app/content/vars/current_version.txt');
+if ($hasUpdate) {
+  $updateFiles = glob(\PBPanel\AppLoader::getBaseDir() . '/updates/*');
+  foreach ($updateFiles as $file) {
+    $updateFileVersion = floatval(basename($file, '.php'));
+    if ($updateFileVersion > $currentVersion) {
+      require_once($file);
+      $messages[] = 'Applied update ' . $updateFileVersion;
+    }
+  }
 } else {
-  throw new Exception('Could not read or create current version file! Make sure your webserver has write access to the "./app/content/vars" folder');
+  $messages[] = 'There are no updates available!';
 }
 
-foreach ($updatesDir as $updateScript) {
-  if (preg_match('/unreleased/i', $updateScript)) {
-    continue;
-  }
-  $updateNo = floatval(str_replace('.php', '', $updateScript));
-  if ($updateNo > floatval($currentUpdate)) {
-    require_once(BASEPATH . '/updates/' . $updateScript);
-    $installedUpdates .= '<li>Installed update: ' . $updateNo . '</li>';
-    $updateInstalledTo = $updateNo;
-  }
-}
-
-if ($updateInstalledTo > -1) {
-  @file_put_contents(BASEPATH . '/app/content/vars/current_version.txt', $updateInstalledTo);
-  $notification[] = 'Updates Installed!';
-  $notification[] = 'You are now on version ' . $updateInstalledTo . '!';
-} else {
-  $notification[] = 'No updates available.';
-  $notification[] = 'You are on version ' . $currentUpdate . '!';
+foreach ($messages as $message) {
+  $messagesString .= '<p>' . $message . '</p>';
 }
 
 ?>
@@ -56,34 +39,43 @@ if ($updateInstalledTo > -1) {
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
-  <link href="app/css/<?= (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 'style_dark') ?>.css"
+  <link href="app/css/<?= $dataStore->getVar('misc', 'theme', 'style_dark') ?>.css"
         rel="stylesheet" type="text/css"/>
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+  <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="page-wrapper">
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand">PhantomBot Control Panel <br/><span
-              class="panel-version text-muted">version <?= ($config->version ? $config->version : 'new install') ?></span></a>
+        <img alt="PhantomBot Web Panel" src="app/content/static/logo-small.png"/>
+        <span class="panel-version text-muted">version <?= $currentVersion ?></span>
       </div>
     </div>
   </nav>
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <h4 class="panel-title"><?= $notification[0] ?></span></h4>
+      <h4 class="panel-title">Update</h4>
     </div>
     <div class="panel-body">
-      <div class="update-info">
-        <ul class="list-unstyled">
-          <?= $installedUpdates ?>
-        </ul>
-        <p><?= join('<br /><br />', $updateNotes) ?></p>
-        <?= $notification[1] ?>
-        <p>
-          Proceed to <a href="index.php">login</a>!
-        </p>
-      </div>
+      <?=  $messagesString ?>
+      <p>
+        Continue to <a href="index.php">Login</a>
+      </p>
+    </div>
+  </div>
+  <div class="panel panel-default page-footer">
+    <div class="panel-body text-muted">
+      PhantomBot Control Panel
+      <small><?= $currentVersion ?></small>
+      Developed by <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?><br/>
+      Compatible with <a href="//www.phantombot.net/"
+                         target="_blank">PhantomBot <?= $dataStore->getVar('misc', 'pBCompat') ?></a>,
+      developed by <a href="//phantombot.net/members/phantomindex.1/" target="_blank">phantomindex</a>,
+      <a href="//phantombot.net/members/gloriouseggroll.2/" target="_blank">gloriouseggroll</a> &amp;
+      <a href="//phantombot.net/members/gmt2001.28/" target="_blank">gmt2001</a>.
     </div>
   </div>
 </div>

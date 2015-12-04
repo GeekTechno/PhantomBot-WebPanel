@@ -7,33 +7,35 @@
  */
 $(document).ready(function () {
   $('form').submit(function (event) {
-    var currentField;
+    var currentField, error = false;
     $('div.text-danger').remove();
-    for (var i = 0; i < event.target.length - 2; i++) {
+    for (var i = 0; i < 7; i++) {
       currentField = $(event.target[i]);
       currentField.val(currentField.val().trim());
       if (currentField.attr('type') == 'text') {
         if (currentField.val().match(/[!@#$%^&*()+\-=\[\]{};'"\\|,<>\/?\s]/) != null || currentField.val() == '') {
           formError(currentField);
-          event.preventDefault();
-          return;
+          error = true;
         }
       } else if (currentField.attr('type') == 'number') {
         currentField.val(currentField.val().trim());
         if (currentField.val().match(/[a-z!@#$%^&*()_+\-=\[\]{};'"\\|,.<>\/?\s]/i) != null || currentField.val() == '') {
           formError(currentField);
-          event.preventDefault();
-          return;
+          error = true;
         }
       } else if (currentField.attr('type') == 'password') {
         if (currentField.val().match(/[()=\[\]\^{};:'"\\|,.<>\/\s]/) != null || currentField.val() == '') {
           formError(currentField);
-          event.preventDefault();
-          return;
+          error = true;
+        } else {
+          //noinspection JSCheckFunctionSignatures,JSUnresolvedVariable
+          currentField.val(SparkMD5.hash(currentField.val()));
         }
-        //noinspection JSCheckFunctionSignatures,JSUnresolvedVariable
-        currentField.val(SparkMD5.hash(currentField.val()));
       }
+    }
+
+    if (error) {
+      event.preventDefault();
     }
   });
 });

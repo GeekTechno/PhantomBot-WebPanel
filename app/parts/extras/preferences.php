@@ -6,27 +6,22 @@
  * Date: 12 okt 2015
  * Time: 12:40
  */
-define('BASEPATH', realpath(dirname(__FILE__)) . '/../../..');
 
-require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
-require_once(BASEPATH . '/app/php/classes/ConnectionHandler.class.php');
-require_once(BASEPATH . '/app/php/classes/Functions.class.php');
-require_once(BASEPATH . '/app/php/classes/ComponentTemplates.class.php');
-require_once(BASEPATH . '/app/php/classes/PanelSession.class.php');
+require_once('../../../AppLoader.class.php');
+\PBPanel\AppLoader::load();
 
-
-$session = new PanelSession();
+$session = new \PBPanel\Util\PanelSession();
 if (!$session->checkSessionToken(filter_input(INPUT_POST, 'token'))) {
   die('Invalid session token. Are you trying to hack me?!');
 }
 
-$config = new Configuration();
-$connection = new ConnectionHandler($config);
-$functions = new Functions($config, $connection);
-$templates = new ComponentTemplates();
+$dataStore = new \PBPanel\Util\DataStore();
+$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$templates = new \PBPanel\Util\ComponentTemplates();
 
 $botSettings = $functions->getIniArray('settings');
-$theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : '');
+$theme = $dataStore->getVar('misc', 'theme', 'style_dark');
 
 ?>
 <script>
@@ -104,10 +99,10 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
             <label>PhantomBot webserver address</label>
 
             <div class="input-group">
-              <input type="text" class="form-control" id="setting-bot-ip" placeholder="<?= $config->botIp ?>"
-                     value="<?= $config->botIp ?>"/>
+              <input type="text" class="form-control" id="setting-bot-ip" placeholder="<?= $dataStore->getVar('connector', 'botIp') ?>"
+                     value="<?= $dataStore->getVar('connector', 'botIp') ?>"/>
               <span class="input-group-btn">
-                <button class="btn btn-primary" onclick="saveToConfig('botIp', 'setting-bot-ip', this)">Save</button>
+                <button class="btn btn-primary" onclick="saveToConfig('connector/botIp', 'setting-bot-ip', this)">Save</button>
               </span>
             </div>
 
@@ -123,10 +118,10 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
 
             <div class="input-group">
               <input type="number" class="form-control" id="setting-bot-base-port"
-                     placeholder="<?= $config->botBasePort ?>"
-                     value="<?= $config->botBasePort ?>"/>
+                     placeholder="<?= $dataStore->getVar('connector', 'botBasePort') ?>"
+                     value="<?= $dataStore->getVar('connector', 'botBasePort') ?>"/>
               <span class="input-group-btn">
-                <button class="btn btn-primary" onclick="saveToConfig('botBasePort', 'setting-bot-base-port', this)">
+                <button class="btn btn-primary" onclick="saveToConfig('connector/botBasePort', 'setting-bot-base-port', this)">
                   Save
                 </button>
               </span>
@@ -145,10 +140,10 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
             <span>Username for bot</span>
 
             <div class="input-group">
-              <input type="text" class="form-control" id="setting-bot-name" placeholder="<?= $config->botName ?>"
-                     value="<?= $config->botName ?>"/>
+              <input type="text" class="form-control" id="setting-bot-name" placeholder="<?= $dataStore->getVar('connector', 'botName') ?>"
+                     value="<?= $dataStore->getVar('connector', 'botName') ?>"/>
               <span class="input-group-btn">
-                <button class="btn btn-primary" onclick="saveToConfig('botName', 'setting-bot-name', this)">Save
+                <button class="btn btn-primary" onclick="saveToConfig('connector/botName', 'setting-bot-name', this)">Save
                 </button>
               </span>
             </div>
@@ -164,9 +159,9 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
 
             <div class="input-group">
               <input type="password" class="form-control" id="bot-oauth"
-                     placeholder="oauth:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" value="<?= $config->botOauthToken ?>"/>
+                     placeholder="oauth:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" value="<?= $dataStore->getVar('connector', 'botOauthToken') ?>"/>
               <span class="input-group-btn">
-                <button class="btn btn-primary" onclick="saveToConfig('botOauthToken', 'setting-bot-oauth', this)">
+                <button class="btn btn-primary" onclick="saveToConfig('connector/botOauthToken', 'setting-bot-oauth', this)">
                   Save
                 </button>
               </span>
@@ -185,10 +180,10 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
             <span>Channel owner username</span>
 
             <div class="input-group">
-              <input type="text" class="form-control" id="setting-bot-owner" placeholder="<?= $config->channelOwner ?>"
-                     value="<?= $config->channelOwner ?>"/>
+              <input type="text" class="form-control" id="setting-bot-owner" placeholder="<?= $dataStore->getVar('connector', 'channelOwner') ?>"
+                     value="<?= $dataStore->getVar('connector', 'channelOwner') ?>"/>
               <span class="input-group-btn">
-                <button class="btn btn-primary" onclick="saveToConfig('channelOwner', 'setting-bot-owner', this)">Save
+                <button class="btn btn-primary" onclick="saveToConfig('connector/channelOwner', 'setting-bot-owner', this)">Save
                 </button>
               </span>
             </div>
@@ -205,8 +200,8 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
 
             <div class="input-group">
               <input type="text" class="form-control" id="setting-path-follower"
-                     placeholder="<?= $config->paths['latestFollower'] ?>"
-                     value="<?= $config->paths['latestFollower'] ?>"/>
+                     placeholder="<?= $dataStore->getVar('paths', 'latestFollower') ?>"
+                     value="<?= $dataStore->getVar('paths', 'latestFollower') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
                         onclick="saveToConfig('paths/latestFollower', 'setting-path-follower', this)">Save
@@ -221,8 +216,8 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
 
             <div class="input-group">
               <input type="text" class="form-control" id="setting-path-donation"
-                     placeholder="<?= $config->paths['latestDonation'] ?>"
-                     value="<?= $config->paths['latestDonation'] ?>"/>
+                     placeholder="<?= $dataStore->getVar('paths', 'latestDonation') ?>"
+                     value="<?= $dataStore->getVar('paths', 'latestDonation') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
                         onclick="saveToConfig('paths/latestDonation', 'setting-path-donation', this)">Save
@@ -235,12 +230,12 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
-            <span>Latest current song file</span>
+            <span>Current song file</span>
 
             <div class="input-group">
               <input type="text" class="form-control" id="setting-path-current-song"
-                     placeholder="<?= $config->paths['youtubeCurrentSong'] ?>"
-                     value="<?= $config->paths['youtubeCurrentSong'] ?>"/>
+                     placeholder="<?= $dataStore->getVar('paths', 'youtubeCurrentSong') ?>"
+                     value="<?= $dataStore->getVar('paths', 'youtubeCurrentSong') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
                         onclick="saveToConfig('paths/youtubeCurrentSong', 'setting-path-current-song', this)">Save
@@ -255,8 +250,8 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
 
             <div class="input-group">
               <input type="text" class="form-control" id="setting-path-playlist"
-                     placeholder="<?= $config->paths['youtubePlaylist'] ?>"
-                     value="<?= $config->paths['youtubePlaylist'] ?>"/>
+                     placeholder="<?= $dataStore->getVar('paths', 'youtubePlaylist') ?>"
+                     value="<?= $dataStore->getVar('paths', 'youtubePlaylist') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
                         onclick="saveToConfig('paths/youtubePlaylist', 'setting-path-playlist', this)">Save
@@ -273,8 +268,8 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
 
             <div class="input-group">
               <input type="text" class="form-control" id="setting-path-default-playlist"
-                     placeholder="<?= (array_key_exists('defaultYoutubePlaylist', $config->paths) ? $config->paths['defaultYoutubePlaylist'] : '') ?>"
-                     value="<?= (array_key_exists('defaultYoutubePlaylist', $config->paths) ? $config->paths['defaultYoutubePlaylist'] : '') ?>"/>
+                     placeholder="<?= $dataStore->getVar('paths', 'defaultYoutubePlaylist') ?>"
+                     value="<?= $dataStore->getVar('paths', 'defaultYoutubePlaylist') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
                         onclick="saveToConfig('paths/defaultYoutubePlaylist', 'setting-path-default-playlist', this)">
@@ -294,9 +289,9 @@ $theme = (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 
         .submit(function (event) {
           doBotRequest('saveToConfig', function () {
             location.replace('/');
-          }, {settingPath: 'paths/theme', setting: event.target[0].selectedOptions[0].value.trim()});
+          }, {settingPath: 'misc/theme', setting: event.target[0].selectedOptions[0].value.trim()});
           event.preventDefault();
         })
-        .find('option').filter('[value=<?= (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 'style_dark') ?>]').attr('selected', true);
+        .find('option').filter('[value=<?= $dataStore->getVar('misc', 'theme', 'style_dark') ?>]').attr('selected', true);
   })();
 </script>

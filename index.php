@@ -6,22 +6,32 @@
  * Date: 12 okt 2015
  * Time: 12:47
  */
-define('BASEPATH', realpath(dirname(__FILE__)));
+require_once('AppLoader.class.php');
+\PBPanel\AppLoader::load();
 
-require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
+$dataStore = new \PBPanel\Util\DataStore();
 
-$config = new Configuration();
+if (\PBPanel\AppLoader::runInstall($dataStore)) {
+  require_once('install.php');
+  exit;
+}
+
+if (\PBPanel\AppLoader::updateAvailable($dataStore)) {
+  require_once('update.php');
+  exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
-  <link href="app/css/<?= (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 'style_dark') ?>.css"
+  <link href="app/css/<?= $dataStore->getVar('misc', 'theme', 'style_dark') ?>.css"
         rel="stylesheet" type="text/css"/>
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-  <script src="app/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+  <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="app/js/spark-md5.min.js" type="text/javascript"></script>
   <script src="app/js/login.min.js" type="text/javascript"></script>
 </head>
@@ -30,8 +40,9 @@ $config = new Configuration();
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand">PhantomBot Control Panel <br/><span
-              class="panel-version text-muted">version <?= $config->version ?></span></a>
+        <img alt="PhantomBot Web Panel" src="app/content/static/logo-small.png" role="button"
+             onclick="loadPartFromStorage()"/>
+        <span class="panel-version text-muted">version <?= $dataStore->getVar('misc', 'currentVersion') ?></span>
       </div>
     </div>
   </nav>
@@ -55,9 +66,10 @@ $config = new Configuration();
   <div class="panel panel-default page-footer">
     <div class="panel-body text-muted">
       PhantomBot Control Panel
-      <small><?= $config->version ?></small>
+      <small><?= $dataStore->getVar('misc', 'version') ?></small>
       Developed by <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?><br/>
-      Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?= $config->pBCompat ?></a>,
+      Compatible with <a href="//www.phantombot.net/"
+                         target="_blank">PhantomBot <?= $dataStore->getVar('misc', 'pBCompat') ?></a>,
       developed by <a href="//phantombot.net/members/phantomindex.1/" target="_blank">phantomindex</a>,
       <a href="//phantombot.net/members/gloriouseggroll.2/" target="_blank">gloriouseggroll</a> &amp;
       <a href="//phantombot.net/members/gmt2001.28/" target="_blank">gmt2001</a>.

@@ -19,6 +19,7 @@ $(window).ready(function () {
   } else {
     display.html($('<span class="text-danger">Sfx is disabled!</span>'));
     sfxHistory.html($('<p class="text-warning">Enable Sfx in the Phantombot Webpanel by going to Extras->Sfx, toggle "Toggle Sfx" and refresh this page.</p>'));
+    return;
   }
 
   connection.onmessage = function (e) {
@@ -28,6 +29,7 @@ $(window).ready(function () {
     if (data[0].match(/^CommandEvent.*/) && sfxCommands[data[1]]) {
       //noinspection JSUnresolvedFunction
       audio = new Audio(sfxCommands[data[1]]);
+
       audio.addEventListener('play', function () {
         display.text('Playing "' + sfxCommands[data[1]] + '" for !' + data[1]);
       });

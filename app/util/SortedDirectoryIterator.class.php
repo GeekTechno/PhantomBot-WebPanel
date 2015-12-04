@@ -6,22 +6,24 @@
  * Date: 12 okt 2015
  * Time: 16:39
  */
-class SortedDirectoryIterator extends SplHeap
+namespace PBPanel\Util;
+
+class SortedDirectoryIterator extends \SplHeap
 {
   /**
    * @param string $path
    * @param bool $recursive
    */
-  public function SortedDirectoryIterator($path, $recursive = true)
+  public function __construct($path, $recursive = true)
   {
     if ($recursive) {
-      $iterator = new RecursiveIteratorIterator(
-          new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
-          RecursiveIteratorIterator::SELF_FIRST
+      $iterator = new \RecursiveIteratorIterator(
+          new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS),
+          \RecursiveIteratorIterator::SELF_FIRST
       );
     } else {
-      $iterator = new IteratorIterator(
-          new DirectoryIterator($path)
+      $iterator = new \IteratorIterator(
+          new \DirectoryIterator($path)
       );
     }
 
@@ -31,8 +33,8 @@ class SortedDirectoryIterator extends SplHeap
   }
 
   /**
-   * @param SplFileInfo $value1
-   * @param SplFileInfo $value2
+   * @param \SplFileInfo $value1
+   * @param \SplFileInfo $value2
    * @return int
    */
   protected function compare($value1, $value2)

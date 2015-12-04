@@ -6,25 +6,22 @@
  * Date: 12 okt 2015
  * Time: 12:47
  */
-define('BASEPATH', realpath(dirname(__FILE__)) . '/../../..');
 
-require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
-require_once(BASEPATH . '/app/php/classes/ConnectionHandler.class.php');
-require_once(BASEPATH . '/app/php/classes/Functions.class.php');
-require_once(BASEPATH . '/app/php/classes/ComponentTemplates.class.php');
-require_once(BASEPATH . '/app/php/classes/PanelSession.class.php');
+require_once('../../../AppLoader.class.php');
+\PBPanel\AppLoader::load();
 
-$session = new PanelSession();
+$session = new \PBPanel\Util\PanelSession();
 if (!$session->checkSessionToken(filter_input(INPUT_POST, 'token'))) {
   die('Invalid session token. Are you trying to hack me?!');
 }
 
-$config = new Configuration();
-$connection = new ConnectionHandler($config);
-$functions = new Functions($config, $connection);
-$templates = new ComponentTemplates();
+$dataStore = new \PBPanel\Util\DataStore();
+$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$templates = new \PBPanel\Util\ComponentTemplates();
 
 $sfxFiles = $functions->getSfxFiles();
+$sfxCommands = $dataStore->getTableAsArray('sfxcommands');
 $sfxSelectOptions = '';
 $sfxTableDataRows = '';
 
@@ -32,10 +29,11 @@ foreach ($sfxFiles as $sfxFile) {
   $sfxSelectOptions .= '<option value="' . $sfxFile['path'] . '">' . $sfxFile['fileName'] . '</option>';
 }
 
-ksort($config->sfxSettings['commands']);
+ksort($sfxCommands);
 
-foreach ($config->sfxSettings['commands'] as $command => $file) {
-  $sfxTableDataRows .= '<tr><td>!' . $command . '</td><td>' . $file . '</td><td><button class="btn btn-danger" onclick="deleteSfx(\'' . $command . '\')"><span class="fa fa-trash"></span></button></td></tr>';
+foreach ($sfxCommands as $command => $file) {
+  $sfxTableDataRows .= '<tr><td>' . $templates->botCommandButton($command, '!' . $command, 'default btn-sm')
+      . '</td><td>' . $file . '</td><td><button class="btn btn-danger" onclick="deleteSfx(\'' . $command . '\')"><span class="fa fa-trash"></span></button></td></tr>';
 }
 
 ?>
@@ -43,20 +41,19 @@ foreach ($config->sfxSettings['commands'] as $command => $file) {
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">
-        Sfx Settings
+        Sound Effect Settings
         <?= $templates->toggleFavoriteButton() ?>
       </h3>
     </div>
     <div class="panel-body">
       <div class="btn-toolbar">
         <!--suppress HtmlUnknownTarget -->
-        <a href="sfx-host.php" target="_blank">
-          <button class="btn btn-primary">Open Sfx Host</button>
-        </a>
-        <?= $templates->switchToggle('Toggle Sfx', 'toggleSfx', '[\'' . ($config->sfxSettings['enabled'] == 'true' ? 'false' : 'true') . '\']', null, $config->sfxSettings['enabled'] == 'true') ?>
+        <button class="btn btn-primary" onclick="openPopup('sound-effects-player.php', 'PhantomBot WebPanel Sound Effects')">Open Sfx Player</button>
+        <?= $templates->switchToggle('Toggle Sound Effects', 'toggleSfx', '[\'' . ($dataStore->getVar('misc', 'sfxEnabled', 'false') == 'true' ? 'false' : 'true') . '\']',
+            null, ($dataStore->getVar('misc', 'sfxEnabled', 'false') == 'true')); ?>
       </div>
       <hr/>
-      <h4 class="collapsible-master">Add New Sfx</h4>
+      <h4 class="collapsible-master">Add New Sound Effect</h4>
 
       <div class="collapsible-content">
         <div class="row">
@@ -81,7 +78,7 @@ foreach ($config->sfxSettings['commands'] as $command => $file) {
             <?= $templates->informationPanel('<p>Place your audio files (mp3, wav or ogg) in "app/content/sfx" and they will be listed automatically.</p>'
                 . '<p>Select a sfx from the dropdown, enter a command and click the send button to save it.</p>'
                 . '<p>You will have to open the Sfx Host using the "Open Sfx Host" Button"</p>'
-            . '<p class="text-warning">Currently there\'s no volume control. This will be added later on!</p>') ?>
+                . '<p class="text-warning">Currently there\'s no volume control. This will be added later on!</p>') ?>
           </div>
         </div>
       </div>

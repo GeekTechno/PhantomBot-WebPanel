@@ -6,14 +6,12 @@
  * Date: 12 okt 2015
  * Time: 12:46
  */
+require_once('../../AppLoader.class.php');
+\PBPanel\AppLoader::load();
 
-require_once('classes/Configuration.class.php');
-require_once('classes/ConnectionHandler.class.php');
-require_once('classes/Functions.class.php');
-
-$config = new Configuration();
-$connection = new ConnectionHandler($config);
-$functions = new Functions($config, $connection);
+$dataStore = new \PBPanel\Util\DataStore();
+$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $input = filter_input_array(INPUT_POST);
 
 if (!array_key_exists('username', $input) || !array_key_exists('password', $input) || !$functions->isValidUser($input['username'], $input['password'])) {
@@ -63,11 +61,12 @@ if (array_key_exists('action', $input) && $input['action'] != '') {
       $functions->getCurrentTitle();
       break;
     case 'getMusicPlayerPlaylist':
-      $functions->sendBackOk($functions->getMusicPlayerPlaylist($config->paths['youtubePlaylist']));
+      $functions->sendBackOk($functions->getMusicPlayerPlaylist($dataStore->getVar('paths', 'youtubePlaylist')));
       break;
     case 'saveToConfig':
       if (array_key_exists('settingPath', $input) && array_key_exists('setting', $input)) {
-        if ($config->saveToConfigWeb($input['settingPath'], $input['setting'])) {
+        $path = explode('/', $input['settingPath']);
+        if ($dataStore->setVar($path[0], $path[1], $input['setting'])) {
           $functions->sendBackOk('Setting Saved');
         } else {
           $functions->sendBackError('Failed to save setting', 418, 418);

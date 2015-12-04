@@ -22,8 +22,8 @@ $(document).ready(function () {
 
 function login(loginData) {
   $.ajax({
-    type: "POST",
-    url: 'app/php/login.php',
+    type: 'POST',
+    url: 'app/connectors/login.php',
     data: loginData,
     dataType: 'json',
     success: function (data) {

@@ -6,19 +6,24 @@
  * Date: 12 okt 2015
  * Time: 12:47
  */
-define('BASEPATH', realpath(dirname(__FILE__)));
+require_once('AppLoader.class.php');
+\PBPanel\AppLoader::load();
 
-require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
-require_once(BASEPATH . '/app/php/classes/ConnectionHandler.class.php');
-require_once(BASEPATH . '/app/php/classes/Functions.class.php');
-require_once(BASEPATH . '/app/php/classes/ComponentTemplates.class.php');
-require_once(BASEPATH . '/app/php/classes/PanelSession.class.php');
+$session = new \PBPanel\Util\PanelSession();
+$dataStore = new PBPanel\Util\DataStore();
+$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$templates = new \PBPanel\Util\ComponentTemplates();
 
-$session = new PanelSession();
-$config = new Configuration();
-$connection = new ConnectionHandler($config);
-$functions = new Functions($config, $connection);
-$templates = new ComponentTemplates();
+if (\PBPanel\AppLoader::runInstall($dataStore)) {
+  require_once('install.php');
+  exit;
+}
+
+if (\PBPanel\AppLoader::updateAvailable($dataStore)) {
+  require_once('update.php');
+  exit;
+}
 
 $session->createToken();
 
@@ -26,7 +31,7 @@ $botSettings = $functions->getIniArray('settings');
 $isBotOnline = ($connection->testConnection()[2] == 52);
 $hostHandlerActive = $functions->getIniValueByKey('modules.ini', 'hostHandler.js', true);
 $subscribeHandlerActive = $functions->getIniValueByKey('modules.ini', 'subscribeHandler.js', true);
-$musicPlayerCurrentSong = $functions->getOtherFile($config->paths['youtubeCurrentSong']);
+$musicPlayerCurrentSong = $functions->getOtherFile($dataStore->getVar('paths', 'youtubeCurrentSong'));
 $NOHosts = -1;
 $NOSubscribers = -1;
 $partsList = $functions->getPartsList();
@@ -57,8 +62,8 @@ foreach ($partsList as $parentName => $subItems) {
         . '<li><a nohref onclick="toggleChat(false, this);" id="toggle-chat" role="button"><span class="fa fa-eject"></span>&nbsp;Show Chat</a></li>'
         . '<li><a nohref onclick="toggleMusicPlayerControls(false, this);" id="player-controls-toggle" role="button"><span class="fa fa-eject"></span>&nbsp;Show Music Player Controls</a></li>'
         . '<li class="divider"></li>'
-        . '<li><a href="http://www.twitch.tv/' . $config->channelOwner . '" target="_blank"><span class="fa fa-info-circle" role="button"></span>&nbsp;Your Twitch Channel</a></li>'
-        . '<li><a href="http://www.twitch.tv/' . $config->channelOwner . '/profile" target="_blank"><span class="fa fa-info-circle" role="button"></span>&nbsp;Your Twitch Profile</a></li>'
+        . '<li><a href="http://www.twitch.tv/' . $dataStore->getVar('connector', 'channelOwner') . '" target="_blank"><span class="fa fa-info-circle" role="button"></span>&nbsp;Your Twitch Channel</a></li>'
+        . '<li><a href="http://www.twitch.tv/' . $dataStore->getVar('connector', 'channelOwner') . '/profile" target="_blank"><span class="fa fa-info-circle" role="button"></span>&nbsp;Your Twitch Profile</a></li>'
         . '<li class="divider"></li>'
         . '<li><a href="http://www.phantombot.net/threads/command-list-by-script.13/" target="_blank" role="button"><span class="fa fa-question-circle"></span>&nbsp;PhantomBot Commands ist</a></li>'
         . '<li><a href="http://www.phantombot.net" target="_blank"><span class="fa fa-question-circle" role="button"></span>&nbsp;PhantomBot Forums</a></li>';
@@ -83,13 +88,13 @@ if ($subscribeHandlerActive == 1) {
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
-  <link href="app/css/<?= (array_key_exists('theme', $config->paths) ? $config->paths['theme'] : 'style_dark') ?>.css"
+  <link href="app/css/<?= $dataStore->getVar('misc', 'theme', 'style_dark') ?>.css"
         rel="stylesheet" type="text/css"/>
   <link href="app/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-  <script src="app/js/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <script src="app/js/jquery-ui.min.js" type="text/javascript"></script>
+  <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
+  <script src="//code.jquery.com/ui/1.11.3/jquery-ui.min.js" type="text/javascript"></script>
   <script src="app/js/date.min.js" type="text/javascript"></script>
   <script src="app/js/app.min.js" type="text/javascript"></script>
   <script src="app/js/tooltip.min.js" type="text/javascript"></script>
@@ -103,7 +108,7 @@ if ($subscribeHandlerActive == 1) {
         <a class="navbar-brand" nohref>
           <img alt="PhantomBot Web Panel" src="app/content/static/logo-small.png" role="button"
                onclick="loadPartFromStorage()"/>
-          <span class="panel-version text-muted">version <?= $config->version ?></span>
+          <span class="panel-version text-muted">version <?= $dataStore->getVar('misc', 'currentVersion') ?></span>
         </a>
       </div>
       <ul class="nav navbar-nav">
@@ -121,14 +126,14 @@ if ($subscribeHandlerActive == 1) {
     <div class="container-fluid">
       <ul id="favorites-menu" class="nav navbar-nav">
         <?= $templates->addTooltip('<li class="favorites-menu-icon"><span class="fa fa-star-half-empty"></span></li>', 'Favorites',
-            ['position' => ComponentTemplates::TOOLTIP_POS_LEFT, 'offsetX' => 10, 'offsetY' => 21, 'appendToBody' => true]) ?>
+            ['position' => \PBPanel\Util\ComponentTemplates::TOOLTIP_POS_LEFT, 'offsetX' => 10, 'offsetY' => 21, 'appendToBody' => true]) ?>
       </ul>
     </div>
   </nav>
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">
-        <?= $config->botName ?> on channel <?= $config->channelOwner ?>
+        <?= $dataStore->getVar('connector', 'botName') ?> on channel <?= $dataStore->getVar('connector', 'channelOwner') ?>
         <?= str_repeat('<span class="pull-right info-banner-space-left">&nbsp;</span>', 3) ?>
         <?= $templates->streamInfoBanner($NOSubscribers, 'dollar', 'warning', 'Subscriber Count', '', ($NOSubscribers > -1)) ?>
         <?= $templates->streamInfoBanner($NOHosts, 'forward', 'info', 'Host Count', 'stream-hosts', ($NOHosts > -1)) ?>
@@ -153,9 +158,9 @@ if ($subscribeHandlerActive == 1) {
   <div class="panel panel-default page-footer">
     <div class="panel-body text-muted">
       PhantomBot Control Panel
-      <small><?= $config->version ?></small>
+      <small><?= $dataStore->getVar('misc', 'currentVersion') ?></small>
       Developed by <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?><br/>
-      Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?= $config->pBCompat ?></a>,
+      Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?= $dataStore->getVar('misc', 'pbCompat') ?></a>,
       developed by <a href="//phantombot.net/members/phantomindex.1/" target="_blank">phantomindex</a>,
       <a href="//phantombot.net/members/gloriouseggroll.2/" target="_blank">gloriouseggroll</a> &amp;
       <a href="//phantombot.net/members/gmt2001.28/" target="_blank">gmt2001</a>.
@@ -167,7 +172,7 @@ if ($subscribeHandlerActive == 1) {
 </div>
 <div id="general-alert" class="alert"></div>
 <div id="music-player-controls">
-  <?php require_once(BASEPATH . '/app/parts/static/music-player-controls.php'); ?>
+  <?php require_once(\PBPanel\AppLoader::getBaseDir() . '/app/parts/static/music-player-controls.php'); ?>
 </div>
 </body>
 </html>

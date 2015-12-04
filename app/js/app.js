@@ -258,7 +258,7 @@ function doBotRequest(action, callback, params) {
   }
   $.ajax({
     type: 'POST',
-    url: 'app/php/connect.php',
+    url: 'app/connectors/connect.php',
     data: $.extend({action: action}, params, pBotData.login),
     dataType: 'json',
     success: function (data) {
@@ -291,7 +291,7 @@ function doQuickCommand(command, confirmAction, noReload) {
 function getPanelConfig() {
   $.ajax({
     type: "POST",
-    url: '/app/php/connect.php',
+    url: 'app/connectors/connect.php',
     data: $.extend({action: 'getConfig'}, pBotData.login),
     dataType: 'json',
     success: function (data) {
@@ -413,7 +413,7 @@ function setActiveMenuItem(partUrl) {
 function getBotStatus() {
   $.ajax({
     type: 'POST',
-    url: 'app/php/connect.php',
+    url: 'app/connectors/connect.php',
     data: $.extend({action: 'testBotConnection'}, pBotData.login),
     dataType: 'json',
     success: function (data) {
@@ -574,7 +574,7 @@ function toggleSfx(state) {
   debug(state);
   doBotRequest('saveToConfig', function () {
     loadPartFromStorage();
-  }, {settingPath: 'sfxSettings/enabled', setting: state});
+  }, {settingPath: 'misc/sfxEnabled', setting: state.toString()});
 }
 
 //noinspection JSUnusedGlobalSymbols
@@ -582,6 +582,13 @@ function deleteSfx(command) {
   doBotRequest('deleteSfxCommand', function () {
     loadPartFromStorage();
   }, {command: command});
+}
+
+function openPopup(address, name) {
+  if (!name) {
+    name = 'PhantomBot WebPanel';
+  }
+  window.open(address, name, 'width=800,height=600');
 }
 
 function _cleanInput(input) {

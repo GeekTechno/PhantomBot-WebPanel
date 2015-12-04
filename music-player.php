@@ -6,14 +6,13 @@
  * Date: 12 okt 2015
  * Time: 12:48
  */
-define('BASEPATH', realpath(dirname(__FILE__)));
+require_once('AppLoader.class.php');
+\PBPanel\AppLoader::loadUtil('DataStore');
 
-require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
-
-$config = new Configuration();
+$dataStore = new \PBPanel\Util\DataStore();
 
 $botControl = filter_input(INPUT_GET, 'botControl', FILTER_VALIDATE_BOOLEAN);
-$musicServerAdress = $config->botIp . ':' . (intval($config->botBasePort) + 1);
+$musicServerAdress = $dataStore->getVar('connector', 'botIp') . ':' . (intval($dataStore->getVar('connector', 'botBasePort')) + 1);
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,7 +36,8 @@ $musicServerAdress = $config->botIp . ':' . (intval($config->botBasePort) + 1);
   <div id="player"></div>
 </div>
 <div class="info">
-  <h3 class="title">Music on <a href="http://twitch.tv/<?= $config->channelOwner ?>"><?= $config->channelOwner ?></a>
+  <h3 class="title">Music on <a
+        href="http://twitch.tv/<?= $dataStore->getVar('connector', 'channelOwner') ?>"><?= $dataStore->getVar('connector', 'channelOwner') ?></a>
   </h3>
   Now playing: <span id="current-video-title">Waiting for next song...</span>
 </div>

@@ -7,6 +7,8 @@
  * Date: 12 okt 2015
  * Time: 12:45
  */
+namespace PBPanel\Util;
+
 class ComponentTemplates
 {
   const TOOLTIP_POS_BOTTOM = 'bottom';
@@ -18,7 +20,7 @@ class ComponentTemplates
   protected $partFile;
   protected $partUrl;
 
-  public function ComponentTemplates()
+  public function __construct()
   {
     $callingFile = preg_split('/\/|\\\/', filter_input(INPUT_SERVER, 'SCRIPT_FILENAME'));
     $partFile = array_pop($callingFile);

@@ -6,26 +6,20 @@
  * Date: 12 okt 2015
  * Time: 12:39
  */
-define('BASEPATH', realpath(dirname(__FILE__)) . '/../../..');
 
-require_once(BASEPATH . '/app/php/classes/Configuration.class.php');
-require_once(BASEPATH . '/app/php/classes/ConnectionHandler.class.php');
-require_once(BASEPATH . '/app/php/classes/Functions.class.php');
-require_once(BASEPATH . '/app/php/classes/ComponentTemplates.class.php');
-require_once(BASEPATH . '/app/php/classes/PanelSession.class.php');
+require_once('../../../AppLoader.class.php');
+\PBPanel\AppLoader::load();
 
-
-$session = new PanelSession();
+$session = new \PBPanel\Util\PanelSession();
 if (!$session->checkSessionToken(filter_input(INPUT_POST, 'token'))) {
   die('Invalid session token. Are you trying to hack me?!');
 }
 
-$config = new Configuration();
-$connection = new ConnectionHandler($config);
-$functions = new Functions($config, $connection);
-$templates = new ComponentTemplates();
+$dataStore = new \PBPanel\Util\DataStore();
+$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$templates = new \PBPanel\Util\ComponentTemplates();
 
-$botSettings = $functions->getIniArray('settings');
 $moduleSettingsIni = $functions->getIniArray('modules');
 $modulesTableRows = '';
 $moduleNameReplacements = [
@@ -47,7 +41,6 @@ foreach ($moduleSettingsIni as $fullPath => $active) {
   }
   $moduleName = ucfirst(str_replace($moduleNameReplacements, '', $fullPath));
   $moduleFullPath = str_replace('_enabled', '', $fullPath);
-  $toggleButton = '';
   $active = ($active == 1 || strpos($moduleFullPath, 'util') > -1);
 
   if ($active) {
