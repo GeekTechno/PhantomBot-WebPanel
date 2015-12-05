@@ -74,7 +74,7 @@ foreach ($customCommandsIni as $command => $message) {
   $customCommandsTableRows .= '<tr>'
       . $templates->addTooltip('<td class="command-actor">' . $actor . '</td>',
           '<span class="message ' . $msgClass . '">' . $message . '</span>',
-          ['position' => ComponentTemplates::TOOLTIP_POS_RIGHT, 'offsetY' => (strlen($message) < 50 ? 17 : (strlen($message) > 90 ? -17 : 0))]
+          ['position' => \PBPanel\Util\ComponentTemplates::TOOLTIP_POS_RIGHT, 'offsetY' => (strlen($message) < 50 ? 17 : (strlen($message) > 90 ? -17 : 0))]
       )
       . '<td>'
       . '<span class="text-muted">Group:</span>&nbsp;' . $perm . '<br />'
