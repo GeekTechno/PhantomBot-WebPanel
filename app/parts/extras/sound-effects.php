@@ -47,7 +47,6 @@ foreach ($sfxCommands as $command => $file) {
     </div>
     <div class="panel-body">
       <div class="btn-toolbar">
-        <!--suppress HtmlUnknownTarget -->
         <button class="btn btn-primary" onclick="openPopup('sound-effects-player.php', 'PhantomBot WebPanel Sound Effects')">Open Sfx Player</button>
         <?= $templates->switchToggle('Toggle Sound Effects', 'toggleSfx', '[\'' . ($dataStore->getVar('misc', 'sfxEnabled', 'false') == 'true' ? 'false' : 'true') . '\']',
             null, ($dataStore->getVar('misc', 'sfxEnabled', 'false') == 'true')); ?>

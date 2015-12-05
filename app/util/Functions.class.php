@@ -8,6 +8,8 @@
  */
 namespace PBPanel\Util;
 
+use PBPanel\AppLoader;
+
 class Functions
 {
   /* @var DataStore $dataStore */
@@ -342,7 +344,7 @@ class Functions
   public function getSfxFiles()
   {
     $sndExt = ['wav', 'mp3', 'ogg'];
-    $it = new SortedDirectoryIterator(\PBPanel\AppLoader::getBaseDir() . '/app/content/sfx');
+    $it = new SortedDirectoryIterator(AppLoader::getBaseDir() . '/app/content/sfx');
     $files = [];
 
     /* @var \SplFileInfo $item */
@@ -393,5 +395,10 @@ class Functions
         'pollSystem',
         'queueSystem',
     ];
+  }
+
+  public function getDefaultAlertCSS()
+  {
+    return file_get_contents(AppLoader::getBaseDir() . '/app/css/defaultAlertCSS.css');
   }
 }

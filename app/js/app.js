@@ -584,11 +584,14 @@ function deleteSfx(command) {
   }, {command: command});
 }
 
-function openPopup(address, name) {
+function openPopup(address, name, options) {
   if (!name) {
     name = 'PhantomBot WebPanel';
   }
-  window.open(address, name, 'width=800,height=600');
+  if (!options) {
+    options = 'width=800,height=600';
+  }
+  window.open(address, name, options);
 }
 
 function _cleanInput(input) {

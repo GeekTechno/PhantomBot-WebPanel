@@ -21,7 +21,6 @@ $eventServerAdress = $dataStore->getVar('connector', 'botIp') . ':' . (intval($d
   <link href="app/css/music-player.css" rel="stylesheet" type="text/css"/>
   <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
-  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     var botAddress = '<?= $eventServerAdress ?>',
         sfxEnabled = <?= $dataStore->getVar('misc', 'sfxEnabled', 'false') ?>,
@@ -29,7 +28,7 @@ $eventServerAdress = $dataStore->getVar('connector', 'botIp') . ':' . (intval($d
   </script>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="app/js/rsocket.min.js"></script>
-  <script src="app/js/sfx-host.js"></script>
+  <script src="app/js/sfx-host.min.js"></script>
 </head>
 <body>
 <div class="info">
