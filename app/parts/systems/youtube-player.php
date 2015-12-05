@@ -21,8 +21,8 @@ $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
 $botSettings = $functions->getIniArray('settings');
-$requestQueue = preg_split('/\n/', trim($functions->getOtherFile($config->paths['youtubePlaylist'])));
-$defaultPlaylist = preg_split('/\n/', trim($functions->getOtherFile($config->paths['defaultYoutubePlaylist'])));
+$requestQueue = preg_split('/\n/', trim($functions->getOtherFile($dataStore->getVar('paths', 'youtubePlaylist'))));
+$defaultPlaylist = preg_split('/\n/', trim($functions->getOtherFile($dataStore->getVar('paths', 'defaultYoutubePlaylist'))));
 $defaultPlaylistLength = 0;
 $requestQueueLength = 0;
 $requestQueueDataRows = '';
