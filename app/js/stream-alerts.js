@@ -1,4 +1,3 @@
-console.log(alertSettings);
 var connection,
     alertQueue = [];
 
@@ -11,9 +10,10 @@ function playAlert(alert) {
           '<div class="alert-text">' +
           settings.textTemplate.replace('(name)', alert.username) +
           '</div>' +
-          '</div>');
+          '</div>'),
+      css = $('<style>' + settings.customCss + '</style>');
   if (settings.customCss.trim() != '') {
-    body.prepend($('<style>' + settings.customCss + '</style>'));
+    body.prepend(css);
   }
   if (settings.soundFile.trim() != '') {
     //noinspection JSUnresolvedFunction
@@ -31,6 +31,7 @@ function playAlert(alert) {
         .delay(1e3)
         .queue(function () {
           $(this).remove();
+          css.remove();
         });
     clearTimeout(t);
   }, 1e4);
@@ -44,23 +45,25 @@ $(document).ready(function () {
   connection = new WebSocket('ws://' + botAddress);
 
   connection.onmessage = function (e) {
-    var data = e.data.split('|');
+    var data = e.data.split('|'),
+        alert;
 
-    console.log(data);
     if (data[0].match(/^TwitchFollowEvent.*/) && data[1] == 'FOLLOW') {
-
-      alertQueue.push({
+      alert = {
         type: 'follow',
         username: data[0].split(':')[1],
-      });
+      };
+      console.log(data[1], alert.username, e);
+      alertQueue.push(alert);
     }
 
-    if (data[0].match(/^TwitchHostEvent.*/) && data[1] == 'HOST') {
-
-      alertQueue.push({
+    if (data[0].match(/^TwitchHostedEvent.*/) && data[1] == 'HOST') {
+      alert = {
         type: 'host',
         username: data[0].split(':')[1],
-      });
+      };
+      console.log(data[1], alert.username, e);
+      alertQueue.push(alert);
     }
   };
 

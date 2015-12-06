@@ -25,9 +25,14 @@ $sfxCommands = $dataStore->getTableAsArray('sfxcommands');
 $sfxSelectOptions = '';
 $sfxTableDataRows = '';
 
-foreach ($sfxFiles as $sfxFile) {
-  $sfxSelectOptions .= '<option value="' . $sfxFile['path'] . '">' . $sfxFile['fileName'] . '</option>';
+if (count($sfxFiles) > 0) {
+  foreach ($sfxFiles as $sfxFile) {
+    $sfxSelectOptions .= '<option value="' . $sfxFile['path'] . '">' . $sfxFile['fileName'] . '</option>';
+  }
+} else {
+  $sfxSelectOptions .= '<option>NO FILES!</option>';
 }
+
 
 ksort($sfxCommands);
 
@@ -73,11 +78,16 @@ foreach ($sfxCommands as $command => $file) {
               </div>
             </form>
           </div>
-          <div class="col-sm-4">
-            <?= $templates->informationPanel('<p>Place your audio files (mp3, wav or ogg) in "app/content/sfx" and they will be listed automatically.</p>'
-                . '<p>Select a sfx from the dropdown, enter a command and click the send button to save it.</p>'
-                . '<p>You will have to open the Sfx Host using the "Open Sfx Host" Button"</p>'
-                . '<p class="text-warning">Currently there\'s no volume control. This will be added later on!</p>') ?>
+        </div>
+        <div class="row">
+          <div class="col-sm-8">
+            <?= $templates->informationPanel(
+                '<p>This feature only works on the latest <a href="https://github.com/GloriousEggroll/PhantomBot" target="_blank">Phantombot</a> "nightly"!</p>' .
+                '<p>Place your audio files (mp3, wav or ogg) in "app/content/sfx" and they will be listed automatically.</p>' .
+                '<p>Select a sfx from the dropdown, enter a command and click the send button to save it.</p>'.
+                '<p>You will have to open the Sfx Host using the "Open Sfx Host" Button"</p>' .
+                '<p class="text-warning">Currently there\'s no volume control. This will be added later on!</p>'
+            ) ?>
           </div>
         </div>
       </div>

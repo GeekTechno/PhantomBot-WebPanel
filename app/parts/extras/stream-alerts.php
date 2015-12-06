@@ -47,44 +47,53 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
         </button>
       </div>
       <hr/>
-      <h4 class="collapsible-master">General Settings</h4>
+      <h4>General Settings</h4>
 
-      <div class="collapsible-content">
-        <div class="row">
-          <div class="col-sm-4">
-            <div class="form-group">
-              <span>Background Color <span class="text-muted">(for Chroma keying)</span></span>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <span>Background Color <span class="text-muted">(for Chroma keying)</span></span>
 
-              <div class="input-group">
-                <input type="text" class="form-control" id="setting-bg-color"
-                       placeholder="<?= $dataStore->getVar('misc', 'streamAlertBG', '#FFFFFF') ?>"
-                       value="<?= $dataStore->getVar('misc', 'streamAlertBG') ?>"/>
+            <div class="input-group">
+              <input type="text" class="form-control" id="setting-bg-color"
+                     placeholder="<?= $dataStore->getVar('misc', 'streamAlertBG', '#FFFFFF | transperant') ?>"
+                     value="<?= $dataStore->getVar('misc', 'streamAlertBG') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
                         onclick="saveToConfig('misc/streamAlertBG', 'setting-bg-color', this)">
                   Save
                 </button>
               </span>
-              </div>
             </div>
           </div>
-          <div class="col-sm-4">
-            <div class="form-group">
-              <span>Window Size <span class="text-muted">(use format "width=[IN PIXELS],height=[IN PIXELS]")</span></span>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <span>Window Size</span>
 
-              <div class="input-group">
-                <input type="text" class="form-control" id="setting-window-size"
-                       placeholder="<?= $dataStore->getVar('misc', 'alertWindowSize', 'width=550,height=200') ?>"
-                       value="<?= $dataStore->getVar('misc', 'alertWindowSize') ?>"/>
+            <div class="input-group">
+              <input type="text" class="form-control" id="setting-window-size"
+                     placeholder="<?= $dataStore->getVar('misc', 'alertWindowSize', 'width=550,height=200') ?>"
+                     value="<?= $dataStore->getVar('misc', 'alertWindowSize') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
                         onclick="saveToConfig('misc/alertWindowSize', 'setting-window-size', this)">
                   Save
                 </button>
               </span>
-              </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <?= $templates->informationPanel(
+              '<p>This feature only works on the latest <a href="https://github.com/GloriousEggroll/PhantomBot" target="_blank">Phantombot</a> "nightly"!</p>' .
+              '<p>Use <code>//' . \PBPanel\AppLoader::getBaseUrl() . '/stream-alerts-player.php</code> in your OBS browser, to embed the alerts easilly in your stream!</p>' .
+              '<p>Leave the sound field empty if you don\'t want to use sound effects on alerts.</p>' .
+              '<p>Empty the CSS field and save to reset it\'s original value!</p>' .
+              '<p>Donation alerts will be available soon!</p>'
+          ) ?>
         </div>
       </div>
       <hr/>
@@ -98,7 +107,7 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
 
               <div class="input-group">
                 <input type="text" class="form-control" id="setting-alert-bg-follower"
-                       placeholder="/path/to/file or url"
+                       placeholder="url"
                        value="<?= $dataStore->getVar('streamalertsettings', 'followerAlertBG') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
@@ -130,11 +139,11 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
         <div class="row">
           <div class="col-sm-4">
             <div class="form-group">
-              <span>Alert Sound</span>
+              <span>Alert Sound <span class="text-muted">(file has to be hosted online!)</span></span>
 
               <div class="input-group">
                 <input type="text" class="form-control" id="setting-alert-sound-follower"
-                       placeholder="/path/to/file or url"
+                       placeholder="url"
                        value="<?= $dataStore->getVar('streamalertsettings', 'followerAlertSound') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
@@ -172,7 +181,7 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
 
               <div class="input-group">
                 <input type="text" class="form-control" id="setting-alert-bg-host"
-                       placeholder="/path/to/file or url"
+                       placeholder="url"
                        value="<?= $dataStore->getVar('streamalertsettings', 'hostAlertBG') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
@@ -204,11 +213,11 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
         <div class="row">
           <div class="col-sm-4">
             <div class="form-group">
-              <span>Alert Sound</span>
+              <span>Alert Sound <span class="text-muted">(file has to be hosted online!)</span></span>
 
               <div class="input-group">
                 <input type="text" class="form-control" id="setting-alert-sound-host"
-                       placeholder="/path/to/file or url"
+                       placeholder="url"
                        value="<?= $dataStore->getVar('streamalertsettings', 'hostAlertSound') ?>"/>
               <span class="input-group-btn">
                 <button class="btn btn-primary"
@@ -224,11 +233,11 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
               <span>Custom CSS</span>
 
               <div class="form-group">
-                <textarea class="form-control" id="setting-alert-cdd-host"
+                <textarea class="form-control" id="setting-alert-css-host"
                           placeholder="Custom CSS"><?= $dataStore->getVar('streamalertsettings', 'hostAlertCSS') ?></textarea>
               </div>
               <button class="btn btn-primary"
-                      onclick="saveToConfig('streamalertsettings/hostAlertCSS', 'setting-alert-cdd-host', this)">
+                      onclick="saveToConfig('streamalertsettings/hostAlertCSS', 'setting-alert-css-host', this)">
                 Save
               </button>
             </div>
