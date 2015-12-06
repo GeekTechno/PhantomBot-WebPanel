@@ -91,6 +91,7 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
         <div class="col-sm-8">
           <?= $templates->informationPanel(
               '<p>This feature only works on the latest <a href="https://github.com/GloriousEggroll/PhantomBot" target="_blank">Phantombot</a> "nightly"!</p>' .
+              '<p>Use (name) in the Alert Text to insert the new follower/hoster\'s name.</p>' .
               '<p>Use <code>//' . \PBPanel\AppLoader::getBaseUrl() . '/stream-alerts-player.php</code> in your OBS browser, to embed the alerts easilly in your stream!</p>' .
               '<p>Leave the sound field empty if you don\'t want to use sound effects on alerts.</p>' .
               '<p>Empty the CSS field and save to reset it\'s original value!</p>' .
