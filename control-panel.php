@@ -72,9 +72,9 @@ foreach ($partsList as $parentName => $subItems) {
   $renderedMenu .= '</ul></li>';
 }
 
-if ($hostHandlerActive == 1) {
-  $NOHosts = $functions->getIniValueByKey('stream_info.ini', 'hosts_amount');
-}
+//if ($hostHandlerActive == 1) {
+//  $NOHosts = $functions->getIniValueByKey('stream_info.ini', 'hosts_amount');
+//}
 if ($subscribeHandlerActive == 1) {
   $subscribers = $functions->getIniArray('subscribed.ini');
   $NOSubscribers = 0;
@@ -136,7 +136,7 @@ if ($subscribeHandlerActive == 1) {
         <?= $dataStore->getVar('connector', 'botName') ?> on channel <?= $dataStore->getVar('connector', 'channelOwner') ?>
         <?= str_repeat('<span class="pull-right info-banner-space-left">&nbsp;</span>', 3) ?>
         <?= $templates->streamInfoBanner($NOSubscribers, 'dollar', 'warning', 'Subscriber Count', '', ($NOSubscribers > -1)) ?>
-        <?= $templates->streamInfoBanner($NOHosts, 'forward', 'info', 'Host Count', 'stream-hosts', ($NOHosts > -1)) ?>
+        <?//= $templates->streamInfoBanner($NOHosts, 'forward', 'info', 'Host Count', 'stream-hosts', ($NOHosts > -1)) ?>
         <?= $templates->streamInfoBanner('NA', 'heartbeat', 'danger', 'Follower Count', 'stream-followers') ?>
         <?= $templates->streamInfoBanner('NA', 'users', 'success', 'Viewer Count', 'stream-viewer-count') ?>
         <?= $templates->streamInfoBanner('Offline', 'rss', 'info', 'Stream Status', 'stream-status') ?>
