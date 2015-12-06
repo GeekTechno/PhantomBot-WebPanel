@@ -32,6 +32,8 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
 
 ?>
 <div class="app-part">
+  <script src="/app/js/codemirror.min.js" type="text/javascript"></script>
+  <script src="/app/js/css.js" type="text/javascript"></script>
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">
@@ -154,16 +156,18 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
               </div>
             </div>
           </div>
-          <div class="col-sm-4">
+        </div>
+        <div class="row">
+          <div class="col-sm-8">
             <div class="form-group">
               <span>Custom CSS</span>
 
               <div class="form-group">
-                <textarea class="form-control" id="setting-alert-cdd-follower"
+                <textarea class="form-control" id="setting-alert-css-follower"
                           placeholder="Custom CSS"><?= $dataStore->getVar('streamalertsettings', 'followerAlertCSS') ?></textarea>
               </div>
               <button class="btn btn-primary"
-                      onclick="saveToConfig('streamalertsettings/followerAlertCSS', 'setting-alert-cdd-follower', this)">
+                      onclick="saveToConfig('streamalertsettings/followerAlertCSS', 'setting-alert-css-follower', this)">
                 Save
               </button>
             </div>
@@ -228,7 +232,9 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
               </div>
             </div>
           </div>
-          <div class="col-sm-4">
+        </div>
+        <div class="row">
+          <div class="col-sm-8">
             <div class="form-group">
               <span>Custom CSS</span>
 
@@ -247,3 +253,21 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
     </div>
   </div>
 </div>
+<script>
+  (function () {
+    CodeMirror.fromTextArea(document.getElementById('setting-alert-css-follower'), {
+      lineNumbers: true,
+      mode: 'css',
+    }).on('change', function (event) {
+      console.log(event);
+      event.save();
+    });
+    CodeMirror.fromTextArea(document.getElementById('setting-alert-css-host'), {
+      lineNumbers: true,
+      mode: 'css',
+    }).on('change', function (event) {
+      console.log(event);
+      event.save();
+    });
+  })();
+</script>

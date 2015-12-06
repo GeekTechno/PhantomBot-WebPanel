@@ -226,6 +226,10 @@ function bindPartEventHandlers() {
       pBotData.touchedCollapsibles.push(owner.text());
     }
     owner.toggleClass('open');
+
+    $('.CodeMirror').each(function(i, el){
+      el.CodeMirror.refresh();
+    });
   });
 
   /*
