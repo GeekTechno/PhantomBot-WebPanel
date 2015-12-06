@@ -288,7 +288,7 @@ $theme = $dataStore->getVar('misc', 'theme', 'style_dark');
     $('#theme-selector')
         .submit(function (event) {
           doBotRequest('saveToConfig', function () {
-            location.replace('/');
+            location.reload();
           }, {settingPath: 'misc/theme', setting: event.target[0].selectedOptions[0].value.trim()});
           event.preventDefault();
         })
