@@ -71,14 +71,12 @@ class DataStore
    */
   public function setVar($table, $key, $value)
   {
-    if (in_array($table, $this->listTables())) {
-      $stmt = $this->db->prepare('INSERT OR REPLACE INTO `' . $table . '` (id, key, value) VALUES ((SELECT id FROM `' . $table . '` WHERE key=:key), :key, :value)');
-      $stmt->bindValue(':key', $key, SQLITE3_TEXT);
-      $stmt->bindValue(':value', $value, SQLITE3_TEXT);
+    $this->createTable($table);
+    $stmt = $this->db->prepare('INSERT OR REPLACE INTO `' . $table . '` (id, key, value) VALUES ((SELECT id FROM `' . $table . '` WHERE key=:key), :key, :value)');
+    $stmt->bindValue(':key', $key, SQLITE3_TEXT);
+    $stmt->bindValue(':value', $value, SQLITE3_TEXT);
 
-      return $stmt->execute();
-    }
-    return false;
+    return $stmt->execute();
   }
 
   /**

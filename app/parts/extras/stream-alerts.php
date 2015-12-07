@@ -20,8 +20,6 @@ $connection = new \PBPanel\Util\ConnectionHandler($dataStore);
 $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
-$dataStore->createTable('streamalertsettings');
-
 if (trim($dataStore->getVar('streamalertsettings', 'followerAlertCSS')) == '') {
   $dataStore->setVar('streamalertsettings', 'followerAlertCSS', $functions->getDefaultAlertCSS());
 }

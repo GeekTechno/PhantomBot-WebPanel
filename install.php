@@ -18,9 +18,6 @@ if ($dataStore->getVar('connector', 'botIp') != '') {
 }
 
 if (count($input) == 7 && !$done) {
-  $dataStore->createTable('users');
-  $dataStore->createTable('connector');
-
   $dataStore->setVar('users', $input['username'], $input['password']);
   $dataStore->setVar('connector', 'botIp', $input['botIp']);
   $dataStore->setVar('connector', 'botBasePort', $input['botBasePort']);

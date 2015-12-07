@@ -16,8 +16,7 @@ if (file_exists(\PBPanel\AppLoader::getBaseDir() . '/app/content/vars/config.php
 
 /* Create bot connector table */
 if ($ds->getVar('connector', 'botIp') == '') {
-  $ds->createTable('connector');
-
+  
   $ds->setVar(
       'connector',
       'botIp',
@@ -46,7 +45,6 @@ if ($ds->getVar('connector', 'botIp') == '') {
 }
 
 /* Create panel users table */
-$ds->createTable('users');
 
 if (array_key_exists('panelUsers', $oldConfig)) {
   foreach ($oldConfig['panelUsers'] as $username => $hash) {
@@ -55,7 +53,6 @@ if (array_key_exists('panelUsers', $oldConfig)) {
 }
 
 /* Create paths table */
-$ds->createTable('paths');
 
 $ds->setVar(
     'paths',
@@ -84,7 +81,6 @@ $ds->setVar(
 );
 
 /* Create sfx commands table */
-$ds->createTable('sfxcommands');
 
 if (array_key_exists('sfxSettings', $oldConfig)) {
   foreach ($oldConfig['sfxSettings']['commands'] as $command => $file) {
@@ -93,7 +89,6 @@ if (array_key_exists('sfxSettings', $oldConfig)) {
 }
 
 /* Create misc table*/
-$ds->createTable('misc');
 
 $ds->setVar(
     'misc',
