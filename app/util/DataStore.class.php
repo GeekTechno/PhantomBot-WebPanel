@@ -63,6 +63,26 @@ class DataStore
     return $default;
   }
 
+  public function getRowById($table, $id)
+  {
+    if (in_array($table, $this->listTables())) {
+      $stmt = $this->db->prepare('SELECT key, value FROM `' . $table . '` WHERE id=:id;');
+      $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
+      $res = $stmt->execute()->fetchArray(SQLITE3_ASSOC);
+
+      if ($res) {
+        return [
+            'key' => $res['key'],
+            'value' => $res['value'],
+        ];
+      }
+    }
+    return [
+        'key' => null,
+        'value' => null,
+    ];
+  }
+
   /**
    * @param string $table
    * @param string $key

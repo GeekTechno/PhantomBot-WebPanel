@@ -242,8 +242,7 @@ class ComponentTemplates
   public function switchToggle($label, $onChangeJsFnc, $onChangeParamsJsArray = '[]', $id = 'switch-toggle', $initialState = false, $small = false, $noBackground = false, $noFalse = false, $disabled = false, $name = 'switch-toggle')
   {
     if ($id == 'switch-toggle' || $id == '' || $id == null) {
-      $randomIdSeed = str_shuffle('abcdefghijklmnipqrstuvwzyxabcdefghijklmnipqrstuvwzyxabcdefghijklmnipqrstuvwzyx');
-      $id = 'switch-toggle-' . substr($randomIdSeed, rand(0, 72), 5);
+      $id = 'switch-toggle-' . $this->randomId();
     }
     if ($name == 'switch-toggle' || $name == '' || $name == null) {
       $name = $id;
@@ -291,5 +290,11 @@ class ComponentTemplates
   public function _wrapInJsToggledDoQuickCommand($command, $expression, $trueOption, $falseOption)
   {
     return '(function(){(' . $expression . '?doQuickCommand(\'' . $command . ' ' . $trueOption . '\'):doQuickCommand(\'' . $command . ' ' . $falseOption . '\'))})';
+  }
+
+  public function randomId()
+  {
+    $randomIdSeed = str_shuffle('abcdefghijklmnipqrstuvwzyxabcdefghijklmnipqrstuvwzyxabcdefghijklmnipqrstuvwzyx');
+    return substr($randomIdSeed, rand(0, 72), 5);
   }
 } 

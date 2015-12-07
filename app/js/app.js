@@ -364,7 +364,7 @@ function loadChannelData(skipCache) {
 function loadPartFromStorage() {
   var partUrl = pBotStorage.get(pBotStorage.keys.lastUsedPart, 'static/dashboard.php');
   setActiveMenuItem(partUrl);
-  $('#part-window').load('app/parts/' + partUrl, {token: pBotData.config.token}, bindPartEventHandlers);
+  $('#part-window').load('app/parts/' + partUrl, {token: pBotData.config.token, username:pBotData.login.username}, bindPartEventHandlers);
 }
 
 //noinspection JSUnusedGlobalSymbols
@@ -379,10 +379,10 @@ function openPart(partUrl, filters) {
   pBotData.touchedCollapsibles = [];
   setActiveMenuItem(partUrl);
   if (filters) {
-    filters = $.extend(filters, {token: pBotData.config.token});
+    filters = $.extend(filters, {token: pBotData.config.token, username:pBotData.login.username});
     $('#part-window').load('app/parts/' + partUrl, filters, bindPartEventHandlers);
   } else {
-    $('#part-window').load('app/parts/' + partUrl, {token: pBotData.config.token}, bindPartEventHandlers);
+    $('#part-window').load('app/parts/' + partUrl, {token: pBotData.config.token, username:pBotData.login.username}, bindPartEventHandlers);
   }
   pBotStorage.set(pBotStorage.keys.lastUsedPart, partUrl);
 }

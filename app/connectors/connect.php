@@ -100,6 +100,28 @@ if (array_key_exists('action', $input) && $input['action'] != '') {
         $functions->sendBackError('Missing parameters');
       }
       break;
+    case 'deletePanelUser':
+      if (array_key_exists('panelUsername', $input)) {
+        if ($dataStore->delVar('users', $input['panelUsername'])) {
+          $functions->sendBackOk('Setting Saved');
+        } else {
+          $functions->sendBackError('Failed to save setting', 418, 418);
+        }
+      } else {
+        $functions->sendBackError('Missing parameters');
+      }
+      break;
+    case 'savePanelUser':
+      if (array_key_exists('panelUsername', $input) && array_key_exists('panelPassword', $input)) {
+        if ($dataStore->setVar('users', $input['panelUsername'], $input['panelPassword'])) {
+          $functions->sendBackOk('Setting Saved');
+        } else {
+          $functions->sendBackError('Failed to save setting', 418, 418);
+        }
+      } else {
+        $functions->sendBackError('Missing parameters');
+      }
+      break;
     default:
       $functions->sendBackError('Unknown action');
       break;
