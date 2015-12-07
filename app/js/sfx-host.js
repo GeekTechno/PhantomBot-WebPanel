@@ -14,13 +14,7 @@ var display,
 $(window).ready(function () {
   display = $('#sfx-display');
   sfxHistory = $('#sfx-history');
-  if (sfxEnabled) {
-    connection = new WebSocket('ws://' + botAddress);
-  } else {
-    display.html($('<span class="text-danger">Sfx is disabled!</span>'));
-    sfxHistory.html($('<p class="text-warning">Enable Sfx in the Phantombot Webpanel by going to Extras->Sfx, toggle "Toggle Sfx" and refresh this page.</p>'));
-    return;
-  }
+  connection = new WebSocket('ws://' + botAddress);
 
   connection.onmessage = function (e) {
     var data = e.data.split('|'),

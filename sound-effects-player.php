@@ -23,10 +23,10 @@ $eventServerAdress = $dataStore->getVar('connector', 'botIp') . ':' . (intval($d
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
   <script>
     var botAddress = '<?= $eventServerAdress ?>',
-        sfxEnabled = <?= $dataStore->getVar('misc', 'sfxEnabled', 'false') ?>,
         sfxCommands = <?= json_encode($dataStore->getTableAsArray('sfxcommands')) ?>;
   </script>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
+  <script src="//code.jquery.com/ui/1.11.3/jquery-ui.min.js" type="text/javascript"></script>
   <script src="app/js/rsocket.min.js"></script>
   <script src="app/js/sfx-host.min.js"></script>
 </head>
