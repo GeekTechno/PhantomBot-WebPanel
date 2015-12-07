@@ -39,7 +39,7 @@ foreach ($users as $username => $md5Password) {
   }
   $usersDataRows .= '<tr>'
       . '<td><input type="text" placeholder="Username" value="' . $username . '" class="form-control" id="user-username-' . $uuid . '" ' . ($usersDataRowsIsFirst ? 'disabled' : '') . ' /></td>'
-      . '<td><input type="text" placeholder="Password" value="' . $md5Password . '" class="form-control" id="user-password-' . $uuid . '" /></td>'
+      . '<td><input type="password" placeholder="Password" value="' . $md5Password . '" class="form-control" id="user-password-' . $uuid . '" /></td>'
       . '<td><div class="btn-toolbar">'
       . '<button class="btn btn-success" onclick="savePanelUser(\'' . $uuid . '\', \'' . $username . '\', \'' . $md5Password . '\')"><span class="fa fa-save"></span></button>'
       . '<button class="btn btn-danger" onclick="deletePanelUser(\'' . $username . '\')" ' . ($usersDataRowsIsFirst ? 'disabled' : '') . '><span class="fa fa-trash"></span></button>'
@@ -58,9 +58,20 @@ foreach ($users as $username => $md5Password) {
       </h3>
     </div>
     <div class="panel-body">
-      <?= $templates->dataTable('Panel Users', ['Username', 'Password', 'Save'], $usersDataRows, true) ?>
-      <div class="btn-toolbar">
-        <button class="btn btn-default" onclick="addPanelUser()">Add User</button>
+      <div class="row">
+        <div class="col-sm-8">
+          <?= $templates->dataTable('Panel Users', ['Username', 'Password', 'Save'], $usersDataRows, true) ?>
+          <div class="btn-toolbar">
+            <button class="btn btn-default" onclick="addPanelUser()">Add User</button>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <?= $templates->informationPanel(
+              '<p>You can not change your own username, nor can you delete your account!</p>'
+              . '<p>If you change your own password you will have to <a href="#" onclick="logOut()">log out</a> and log back in using your new password to be able to continue!</p>'
+              . '<p>Admins be careful, granting someone access to your panel gives them full access to everything!</p>'
+          ) ?>
+        </div>
       </div>
     </div>
   </div>
