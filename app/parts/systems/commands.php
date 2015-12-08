@@ -26,6 +26,7 @@ $customCommandsIni = $functions->getIniArray('command');
 $commandAliasIni = $functions->getIniArray('aliases');
 $commandPriceIni = $functions->getIniArray('pricecom');
 $commandPermIni = $functions->getIniArray('permcom');
+$commandCooldown = $functions->getIniArray('coolcom');
 $defaultCommands = [];
 $pointNames = [
     (array_key_exists('pointNameMultiple', $botSettings) ? $botSettings['pointNameMultiple'] : 'points'),
@@ -71,6 +72,11 @@ foreach ($customCommandsIni as $command => $message) {
   } else {
     $price = '0 ' . $pointNames[0];
   }
+  if (array_key_exists($command, $commandCooldown)) {
+    $cooldown = $functions->secondsToTime(intval($commandCooldown[$command]));
+  } else {
+    $cooldown = $functions->secondsToTime(0);
+  }
   $customCommandsTableRows .= '<tr>'
       . $templates->addTooltip('<td class="command-actor">' . $actor . '</td>',
           '<span class="message ' . $msgClass . '">' . $message . '</span>',
@@ -78,7 +84,8 @@ foreach ($customCommandsIni as $command => $message) {
       )
       . '<td>'
       . '<span class="text-muted">Group:</span>&nbsp;' . $perm . '<br />'
-      . '<span class="text-muted">Price:</span>&nbsp;' . $price
+      . '<span class="text-muted">Price:</span>&nbsp;' . $price . '<br />'
+      . '<span class="text-muted">Cooldown:</span>&nbsp;' . $cooldown
       . '</td>'
       . '<td>' . join(', ', $commandAliases) . '</td>'
       . '<td class="actions">' . $templates->botCommandButton('delcom ' . $command, '<span class="fa fa-trash"></span>', 'danger', 'Are you sure you want to delete !' . $command . '?') . '</td>'
@@ -116,10 +123,18 @@ foreach ($defaultCommands as $command) {
   } else {
     $price = '0 ' . $pointNames[0];
   }
+  if (array_key_exists($command, $commandCooldown)) {
+    $cooldown = $functions->secondsToTime(intval($commandCooldown[$command]));
+  } else {
+    $cooldown = $functions->secondsToTime(0);
+  }
   $defaultCommandsTableRows .= '<tr>'
       . '<td class="command-actor">' . '!' . $command . '</td>'
-      . '<td class="price">' . $price . '</td>'
-      . '<td>' . $perm . '</td>'
+      . '<td>'
+      . '<span class="text-muted">Group:</span>&nbsp;' . $perm . '<br />'
+      . '<span class="text-muted">Price:</span>&nbsp;' . $price . '<br />'
+      . '<span class="text-muted">Cooldown:</span>&nbsp;' . $cooldown
+      . '</td>'
       . '<td>' . join('<br />', $commandAliases) . '</td>'
       . '</tr>';
 }
@@ -223,7 +238,7 @@ function getGroupId($group)
       <hr/>
       <?= $templates->dataTable('Current Custom Commands', ['Command', 'Attributes', 'Aliases', ''], $customCommandsTableRows, true, 'custom-commands') ?>
       <hr/>
-      <?= $templates->dataTable('Default Command Settings', ['Command', 'price', 'Permissions', 'Aliases'], $defaultCommandsTableRows, true, 'custom-commands') ?>
+      <?= $templates->dataTable('Default Command Settings', ['Command', 'Attributes', 'Aliases'], $defaultCommandsTableRows, true, 'custom-commands') ?>
     </div>
   </div>
 </div>
