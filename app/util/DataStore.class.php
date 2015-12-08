@@ -15,11 +15,15 @@ class DataStore
 
   public function __construct()
   {
-    if (!is_writable(\PBPanel\AppLoader::getBaseDir() . '/app/content/') || !is_writable(\PBPanel\AppLoader::getBaseDir() . '/app/content/dataStore.sqlite')) {
+    if (!is_writable(\PBPanel\AppLoader::getBaseDir() . '/app/content/')) {
       die('The webserver needs read/write permissions on "' . \PBPanel\AppLoader::getBaseDir() . '/app/content/' . '" and it\'s contents!');
     }
 
-    $this->db = new \SQLite3(\PBPanel\AppLoader::getBaseDir() . '/app/content/dataStore.sqlite', SQLITE3_OPEN_READWRITE);
+    if (file_exists(\PBPanel\AppLoader::getBaseDir() . '/app/content/dataStore.sqlite')) {
+      $this->db = new \SQLite3(\PBPanel\AppLoader::getBaseDir() . '/app/content/dataStore.sqlite', SQLITE3_OPEN_READWRITE);
+    } else {
+      $this->db = new \SQLite3(\PBPanel\AppLoader::getBaseDir() . '/app/content/dataStore.sqlite', SQLITE3_OPEN_CREATE|SQLITE3_OPEN_READWRITE, null);
+    }
 
     register_shutdown_function([$this, 'shutdown']);
   }
