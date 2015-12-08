@@ -20,12 +20,11 @@ class DataStore
     }
 
     $this->db = new \SQLite3(\PBPanel\AppLoader::getBaseDir() . '/app/content/dataStore.sqlite', SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE, null);
-
     register_shutdown_function([$this, 'shutdown']);
   }
 
   /**
-   * @param $table
+   * @param string $table
    * @return array
    */
   public function getTableAsArray($table)
