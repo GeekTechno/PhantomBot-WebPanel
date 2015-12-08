@@ -19,11 +19,7 @@ class DataStore
       die('The webserver needs read/write permissions on "' . \PBPanel\AppLoader::getBaseDir() . '/app/content/' . '" and it\'s contents!');
     }
 
-    if (file_exists(\PBPanel\AppLoader::getBaseDir() . '/app/content/dataStore.sqlite')) {
-      $this->db = new \SQLite3(\PBPanel\AppLoader::getBaseDir() . '/app/content/dataStore.sqlite', SQLITE3_OPEN_READWRITE);
-    } else {
-      $this->db = new \SQLite3(\PBPanel\AppLoader::getBaseDir() . '/app/content/dataStore.sqlite', SQLITE3_OPEN_CREATE|SQLITE3_OPEN_READWRITE, null);
-    }
+    $this->db = new \SQLite3(\PBPanel\AppLoader::getBaseDir() . '/app/content/dataStore.sqlite', SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE, null);
 
     register_shutdown_function([$this, 'shutdown']);
   }
