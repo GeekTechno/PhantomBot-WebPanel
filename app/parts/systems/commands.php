@@ -95,7 +95,7 @@ foreach ($customCommandsIni as $command => $message) {
 array_walk($commandPermIni, function ($value) use ($defaultCommands) {
   $defaultCommands[] = str_replace('_recursive', '', $value);
 });
-$defaultCommands = array_unique(array_merge($defaultCommands, array_keys($commandPriceIni), array_values($commandAliasIni)));
+$defaultCommands = array_unique(array_merge($defaultCommands, array_keys($commandPriceIni), array_values($commandAliasIni), array_keys($commandCooldown)));
 sort($defaultCommands);
 foreach ($defaultCommands as $command) {
   if (array_key_exists($command, $commandAliasIni) || array_key_exists($command, $customCommandsIni)) {
