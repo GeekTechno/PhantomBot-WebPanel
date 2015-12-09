@@ -30,8 +30,8 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
 
 ?>
 <div class="app-part">
-  <script src="/app/js/codemirror.min.js" type="text/javascript"></script>
-  <script src="/app/js/css.js" type="text/javascript"></script>
+  <script src="../../../app/js/codemirror.min.js" type="text/javascript"></script>
+  <script src="../../../app/js/cm-css.min.js" type="text/javascript"></script>
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">

@@ -95,6 +95,7 @@ if ($subscribeHandlerActive == 1) {
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="//code.jquery.com/ui/1.11.3/jquery-ui.min.js" type="text/javascript"></script>
+  <script src="app/js/jquery.ui-contextmenu.min.js" type="text/javascript"></script>
   <script src="app/js/date.min.js" type="text/javascript"></script>
   <script src="app/js/app.min.js" type="text/javascript"></script>
   <script src="app/js/tooltip.min.js" type="text/javascript"></script>

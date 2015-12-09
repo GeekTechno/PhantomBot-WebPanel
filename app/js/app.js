@@ -107,6 +107,8 @@ function applyChannelData(channelData) {
 }
 
 function bindGlobalEventHandlers() {
+  bindContextMenu();
+
   $('.dropdown-toggle').on('click', function () {
     var owner = $(this),
         targetList = owner.next('.dropdown-menu'),
@@ -230,7 +232,7 @@ function bindPartEventHandlers() {
     }
     owner.toggleClass('open');
 
-    $('.CodeMirror').each(function(i, el){
+    $('.CodeMirror').each(function (i, el) {
       el.CodeMirror.refresh();
     });
   });
@@ -367,7 +369,10 @@ function loadChannelData(skipCache) {
 function loadPartFromStorage() {
   var partUrl = pBotStorage.get(pBotStorage.keys.lastUsedPart, 'static/dashboard.php');
   setActiveMenuItem(partUrl);
-  $('#part-window').load('app/parts/' + partUrl, {token: pBotData.config.token, username:pBotData.login.username}, bindPartEventHandlers);
+  $('#part-window').load('app/parts/' + partUrl, {
+    token: pBotData.config.token,
+    username: pBotData.login.username
+  }, bindPartEventHandlers);
 }
 
 //noinspection JSUnusedGlobalSymbols
@@ -382,10 +387,13 @@ function openPart(partUrl, filters) {
   pBotData.touchedCollapsibles = [];
   setActiveMenuItem(partUrl);
   if (filters) {
-    filters = $.extend(filters, {token: pBotData.config.token, username:pBotData.login.username});
+    filters = $.extend(filters, {token: pBotData.config.token, username: pBotData.login.username});
     $('#part-window').load('app/parts/' + partUrl, filters, bindPartEventHandlers);
   } else {
-    $('#part-window').load('app/parts/' + partUrl, {token: pBotData.config.token, username:pBotData.login.username}, bindPartEventHandlers);
+    $('#part-window').load('app/parts/' + partUrl, {
+      token: pBotData.config.token,
+      username: pBotData.login.username
+    }, bindPartEventHandlers);
   }
   pBotStorage.set(pBotStorage.keys.lastUsedPart, partUrl);
 }
@@ -430,6 +438,27 @@ function getBotStatus() {
         console.warn('Bot is offline!\nDisabling bot requests...\nChecking again in 10 minutes...\n' + data[3]);
       }
     },
+  });
+}
+
+function bindContextMenu() {
+  var favorites = pBotStorage.get(pBotStorage.keys.favoritesMenuItems),
+      contextItems = [
+        {title: 'Favorites'},
+        {title: 'Dashboard', cmd: 'static/dashboard.php'}
+      ];
+  for (var i in favorites) {
+    contextItems.push({
+      title: favorites[i].itemName,
+      cmd: favorites[i].itemPath,
+    });
+  }
+
+  $('body:not(input)').contextmenu({
+    menu: contextItems,
+    select: function (event, ui) {
+      openPart(ui.cmd);
+    }
   });
 }
 

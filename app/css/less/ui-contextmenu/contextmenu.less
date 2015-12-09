@@ -1,0 +1,22 @@
+ul.ui-menu {
+  .list-unstyled;
+  background-color: @panel-bg;
+  border: 1px solid @panel-info-border;
+  border-radius: @panel-border-radius;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
+  .ui-menu-item {
+    cursor: pointer;
+    padding: 0 5px;
+    min-width: 150px;
+    &:first-child {
+      background-color: @panel-info-heading-bg;
+      font-size: 1.3em;
+      &:hover {
+        background-color: @panel-info-heading-bg;
+      }
+    }
+    &:hover {
+      background-color: darken(@panel-bg, 5%);
+    }
+  }
+}
