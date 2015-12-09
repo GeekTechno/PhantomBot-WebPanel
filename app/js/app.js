@@ -53,6 +53,9 @@ $(window).ready(function () {
   pBotData.login = pBotStorage.get(pBotStorage.keys.panelLogin);
 
   if (pBotData.login) {
+    /* Set current user in UI */
+    $('#current-user').text(pBotData.login.username);
+
     /* Load panel config */
     getPanelConfig();
 

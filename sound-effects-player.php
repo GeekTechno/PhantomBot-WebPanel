@@ -7,9 +7,11 @@
  */
 
 require_once('AppLoader.class.php');
-\PBPanel\AppLoader::loadUtil('DataStore');
+\PBPanel\AppLoader::load();
 
 $dataStore = new \PBPanel\Util\DataStore();
+$connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
+$functions = new \PBPanel\Util\Functions($dataStore, $connection);
 
 $eventServerAdress = $dataStore->getVar('connector', 'botIp') . ':' . (intval($dataStore->getVar('connector', 'botBasePort')) + 2);
 ?>
@@ -23,6 +25,8 @@ $eventServerAdress = $dataStore->getVar('connector', 'botIp') . ':' . (intval($d
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
   <script>
     var botAddress = '<?= $eventServerAdress ?>',
+        commandPermissions = <?= json_encode($functions->getIniArray('permcom')) ?>,
+        userGroups = <?= json_encode($functions->getIniArray('group')) ?>,
         sfxCommands = <?= json_encode($dataStore->getTableAsArray('sfxcommands')) ?>;
   </script>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>

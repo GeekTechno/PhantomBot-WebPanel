@@ -10,7 +10,7 @@ require_once('../../AppLoader.class.php');
 \PBPanel\AppLoader::load();
 
 $dataStore = new \PBPanel\Util\DataStore();
-$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
 $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $input = filter_input_array(INPUT_POST);
 
@@ -30,8 +30,11 @@ if (array_key_exists('action', $input) && $input['action'] != '') {
       $functions->getConfig();
       break;
     case 'command':
-      if (array_key_exists('command', $input)) {
-        echo json_encode($connection->send('!' . $input['command']));
+      if (array_key_exists('command', $input) && $input['username']) {
+        echo json_encode($connection->send(
+            '!' . $input['command'],
+            (array_key_exists(strtolower($input['username']), $functions->getIniArray('visited')) ? $input['username'] : $dataStore->getVar('connector', 'channelOwner'))
+        ));
       } else {
         $functions->sendBackError('Command is empty');
       }

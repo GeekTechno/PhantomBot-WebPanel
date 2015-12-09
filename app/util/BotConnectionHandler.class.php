@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ConnectionHandler.class.php
+ * BotConnectionHandler.class.php
  * Created with PhpStorm
  * User: Robin | Juraji
  * Date: 12 okt 2015
@@ -9,7 +9,7 @@
  */
 namespace PBPanel\Util;
 
-class ConnectionHandler
+class BotConnectionHandler
 {
   private $dataStore;
   private $curl;
@@ -68,14 +68,18 @@ class ConnectionHandler
 
   /**
    * @param string $message
+   * @param string $user
    * @return array
    */
-  public function send($message)
+  public function send($message, $user = '')
   {
+    if ($user == '') {
+      $user = $this->dataStore->getVar('connector', 'channelOwner');
+    }
     $this->init();
     curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'PUT');
     $curlPass = str_replace("oauth:", "", $this->dataStore->getVar('connector', 'botOauthToken'));
-    curl_setopt($this->curl, CURLOPT_HTTPHEADER, array('user: ' . $this->dataStore->getVar('connector', 'channelOwner'), 'message: ' . urlencode($message), 'password: ' . $curlPass));
+    curl_setopt($this->curl, CURLOPT_HTTPHEADER, array('user: ' . $user, 'message: ' . urlencode($message), 'password: ' . $curlPass));
     $result = curl_exec($this->curl);
     $err = curl_error($this->curl);
     $status = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);

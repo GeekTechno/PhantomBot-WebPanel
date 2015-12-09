@@ -10,7 +10,7 @@ require_once('../../AppLoader.class.php');
 \PBPanel\AppLoader::load();
 
 $dataStore = new \PBPanel\Util\DataStore();
-$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
 $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $input = filter_input_array(INPUT_POST);
 

@@ -11,7 +11,7 @@ require_once('AppLoader.class.php');
 
 $session = new \PBPanel\Util\PanelSession();
 $dataStore = new PBPanel\Util\DataStore();
-$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
 $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
@@ -119,7 +119,10 @@ if ($subscribeHandlerActive == 1) {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a nohref onclick="logOut()">Logout</a>
+          <a nogref onclick="openPart('extras/panel-users.php')" role="button">Hi <span id="current-user"></span></a>
+        </li>
+        <li>
+          <a nohref onclick="logOut()" role="button">Logout</a>
         </li>
       </ul>
     </div>

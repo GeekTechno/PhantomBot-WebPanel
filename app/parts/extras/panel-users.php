@@ -16,7 +16,7 @@ if (!$session->checkSessionToken(filter_input(INPUT_POST, 'token'))) {
 }
 
 $dataStore = new \PBPanel\Util\DataStore();
-$connection = new \PBPanel\Util\ConnectionHandler($dataStore);
+$connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
 $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 $users = $dataStore->getTableAsArray('users');
@@ -70,6 +70,8 @@ foreach ($users as $username => $md5Password) {
               '<p>You can not change your own username, nor can you delete your account!</p>'
               . '<p>If you change your own password you will have to <a href="#" onclick="logOut()">log out</a> and log back in using your new password to be able to continue!</p>'
               . '<p>Admins be careful, granting someone access to your panel gives them full access to everything!</p>'
+              . '<p>Use the users twitch username to have the panel send their username on communication with the bot.'
+              . '<br />If the name is not known with the bot the channel-owner\'s username will be used!</p>'
           ) ?>
         </div>
       </div>
@@ -77,55 +79,4 @@ foreach ($users as $username => $md5Password) {
   </div>
 </div>
 <script src="../../../app/js/spark-md5.min.js" type="text/javascript"></script>
-<script>
-  var newUserUuid = 0;
-  function addPanelUser() {
-    $('.data-table tbody').append($('<tr>'
-        + '<td><input type="text" placeholder="Username" class="form-control" id="user-username-new' + newUserUuid + '" /></td>'
-        + '<td><input type="password" placeholder="Password" class="form-control" id="user-password-new' + newUserUuid + '" /></td>'
-        + '<td><div class="btn-toolbar">'
-        + '<button class="btn btn-success" onclick="savePanelUser(\'new' + newUserUuid + '\', \'\', \'\')"><span class="fa fa-save"></span></button>'
-        + '<button class="btn btn-danger" onclick="deletePanelUser(null)"><span class="fa fa-trash"></span></button>'
-        + '</div></td>'
-        + '</tr>'));
-    ++newUserUuid;
-  }
-
-  function savePanelUser(uuid, oldUsername, oldPass) {
-    var username = $('#user-username-' + uuid).val(),
-        password = $('#user-password-' + uuid).val();
-
-    console.log(username, password, oldUsername, oldPass);
-
-    if (username.trim() == '' || password.trim() == '') {
-      showGeneralAlert('You left a value undefined!', 'danger');
-      return;
-    }
-
-    if (username != oldUsername) {
-      deletePanelUser(oldUsername, true);
-    }
-
-    if (password != oldPass) {
-      password = SparkMD5.hash(password, false);
-    }
-
-    doBotRequest('savePanelUser', function () {
-      loadPartFromStorage();
-    }, {panelUsername: username, panelPassword: password});
-  }
-
-  function deletePanelUser(username, noReload) {
-    if (username) {
-      doBotRequest('deletePanelUser', function () {
-        if (!noReload) {
-          loadPartFromStorage();
-        }
-      }, {panelUsername: username});
-    } else {
-      if (!noReload) {
-        loadPartFromStorage();
-      }
-    }
-  }
-</script>
+<script src="../../../app/js/panel-users.min.js" type="text/javascript"></script>

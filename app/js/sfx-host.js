@@ -6,36 +6,41 @@
  * Time: 04:16
  */
 
-var display,
-    audio,
-    sfxHistory,
-    connection;
-
 $(window).ready(function () {
-  display = $('#sfx-display');
-  sfxHistory = $('#sfx-history');
-  connection = new WebSocket('ws://' + botAddress);
+  var display = $('#sfx-display'),
+      sfxHistory = $('#sfx-history'),
+      connection = new WebSocket('ws://' + botAddress),
+      audio;
 
   connection.onmessage = function (e) {
-    var data = e.data.split('|'),
+    var message = e.data.split('|'),
+        event = message[0].split(':'),
+        userGroup = (userGroups[event[1].toLowerCase()] ? userGroups[event[1].toLowerCase()] : "7"),
         now = new Date();
 
-    if (data[0].match(/^CommandEvent.*/) && sfxCommands[data[1]]) {
-      //noinspection JSUnresolvedFunction
-      audio = new Audio(sfxCommands[data[1]]);
+    if (event[0] == 'CommandEvent' && sfxCommands[message[1]]) {
+      if (!commandPermissions[message[1].toLowerCase()] || !commandPermissions[message[1].toLowerCase()] == userGroup) {
+        //noinspection JSUnresolvedFunction
+        audio = new Audio(sfxCommands[message[1]]);
 
-      audio.addEventListener('play', function () {
-        display.text('Playing "' + sfxCommands[data[1]] + '" for !' + data[1]);
-      });
+        audio.addEventListener('play', function () {
+          display.text('Playing "' + sfxCommands[message[1]] + '" for !' + message[1]);
+        });
 
-      audio.addEventListener('ended', function () {
-        display.text('Waiting for commands...');
-      });
+        audio.addEventListener('ended', function () {
+          display.text('Waiting for commands...');
+        });
 
-      audio.play();
+        audio.play();
 
-      sfxHistory.append($('<div>[' + now.toLocaleDateString('en-GB').replace(/\s[0-9]{4}/, '').replace(/([a-z]{3})[a-z]+/i, '$1') + ' '
-          + now.toLocaleTimeString() + '] Played <span class="text-success">!' + data[1] + '</span> <span class="text-muted">' + sfxCommands[data[1]] + '</span></div>'));
+        sfxHistory.append($('<div>[' + now.toLocaleDateString('en-GB').replace(/\s[0-9]{4}/, '').replace(/([a-z]{3})[a-z]+/i, '$1') + ' '
+            + now.toLocaleTimeString() + '] ' + event[1] + ' triggered <span class="text-success">!' + message[1] +
+            '</span></div>'));
+      } else {
+        sfxHistory.append($('<div>[' + now.toLocaleDateString('en-GB').replace(/\s[0-9]{4}/, '').replace(/([a-z]{3})[a-z]+/i, '$1') + ' '
+            + now.toLocaleTimeString() + '] ' + event[1] + ' does not have permission to trigger <span class="text-success">!' + message[1] +
+            '</span></div>'));
+      }
     }
   };
 });

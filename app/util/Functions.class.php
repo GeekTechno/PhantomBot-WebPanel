@@ -14,14 +14,14 @@ class Functions
 {
   /* @var DataStore $dataStore */
   private $dataStore;
-  /* @var ConnectionHandler $connection */
+  /* @var BotConnectionHandler $connection */
   private $connection;
   /* @var PanelSession $session */
   private $session;
 
   /**
    * @param DataStore $dataStore
-   * @param ConnectionHandler $connection
+   * @param BotConnectionHandler $connection
    */
   public function __construct($dataStore, $connection)
   {
