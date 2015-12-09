@@ -29,9 +29,10 @@ $userIsAdmin = false;
 foreach ($users as $username => $md5Password) {
   $uuid = $templates->randomId();
   $usersDataRowsIsFirst = ($username == $currentValidatedUser);
-  if ($usersDataRowsCurrentPosition == 0 && ($username != $currentValidatedUser)) {
+  ++$usersDataRowsCurrentPosition;
+  if ($usersDataRowsCurrentPosition == 1 && ($username != $currentValidatedUser)) {
     continue;
-  } else {
+  } elseif ($usersDataRowsCurrentPosition == 1) {
     $userIsAdmin = true;
   }
   if (!$userIsAdmin && ($username != $currentValidatedUser)) {
@@ -46,7 +47,6 @@ foreach ($users as $username => $md5Password) {
       . '</div></td>'
       . '</tr>';
   $usersDataRowsIsFirst = !$usersDataRowsIsFirst;
-  ++$usersDataRowsCurrentPosition;
 }
 ?>
 <div class="app-part">
@@ -61,9 +61,7 @@ foreach ($users as $username => $md5Password) {
       <div class="row">
         <div class="col-sm-8">
           <?= $templates->dataTable('Panel Users', ['Username', 'Password', 'Save'], $usersDataRows, true) ?>
-          <div class="btn-toolbar">
-            <button class="btn btn-default" onclick="addPanelUser()">Add User</button>
-          </div>
+          <?= ($userIsAdmin ? '<div class="btn-toolbar"><button class="btn btn-default" onclick="addPanelUser()">Add User</button></div>' : '')?>
         </div>
         <div class="col-sm-4">
           <?= $templates->informationPanel(
