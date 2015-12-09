@@ -214,24 +214,12 @@ function getGroupId($group)
 
       <div class="collapsible-content">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <?= $templates->botCommandForm('aliascom', 'Add alias', '[command] [alias]') ?>
             <?= $templates->botCommandForm('coolcom', 'Add cooldown', '[command] [cooldown]') ?>
             <?= $templates->botCommandForm('pricecom', 'Price', '[command] [amount]') ?>
             <?= $templates->botCommandForm('permcom', 'Permission', '[command] [group] [mode]') ?>
             <?= $templates->botCommandForm('rewardcom', 'Reward', '[command] [amount]') ?>
-          </div>
-          <div class="col-sm-6">
-            <?= $templates->informationPanel('<p>!Permcom uses a "<b>mode</b>" system, which is for targeting what groups has access to the command.<br/>
-                <ul>
-                  <li>1: Setting the mode as "<b>1</b>" will set the command to be accessible by <cite>ONLY</cite> the chosen
-                    group.
-                  </li>
-                  <li>2: Setting the mode as "<b>2</b>" will set the command to be accessible by the chosen group you and
-                    any group ranked higher.
-                  </li>
-                </ul>
-                <p><b>Alias:</b> Alias means another word for the same command. If you set !points with an alias as wallet, the !points command will respond to !wallet.</p>') ?>
           </div>
         </div>
       </div>
