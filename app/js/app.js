@@ -457,7 +457,10 @@ function bindContextMenu() {
   $('body:not(input)').contextmenu({
     menu: contextItems,
     select: function (event, ui) {
-      openPart(ui.cmd);
+      if (ui.cmd) {
+        window.scrollTo(0, 0);
+        openPart(ui.cmd);
+      }
     }
   });
 }
