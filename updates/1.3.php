@@ -6,7 +6,6 @@
  * Time: 14:12
  */
 
-$ds = new \PBPanel\Util\DataStore();
 $oldConfig = [];
 
 if (file_exists(\PBPanel\AppLoader::getBaseDir() . '/app/content/vars/config.php')) {
@@ -15,29 +14,29 @@ if (file_exists(\PBPanel\AppLoader::getBaseDir() . '/app/content/vars/config.php
 }
 
 /* Create bot connector table */
-if ($ds->getVar('connector', 'botIp') == '') {
+if ($dataStore->getVar('connector', 'botIp') == '') {
   
-  $ds->setVar(
+  $dataStore->setVar(
       'connector',
       'botIp',
       (array_key_exists('botIp', $oldConfig) ? $oldConfig['botIp'] : '')
   );
-  $ds->setVar(
+  $dataStore->setVar(
       'connector',
       'botBasePort',
       (array_key_exists('botBasePort', $oldConfig) ? $oldConfig['botBasePort'] : '25000')
   );
-  $ds->setVar(
+  $dataStore->setVar(
       'connector',
       'botName',
       (array_key_exists('botName', $oldConfig) ? $oldConfig['botName'] : '')
   );
-  $ds->setVar(
+  $dataStore->setVar(
       'connector',
       'botOauthToken',
       (array_key_exists('botOauthToken', $oldConfig) ? $oldConfig['botOauthToken'] : '')
   );
-  $ds->setVar(
+  $dataStore->setVar(
       'connector',
       'channelOwner',
       (array_key_exists('channelOwner', $oldConfig) ? $oldConfig['channelOwner'] : '')
@@ -48,33 +47,33 @@ if ($ds->getVar('connector', 'botIp') == '') {
 
 if (array_key_exists('panelUsers', $oldConfig)) {
   foreach ($oldConfig['panelUsers'] as $username => $hash) {
-    $ds->setVar('users', $username, $hash);
+    $dataStore->setVar('users', $username, $hash);
   }
 }
 
 /* Create paths table */
 
-$ds->setVar(
+$dataStore->setVar(
     'paths',
     'latestFollower',
     (array_key_exists('latestFollower', $oldConfig['paths']) ? $oldConfig['paths']['latestFollower'] : '/web/latestfollower.txt')
 );
-$ds->setVar(
+$dataStore->setVar(
     'paths',
     'latestDonation',
     (array_key_exists('latestDonation', $oldConfig['paths']) ? $oldConfig['paths']['latestDonation'] : '/addons/donationchecker/latestdonation.txt')
 );
-$ds->setVar(
+$dataStore->setVar(
     'paths',
     'youtubeCurrentSong',
     (array_key_exists('youtubeCurrentSong', $oldConfig['paths']) ? $oldConfig['paths']['youtubeCurrentSong'] : '/addons/youtubePlayer/currentsong.txt')
 );
-$ds->setVar(
+$dataStore->setVar(
     'paths',
     'youtubePlaylist',
     (array_key_exists('youtubePlaylist', $oldConfig['paths']) ? $oldConfig['paths']['youtubePlaylist'] : '/addons/youtubePlayer/requests.txt')
 );
-$ds->setVar(
+$dataStore->setVar(
     'paths',
     'defaultYoutubePlaylist',
     (array_key_exists('defaultYoutubePlaylist', $oldConfig['paths']) ? $oldConfig['paths']['defaultYoutubePlaylist'] : '/addons/youtubePlayer/defaultPlaylist.txt')
@@ -84,28 +83,28 @@ $ds->setVar(
 
 if (array_key_exists('sfxSettings', $oldConfig)) {
   foreach ($oldConfig['sfxSettings']['commands'] as $command => $file) {
-    $ds->setVar('sfxcommands', $command, $file);
+    $dataStore->setVar('sfxcommands', $command, $file);
   }
 }
 
 /* Create misc table*/
 
-$ds->setVar(
+$dataStore->setVar(
     'misc',
     'theme',
     (array_key_exists('theme', $oldConfig['paths']) ? $oldConfig['paths']['theme'] : 'style_dark')
 );
-$ds->setVar(
+$dataStore->setVar(
     'misc',
     'sfxEnabled',
     (array_key_exists('sfxSettings', $oldConfig) ? $oldConfig['sfxSettings']['enabled'] : 'false')
 );
-$ds->setVar(
+$dataStore->setVar(
     'misc',
     'currentVersion',
     '1.3'
 );
-$ds->setVar(
+$dataStore->setVar(
     'misc',
     'pbCompat',
     '1.6.6'
