@@ -441,8 +441,9 @@ function getBotStatus() {
   });
 }
 
-function bindContextMenu() {
-  var favorites = pBotStorage.get(pBotStorage.keys.favoritesMenuItems),
+function bindContextMenu(replace) {
+  var body = $('body'),
+      favorites = pBotStorage.get(pBotStorage.keys.favoritesMenuItems),
       contextItems = [
         {title: 'Favorites'},
         {title: 'Dashboard', cmd: 'static/dashboard.php'}
@@ -454,15 +455,19 @@ function bindContextMenu() {
     });
   }
 
-  $('body:not(input)').contextmenu({
-    menu: contextItems,
-    select: function (event, ui) {
-      if (ui.cmd) {
-        window.scrollTo(0, 0);
-        openPart(ui.cmd);
+  if (replace) {
+    body.contextmenu("replaceMenu", contextItems);
+  } else {
+    body.contextmenu({
+      menu: contextItems,
+      select: function (event, ui) {
+        if (ui.cmd) {
+          window.scrollTo(0, 0);
+          openPart(ui.cmd);
+        }
       }
-    }
-  });
+    });
+  }
 }
 
 function showGeneralAlert(message, severity) {
@@ -592,6 +597,7 @@ function updateFavoritesMenu(itemName, itemPath) {
           + '"><a nohref onclick="openPart(\'' + favorites[i].itemPath + '\')" role="button">' + favorites[i].itemName + '</a></li>'));
     }
   }
+  bindContextMenu(true);
 }
 
 function updateMusicPlayerState() {
