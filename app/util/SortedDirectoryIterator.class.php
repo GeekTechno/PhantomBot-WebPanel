@@ -23,7 +23,7 @@ class SortedDirectoryIterator extends \SplHeap
       );
     } else {
       $iterator = new \IteratorIterator(
-          new \DirectoryIterator($path)
+          new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS)
       );
     }
 

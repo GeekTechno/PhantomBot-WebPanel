@@ -160,7 +160,7 @@ if ($subscribeHandlerActive == 1) {
   </div>
   <div id="part-window"></div>
   <div class="panel panel-default page-footer">
-    <div class="panel-body text-muted">
+    <div class="panel-heading text-muted">
       PhantomBot Control Panel
       <small><?= $dataStore->getVar('misc', 'currentVersion') ?></small>
       Developed by <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?><br/>

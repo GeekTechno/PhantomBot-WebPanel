@@ -21,7 +21,16 @@ $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
 $botSettings = $functions->getIniArray('settings');
-$theme = $dataStore->getVar('misc', 'theme', 'style_dark');
+$currentTheme = $dataStore->getVar('misc', 'theme', 'style_dark');
+$themeFiles = new \PBPanel\Util\SortedDirectoryIterator(\PBPanel\AppLoader::getBaseDir() . '/app/css', false);
+$themesOptions = '';
+
+/* @var \DirectoryIterator $themeFile */
+foreach ($themeFiles as $themeFile) {
+  if ($themeFile->getExtension() == 'css' && strpos($themeFile->getBasename(), 'style_') === 0) {
+    $themesOptions .= '<option value="' . $themeFile->getBasename('.css') . '">' . ucfirst(str_replace('style_', '', $themeFile->getBasename('.css'))) . '</option>';
+  }
+}
 
 ?>
 <script>
@@ -53,8 +62,7 @@ $theme = $dataStore->getVar('misc', 'theme', 'style_dark');
 
             <div class="input-group">
               <select class="form-control">
-                <option value="style_dark">Dark</option>
-                <option value="style_light">Light</option>
+                <?= $themesOptions ?>
               </select>
 
               <div class="input-group-btn">

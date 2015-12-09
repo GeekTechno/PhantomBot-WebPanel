@@ -21,13 +21,14 @@
 @gray-light: #999; // #999
 @gray-lighter: #EBEBEB; // #eee
 
-@brand-primary: #6441a5;
+@brand-primary: #141414;
 @brand-success: #00bc8c;
 @brand-info: #3498DB;
 @brand-warning: #F39C12;
 @brand-danger: #E74C3C;
+@brand-ankh: #df5f22;
 
-@music-controls-bg: @gray-dark;
+@music-controls-bg: #3a3a3a;
 
 //== Scaffolding
 //
@@ -39,9 +40,9 @@
 @text-color: #fff;
 
 //** Global textual link color.
-@link-color: desaturate(lighten(@brand-primary, 10%), 10%);
+@link-color: @text-muted;
 //** Link hover color set via `darken()` function.
-@link-hover-color: @link-color;
+@link-hover-color: lighten(@link-color, 20%);
 //** Link hover decoration.
 @link-hover-decoration: underline;
 
@@ -107,9 +108,9 @@
 @line-height-large: 1.3333333; // extra decimals for Win 8.1 Chrome
 @line-height-small: 1.5;
 
-@border-radius-base: 4px;
-@border-radius-large: 6px;
-@border-radius-small: 3px;
+@border-radius-base: 0;
+@border-radius-large: 0;
+@border-radius-small: 0;
 
 //** Global color for active items (e.g., navs or dropdowns).
 @component-active-color: #fff;
@@ -139,7 +140,7 @@
 @table-bg-active: @table-bg-hover;
 
 //** Border color for table and cell borders.
-@table-border-color: @gray;
+@table-border-color: @brand-ankh;
 
 //== Buttons
 //
@@ -148,7 +149,7 @@
 @btn-font-weight: normal;
 
 @btn-default-color: @text-color;
-@btn-default-bg: @gray;
+@btn-default-bg: @brand-primary;
 @btn-default-border: @btn-default-bg;
 
 @btn-primary-color: #fff;
@@ -183,14 +184,14 @@
 //##
 
 //** `<input>` background color
-@input-bg: #fff;
+@input-bg: @brand-primary;
 //** `<input disabled>` background color
-@input-bg-disabled: @gray-lighter;
+@input-bg-disabled: @gray-dark;
 
 //** Text color for `<input>`s
-@input-color: @gray;
+@input-color: #fff;
 //** `<input>` border color
-@input-border: #f1f1f1;
+@input-border: @brand-primary;
 
 //** Default `.form-control` border radius
 // This has no effect on `<select>`s in some browsers, due to the limited stylability of `<select>`s in CSS.
@@ -201,7 +202,7 @@
 @input-border-radius-small: @border-radius-small;
 
 //** Border color for inputs on focus
-@input-border-focus: #fff;
+@input-border-focus: @brand-ankh;
 
 //** Placeholder text color
 @input-color-placeholder: @gray-light;
@@ -683,7 +684,7 @@
 //
 //##
 
-@panel-bg: @gray-dark;
+@panel-bg: #282828;
 @panel-body-padding: 15px;
 @panel-heading-padding: 10px 15px;
 @panel-footer-padding: @panel-heading-padding;
@@ -694,8 +695,8 @@
 @panel-footer-bg: @gray;
 
 @panel-default-text: @text-color;
-@panel-default-border: @gray;
-@panel-default-heading-bg: @gray;
+@panel-default-border: @brand-ankh;
+@panel-default-heading-bg: @brand-primary;
 
 @panel-primary-text: #fff;
 @panel-primary-border: @brand-primary;
@@ -706,8 +707,8 @@
 @panel-success-heading-bg: @state-success-bg;
 
 @panel-info-text: @state-info-text;
-@panel-info-border: @state-info-border;
-@panel-info-heading-bg: @state-info-bg;
+@panel-info-border: @brand-ankh;
+@panel-info-heading-bg: @brand-ankh;
 
 @panel-warning-text: @state-warning-text;
 @panel-warning-border: @state-warning-border;
@@ -840,8 +841,21 @@
 @hr-border: @gray;
 
 @import "less/style_default";
-@import "less/switch-toggle/switch-toggle";
-@import "less/ui-contextmenu/contextmenu";
 /* pre-compiled */
 @import "less/font-awesome/font-awesome.css";
 @import "less/code-mirror/codemirror.css";
+@import "less/switch-toggle/switch-toggle";
+@import "less/ui-contextmenu/contextmenu";
+
+.btn {
+  &.btn-primary {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#@brand-primary", endColorstr="@gray");
+    background-image: -khtml-gradient(linear, left top, left bottom, from(@gray), to(@brand-primary));
+    background-image: -moz-linear-gradient(top, @gray, @brand-primary);
+    background-image: -ms-linear-gradient(top, @gray, @brand-primary);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @gray), color-stop(100%, @gray));
+    background-image: -webkit-linear-gradient(top, @gray, @brand-primary);
+    background-image: -o-linear-gradient(top, @gray, @brand-primary);
+    background-image: linear-gradient(@gray, @brand-primary);
+  }
+}
