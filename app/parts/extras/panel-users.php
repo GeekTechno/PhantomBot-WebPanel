@@ -76,5 +76,5 @@ foreach ($users as $username => $md5Password) {
     </div>
   </div>
 </div>
-<script src="../../../app/js/spark-md5.min.js" type="text/javascript"></script>
-<script src="../../../app/js/panel-users.min.js" type="text/javascript"></script>
+<script src="app/js/spark-md5.min.js" type="text/javascript"></script>
+<script src="app/js/panel-users.min.js" type="text/javascript"></script>
