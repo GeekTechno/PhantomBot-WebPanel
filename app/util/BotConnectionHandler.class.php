@@ -49,8 +49,8 @@ class BotConnectionHandler
     $this->curl = curl_init($this->dataStore->getVar('connector', 'botIp') . $uri);
     curl_setopt($this->curl, CURLOPT_PORT, $this->dataStore->getVar('connector', 'botBasePort'));
     curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($this->curl, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($this->curl, CURLOPT_TIMEOUT, 5);
+    curl_setopt($this->curl, CURLOPT_CONNECTTIMEOUT_MS, 500);
+    curl_setopt($this->curl, CURLOPT_TIMEOUT_MS, 750);
     curl_setopt($this->curl, CURLOPT_USERAGENT, 'Chrome/44.0.2403.52 PhantomPanel/1.0');
 
     if (defined('CURLOPT_IPRESOLVE')) {
