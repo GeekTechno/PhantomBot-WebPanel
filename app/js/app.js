@@ -443,11 +443,14 @@ function getBotStatus() {
 
 function bindContextMenu(replace) {
   var body = $('body'),
-      favorites = pBotStorage.get(pBotStorage.keys.favoritesMenuItems),
+      favorites = pBotStorage.get(pBotStorage.keys.favoritesMenuItems, []),
       contextItems = [
         {title: 'Favorites'},
         {title: 'Dashboard', cmd: 'static/dashboard.php'}
       ];
+  favorites.sort(function (a, b) {
+    return a.itemName > b.itemName;
+  });
   for (var i in favorites) {
     contextItems.push({
       title: favorites[i].itemName,

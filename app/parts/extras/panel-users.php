@@ -61,7 +61,8 @@ foreach ($users as $username => $md5Password) {
       <div class="row">
         <div class="col-sm-8">
           <?= $templates->dataTable('Panel Users', ['Username', 'Password', 'Save'], $usersDataRows, true) ?>
-          <?= ($userIsAdmin ? '<div class="btn-toolbar"><button class="btn btn-default" onclick="addPanelUser()">Add User</button></div>' : '')?>
+          <?= ($userIsAdmin ? '<div class="btn-toolbar"><button class="btn btn-default" onclick="addPanelUser()">Add User</button></div>' : '') ?>
+          <div class="spacer"></div>
         </div>
         <div class="col-sm-4">
           <?= $templates->informationPanel(
