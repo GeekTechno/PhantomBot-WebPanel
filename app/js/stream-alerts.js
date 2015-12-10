@@ -1,48 +1,12 @@
-var connection,
-    alertQueue = [];
-
-function playAlert(alert) {
-  var t,
-      audio,
-      body = $('body'),
-      settings = alertSettings[alert.type],
-      alertTemplate = $('<div class="stream-alert in">' +
-          '<div class="alert-text">' +
-          settings.textTemplate.replace('(name)', alert.username) +
-          '</div>' +
-          '</div>'),
-      css = $('<style>' + settings.customCss + '</style>');
-  if (settings.customCss.trim() != '') {
-    body.prepend(css);
-  }
-  if (settings.soundFile.trim() != '') {
-    //noinspection JSUnresolvedFunction
-    audio = new Audio(settings.soundFile);
-    audio.play();
-  }
-  alertTemplate.css({
-    'background-image': 'url(\'' + settings.bgImage + '\')',
-  });
-  body.append(alertTemplate);
-  t = setTimeout(function () {
-    alertTemplate
-        .removeClass('in')
-        .addClass('out')
-        .delay(1e3)
-        .queue(function () {
-          $(this).remove();
-          css.remove();
-        });
-    clearTimeout(t);
-  }, 1e4);
-}
-
 $(document).ready(function () {
+  var connection,
+      alertQueue = [];
+
   $('body').css({
     'background-color': alertSettings.bgColor,
   });
 
-  connection = new WebSocket('ws://' + botAddress);
+  connection = new WebSocket(getProtocol() + botAddress);
 
   connection.onmessage = function (e) {
     var data = e.data.split('|'),
@@ -72,4 +36,44 @@ $(document).ready(function () {
       playAlert(alertQueue.shift());
     }
   }, 11e3);
+
+  function getProtocol() {
+    return (window.location.protocol == 'http:' ? 'ws://' : 'wss://');
+  }
+
+  function playAlert(alert) {
+    var t,
+        audio,
+        body = $('body'),
+        settings = alertSettings[alert.type],
+        alertTemplate = $('<div class="stream-alert in">' +
+            '<div class="alert-text">' +
+            settings.textTemplate.replace('(name)', alert.username) +
+            '</div>' +
+            '</div>'),
+        css = $('<style>' + settings.customCss + '</style>');
+    if (settings.customCss.trim() != '') {
+      body.prepend(css);
+    }
+    if (settings.soundFile.trim() != '') {
+      //noinspection JSUnresolvedFunction
+      audio = new Audio(settings.soundFile);
+      audio.play();
+    }
+    alertTemplate.css({
+      'background-image': 'url(\'' + settings.bgImage + '\')',
+    });
+    body.append(alertTemplate);
+    t = setTimeout(function () {
+      alertTemplate
+          .removeClass('in')
+          .addClass('out')
+          .delay(1e3)
+          .queue(function () {
+            $(this).remove();
+            css.remove();
+          });
+      clearTimeout(t);
+    }, 1e4);
+  }
 });

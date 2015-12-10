@@ -22,6 +22,6 @@
 <div id="current-video-title"><?= $musicPlayerCurrentSong ?></div>
 <div class="options">
   <button class="btn btn-primary btn-sm"
-          onclick="openPopup('music-player.php?botControl=true', 'PhantomBot WebPanel Sound Effects')">Open Player
+          onclick="openPopup('music-player.php?botControl=true', 'PhantomBot WebPanel Sound Effects', 'width=800,height=450')">Open Player
   </button>
 </div>

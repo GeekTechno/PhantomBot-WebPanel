@@ -1,30 +1,24 @@
-/**
- * music-player.js
- * Created with PhpStorm
- * User: Robin | Juraji
- * Date: 12 okt 2015
- * Time: 12:34
- */
 var player,
     r = false,
     videos = [],
     i = -1,
 //noinspection JSUnresolvedVariable
-    connection = new WebSocket('ws://' + botAddress);
+    connection = new WebSocket(getProtocol() + botAddress);
 
 //noinspection JSUnusedGlobalSymbols
 function onYouTubeIframeAPIReady() {
   //noinspection JSUnresolvedFunction,JSUnresolvedVariable
   player = new YT.Player('player', {
-    height: '179',
-    width: '318',
+    height: '800',
+    width: '450',
     videoId: '',
     playerVars: {
       iv_load_policy: 3,
       showinfo: 0,
       showsearch: 0,
       modestbranding: 1,
-      autoplay: 0
+      autoplay: 0,
+      controls: 2,
     },
     events: {
       'onReady': onPlayerReady,
@@ -128,3 +122,7 @@ connection.onmessage = function (e) {
     }
   }
 };
+
+function getProtocol() {
+  return (window.location.protocol == 'http:' ? 'ws://' : 'wss://');
+}

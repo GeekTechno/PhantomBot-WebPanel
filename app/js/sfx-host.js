@@ -1,15 +1,7 @@
-/**
- * music-player.js
- * Created with PhpStorm
- * User: Robin | Juraji
- * Date: 3 dec 2015
- * Time: 04:16
- */
-
 $(window).ready(function () {
   var display = $('#sfx-display'),
       sfxHistory = $('#sfx-history'),
-      connection = new WebSocket('ws://' + botAddress),
+      connection = new WebSocket(getProtocol() + botAddress),
       audio;
 
   connection.onmessage = function (e) {
@@ -43,4 +35,8 @@ $(window).ready(function () {
       }
     }
   };
+
+  function getProtocol() {
+    return (window.location.protocol == 'http:' ? 'ws://' : 'wss://');
+  }
 });
