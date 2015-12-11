@@ -88,7 +88,7 @@ foreach ($customCommandsIni as $command => $message) {
       . '<span class="text-muted">Cooldown:</span>&nbsp;' . $cooldown
       . '</td>'
       . '<td>' . join(', ', $commandAliases) . '</td>'
-      . '<td class="actions">' . $templates->botCommandButton('delcom ' . $command, '<span class="fa fa-trash"></span>', 'danger', 'Are you sure you want to delete !' . $command . '?') . '</td>'
+      . '<td class="actions">' . $templates->botCommandButton('delcom ' . $command, '<span class="fa fa-trash"></span>', 'danger', 'Are you sure you want to delete !' . $command . '?', true) . '</td>'
       . '</tr>';
 }
 
