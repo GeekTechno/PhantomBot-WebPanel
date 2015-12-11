@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Robin
+ * User: Robin | Juraji
  * Date: 10-12-2015
  * Time: 19:49
  */
 
-require_once('AppLoader.class.php');
+require_once('../../AppLoader.class.php');
 \PBPanel\AppLoader::load();
 
 $dataStore = new \PBPanel\Util\DataStore();

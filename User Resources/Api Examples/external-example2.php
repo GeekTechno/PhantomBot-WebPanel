@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Robin
+ * User: Robin | Juraji
  * Date: 10-12-2015
  * Time: 19:49
  */
 
-require_once('AppLoader.class.php');
+require_once('../../AppLoader.class.php');
 \PBPanel\AppLoader::load();
 
 $dataStore = new \PBPanel\Util\DataStore();
@@ -31,8 +31,8 @@ if ($username) {
   <title></title>
   <link href="app/css/<?= $dataStore->getVar('misc', 'theme', 'style_dark') ?>.css"
         rel="stylesheet" type="text/css"/>
-  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="icon" href="../../favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon"/>
 </head>
 <body>
 <div id="page-wrapper">
