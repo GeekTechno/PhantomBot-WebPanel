@@ -26,7 +26,7 @@ body {
       height: 40px;
     }
     #general-alert {
-      bottom: 40px;
+      bottom: (@font-size-base + 40);
     }
     #chat-sidebar {
       bottom: 40px;
@@ -97,13 +97,11 @@ textarea {
 #general-alert {
   z-index: 99999;
   position: fixed;
-  bottom: 0;
-  right: 0;
+  bottom: 1em;
+  right: 1em;
   margin: 0;
   display: none;
   border-radius: @alert-border-radius 0 0 0;
-  border-bottom: none;
-  border-right: none;
 }
 
 #music-player-controls {

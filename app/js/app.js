@@ -161,7 +161,7 @@ function bindPartEventHandlers() {
         requestParams = {command: _cleanInput(event.target.attributes.botcommand.value) + ' ' + _cleanInput(input.val())};
       }
       doBotRequest('command', function (result) {
-        showGeneralAlert(result, 'success');
+        showGeneralAlert(result);
         if (noReload == '1') {
           input.val('');
         } else {
@@ -282,7 +282,7 @@ function doBotRequest(action, callback, params) {
           callback.apply(this, [data[0], data[1]]);
         }
       } else {
-        showGeneralAlert('Bot Request failed!');
+        showGeneralAlert('Bot Request failed!', 'danger');
         console.log('Bot Request failed...', data);
       }
     },
@@ -296,7 +296,7 @@ function doQuickCommand(command, confirmAction, noReload) {
     }
   }
   doBotRequest('command', function (result) {
-    showGeneralAlert(result, 'success');
+    showGeneralAlert(result);
     if (!noReload) {
       loadPartFromStorage();
     }
@@ -480,20 +480,33 @@ function bindContextMenu(replace) {
 }
 
 function showGeneralAlert(message, severity) {
+  var alertHost = $('#general-alert');
   if (!message) {
     message = 'You forgot to enter a value!';
   }
   if (!severity) {
-    severity = 'danger';
+    severity = 'info';
   }
-  $('#general-alert')
+  alertHost
       .addClass('alert-' + severity)
       .text(message)
-      .fadeIn(300);
+      .fadeIn(500);
   var t = setTimeout(function () {
-    $('#general-alert').fadeOut(700);
+    alertHost.animate({
+      right: '-100%',
+    }, {
+      duration: 1500,
+      complete: function () {
+        $(this)
+            .hide()
+            .css({
+              right: '1em',
+            })
+            .removeClass('alert-' + severity);
+      }
+    });
     clearTimeout(t);
-  }, 2e3);
+  }, 3e3);
 }
 
 function toggleInformationPanels(fromPageLoad) {
