@@ -129,14 +129,11 @@ if (count($input) == 7 && !$done) {
     </div>
   </div>
   <div class="panel panel-default page-footer">
-    <div class="panel-body text-muted">
+    <div class="panel-heading">
       PhantomBot Control Panel
-      Developed by <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?><br/>
-      Compatible with <a href="//www.phantombot.net/"
-                         target="_blank">PhantomBot <?= $dataStore->getVar('misc', 'pBCompat') ?></a>,
-      developed by <a href="//phantombot.net/members/phantomindex.1/" target="_blank">phantomindex</a>,
-      <a href="//phantombot.net/members/gloriouseggroll.2/" target="_blank">gloriouseggroll</a> &amp;
-      <a href="//phantombot.net/members/gmt2001.28/" target="_blank">gmt2001</a>.
+      <small><?= $dataStore->getVar('misc', 'currentVersion') ?></small>
+      &#xFF0F; Developed by <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?>
+      &#xFF0F; Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?= $dataStore->getVar('misc', 'pbCompat') ?></a>
     </div>
   </div>
 </div>

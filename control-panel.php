@@ -160,14 +160,11 @@ if ($subscribeHandlerActive == 1) {
   </div>
   <div id="part-window"></div>
   <div class="panel panel-default page-footer">
-    <div class="panel-heading text-muted">
+    <div class="panel-heading">
       PhantomBot Control Panel
       <small><?= $dataStore->getVar('misc', 'currentVersion') ?></small>
-      Developed by <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?><br/>
-      Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?= $dataStore->getVar('misc', 'pbCompat') ?></a>,
-      developed by <a href="//phantombot.net/members/phantomindex.1/" target="_blank">phantomindex</a>,
-      <a href="//phantombot.net/members/gloriouseggroll.2/" target="_blank">gloriouseggroll</a> &amp;
-      <a href="//phantombot.net/members/gmt2001.28/" target="_blank">gmt2001</a>.
+      &#xFF0F; Developed by <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?>
+      &#xFF0F; Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?= $dataStore->getVar('misc', 'pbCompat') ?></a>
     </div>
   </div>
 </div>
