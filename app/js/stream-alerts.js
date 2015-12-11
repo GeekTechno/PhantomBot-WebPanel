@@ -12,7 +12,7 @@ $(document).ready(function () {
     var data = e.data.split('|'),
         alert;
 
-    if (data[0].match(/^TwitchFollowEvent.*/) && data[1] == 'FOLLOW') {
+    if (data[0].match(/^TwitchFollow.*/) && data[1] == 'FOLLOW') {
       alert = {
         type: 'follow',
         username: data[0].split(':')[1],
@@ -21,9 +21,18 @@ $(document).ready(function () {
       alertQueue.push(alert);
     }
 
-    if (data[0].match(/^TwitchHostedEvent.*/) && data[1] == 'HOST') {
+    if (data[0].match(/^TwitchHost.*/) && data[1] == 'HOST') {
       alert = {
         type: 'host',
+        username: data[0].split(':')[1],
+      };
+      console.log(data[1], alert.username, e);
+      alertQueue.push(alert);
+    }
+
+    if (data[0].match(/^TwitchHost.*/) && data[1] == 'SUBSCRIBE') {
+      alert = {
+        type: 'subscribe',
         username: data[0].split(':')[1],
       };
       console.log(data[1], alert.username, e);

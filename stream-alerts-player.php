@@ -26,6 +26,12 @@ $alertSettings = json_encode([
     'soundFile' => addslashes($dataStore->getVar('streamalertsettings', 'hostAlertSound')),
     'customCss' => $dataStore->getVar('streamalertsettings', 'hostAlertCSS'),
   ],
+  'subscribe' => [
+    'bgImage' => addslashes($dataStore->getVar('streamalertsettings', 'subscribeAlertBG')),
+    'textTemplate' => $dataStore->getVar('streamalertsettings', 'subscribeAlertText'),
+    'soundFile' => addslashes($dataStore->getVar('streamalertsettings', 'subscribeAlertSound')),
+    'customCss' => $dataStore->getVar('streamalertsettings', 'subscribeAlertCSS'),
+  ],
 ]);
 ?>
 <!DOCTYPE html>

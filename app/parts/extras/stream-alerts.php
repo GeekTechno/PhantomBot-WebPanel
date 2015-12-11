@@ -20,12 +20,17 @@ $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
 $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
-if (trim($dataStore->getVar('streamalertsettings', 'followerAlertCSS')) == '') {
-  $dataStore->setVar('streamalertsettings', 'followerAlertCSS', $functions->getDefaultAlertCSS());
-}
+$alertCSSFields = [
+    'followerAlertCSS',
+    'hostAlertCSS',
+    'subscribeAlertCSS',
+    'donationAlertCSS',
+];
 
-if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
-  $dataStore->setVar('streamalertsettings', 'hostAlertCSS', $functions->getDefaultAlertCSS());
+foreach ($alertCSSFields as $alertCSSField) {
+  if (trim($dataStore->getVar('streamalertsettings', $alertCSSField)) == '') {
+    $dataStore->setVar('streamalertsettings', $alertCSSField, $functions->getDefaultAlertCSS());
+  }
 }
 
 ?>
@@ -88,7 +93,6 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
       <div class="row">
         <div class="col-sm-8">
           <?= $templates->informationPanel(
-              '<p>This feature only works on the latest <a href="https://github.com/GloriousEggroll/PhantomBot" target="_blank">Phantombot</a> "nightly"!</p>' .
               '<p>Use (name) in the Alert Text to insert the new follower/hoster\'s name.</p>' .
               '<p>Use <code>//' . \PBPanel\AppLoader::getBaseUrl() . '/stream-alerts-player.php</code> in your OBS browser, to embed the alerts easilly in your stream!</p>' .
               '<p>Leave the sound field empty if you don\'t want to use sound effects on alerts.</p>' .
@@ -249,24 +253,173 @@ if (trim($dataStore->getVar('streamalertsettings', 'hostAlertCSS')) == '') {
           </div>
         </div>
       </div>
+      <hr/>
+      <h4 class="collapsible-master">New Subscriber Alerts</h4>
+
+      <div class="collapsible-content">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <span>Alert Background <span class="text-muted">(file has to be hosted online!)</span></span>
+
+              <div class="input-group">
+                <input type="text" class="form-control" id="setting-alert-bg-subscribe"
+                       placeholder="url"
+                       value="<?= $dataStore->getVar('streamalertsettings', 'subscribeAlertBG') ?>"/>
+              <span class="input-group-btn">
+                <button class="btn btn-primary"
+                        onclick="saveToConfig('streamalertsettings/subscribeAlertBG', 'setting-alert-bg-subscribe', this)">
+                  Save
+                </button>
+              </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <span>Alert Text</span>
+
+              <div class="input-group">
+                <input type="text" class="form-control" id="setting-alert-text-subscribe"
+                       placeholder="Alert text"
+                       value="<?= $dataStore->getVar('streamalertsettings', 'subscribeAlertText') ?>"/>
+              <span class="input-group-btn">
+                <button class="btn btn-primary"
+                        onclick="saveToConfig('streamalertsettings/subscribeAlertText', 'setting-alert-text-subscribe', this)">
+                  Save
+                </button>
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <span>Alert Sound <span class="text-muted">(file has to be hosted online!)</span></span>
+
+              <div class="input-group">
+                <input type="text" class="form-control" id="setting-alert-sound-subscribe"
+                       placeholder="url"
+                       value="<?= $dataStore->getVar('streamalertsettings', 'subscribeAlertSound') ?>"/>
+              <span class="input-group-btn">
+                <button class="btn btn-primary"
+                        onclick="saveToConfig('streamalertsettings/subscribeAlertSound', 'setting-alert-sound-subscribe', this)">
+                  Save
+                </button>
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8">
+            <div class="form-group">
+              <span>Custom CSS</span>
+
+              <div class="form-group">
+                <textarea class="form-control" id="setting-alert-css-subscribe"
+                          placeholder="Custom CSS"><?= $dataStore->getVar('streamalertsettings', 'subscribeAlertCSS') ?></textarea>
+              </div>
+              <button class="btn btn-primary"
+                      onclick="saveToConfig('streamalertsettings/subscribeAlertCSS', 'setting-alert-css-subscribe', this)">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr/>
+      <h4 class="collapsible-master">New Donation Alerts <small>(N.A.)</small></h4>
+
+      <div class="collapsible-content disabled">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <span>Alert Background <span class="text-muted">(file has to be hosted online!)</span></span>
+
+              <div class="input-group">
+                <input type="text" class="form-control" id="setting-alert-bg-donation"
+                       placeholder="url"
+                       value="<?= $dataStore->getVar('streamalertsettings', 'donationAlertBG') ?>"/>
+              <span class="input-group-btn">
+                <button class="btn btn-primary"
+                        onclick="saveToConfig('streamalertsettings/donationAlertBG', 'setting-alert-bg-donation', this)">
+                  Save
+                </button>
+              </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <span>Alert Text</span>
+
+              <div class="input-group">
+                <input type="text" class="form-control" id="setting-alert-text-donation"
+                       placeholder="Alert text"
+                       value="<?= $dataStore->getVar('streamalertsettings', 'donationAlertText') ?>"/>
+              <span class="input-group-btn">
+                <button class="btn btn-primary"
+                        onclick="saveToConfig('streamalertsettings/donationAlertText', 'setting-alert-text-donation', this)">
+                  Save
+                </button>
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <span>Alert Sound <span class="text-muted">(file has to be hosted online!)</span></span>
+
+              <div class="input-group">
+                <input type="text" class="form-control" id="setting-alert-sound-donation"
+                       placeholder="url"
+                       value="<?= $dataStore->getVar('streamalertsettings', 'donationAlertSound') ?>"/>
+              <span class="input-group-btn">
+                <button class="btn btn-primary"
+                        onclick="saveToConfig('streamalertsettings/donationAlertSound', 'setting-alert-sound-donation', this)">
+                  Save
+                </button>
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8">
+            <div class="form-group">
+              <span>Custom CSS</span>
+
+              <div class="form-group">
+                <textarea class="form-control" id="setting-alert-css-donation"
+                          placeholder="Custom CSS"><?= $dataStore->getVar('streamalertsettings', 'donationAlertCSS') ?></textarea>
+              </div>
+              <button class="btn btn-primary"
+                      onclick="saveToConfig('streamalertsettings/donationAlertCSS', 'setting-alert-css-donation', this)">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 <script>
   (function () {
-    CodeMirror.fromTextArea(document.getElementById('setting-alert-css-follower'), {
-      lineNumbers: true,
-      mode: 'css',
-    }).on('change', function (event) {
-      console.log(event);
-      event.save();
-    });
-    CodeMirror.fromTextArea(document.getElementById('setting-alert-css-host'), {
-      lineNumbers: true,
-      mode: 'css',
-    }).on('change', function (event) {
-      console.log(event);
-      event.save();
-    });
+    var cmSettings = {
+          lineNumbers: true,
+          mode: 'css',
+        },
+        onChangeFunc = function (event) {
+          event.save();
+        };
+
+    CodeMirror.fromTextArea(document.getElementById('setting-alert-css-follower'), cmSettings).on('change', onChangeFunc);
+    CodeMirror.fromTextArea(document.getElementById('setting-alert-css-host'), cmSettings).on('change', onChangeFunc);
+    CodeMirror.fromTextArea(document.getElementById('setting-alert-css-subscribe'), cmSettings).on('change', onChangeFunc);
   })();
 </script>

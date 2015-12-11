@@ -217,6 +217,12 @@ function bindPartEventHandlers() {
   $('.collapsible-master').on('click', function () {
     var owner = $(this),
         child = owner.next('.collapsible-content');
+
+    if (child.hasClass('disabled')) {
+      showGeneralAlert('This feature us currently disabled', 'warning');
+      return;
+    }
+
     if (owner.hasClass('open')) {
       child.fadeOut(300);
       for (var i in pBotData.touchedCollapsibles) {
