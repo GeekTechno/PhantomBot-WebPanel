@@ -17,8 +17,6 @@ var pBotStorage = {
         musicPlayer: {
           volume: 'pbot-music-player-volume',
           controlsEnabled: 'pbot-music-player-controls',
-          volumeDivisionEnabled: 'pbot-music-player-volume-division',
-          lastVolumeUpdate: 'pbot-music-player-last-update',
         },
       },
       set: function (settingName, data) {
@@ -42,8 +40,6 @@ var pBotStorage = {
       tooltipsActive: pBotStorage.get(pBotStorage.keys.tooltipsActive, true),
       musicPlayerControls: {
         controlsEnabled: pBotStorage.get(pBotStorage.keys.musicPlayer.controlsEnabled),
-        volume: pBotStorage.get(pBotStorage.keys.musicPlayer.volume, 100),
-        volumeDivision: pBotStorage.get(pBotStorage.keys.musicPlayer.volumeDivisionEnabled),
         updateIntervalId: -1,
       },
     };
@@ -139,8 +135,9 @@ function bindGlobalEventHandlers() {
   $('#volume-control-slider').slider({
     min: 0,
     max: 100,
-    value: pBotData.musicPlayerControls.volume,
+    value: pBotStorage.get(pBotStorage.keys.musicPlayer.volume, 100),
     change: function (event, ui) {
+      pBotStorage.set(pBotStorage.keys.musicPlayer.volume, ui.value);
       doQuickCommand('volume ' + ui.value);
     }
   });
