@@ -47,7 +47,7 @@ foreach ($themeFiles as $themeFile) {
       </h3>
     </div>
     <div class="panel-body">
-      <h4>User Interface</h4>
+      <h4>General</h4>
 
       <div class="btn-toolbar">
         <?= $templates->switchToggle('Show Information Panels', 'toggleInformationPanels', '[false]', 'toggle-information-button') ?>
@@ -71,6 +71,12 @@ foreach ($themeFiles as $themeFile) {
             </div>
           </form>
         </div>
+      </div>
+      <hr/>
+      <h4>Panel Users</h4>
+
+      <div class="btn-toolbar">
+        <button class="btn btn-default" onclick="openPart('static/panel-users.php')">Manage</button>
       </div>
       <hr/>
       <h4>Misc PhantomBot Settings</h4>
@@ -107,17 +113,16 @@ foreach ($themeFiles as $themeFile) {
             <label>PhantomBot webserver address</label>
 
             <div class="input-group">
-              <input type="text" class="form-control" id="setting-bot-ip" placeholder="<?= $dataStore->getVar('connector', 'botIp') ?>"
+              <input type="text" class="form-control" id="setting-bot-ip"
+                     placeholder="<?= $dataStore->getVar('connector', 'botIp') ?>"
                      value="<?= $dataStore->getVar('connector', 'botIp') ?>"/>
               <span class="input-group-btn">
-                <button class="btn btn-primary" onclick="saveToConfig('connector/botIp', 'setting-bot-ip', this)">Save</button>
+                <button class="btn btn-primary" onclick="saveToConfig('connector/botIp', 'setting-bot-ip', this)">Save
+                </button>
               </span>
             </div>
 
-            <p class="text-muted">
-              This is generally the Ip address of the PC running PhantomBot.<br/>
-              (Use "localhost" if you have PhantomBot running on the same PC as this webserver)
-            </p>
+            <p class="text-muted">This is generally the Ip address of the PC running PhantomBot.</p>
           </div>
         </div>
         <div class="col-sm-4">
@@ -129,7 +134,8 @@ foreach ($themeFiles as $themeFile) {
                      placeholder="<?= $dataStore->getVar('connector', 'botBasePort') ?>"
                      value="<?= $dataStore->getVar('connector', 'botBasePort') ?>"/>
               <span class="input-group-btn">
-                <button class="btn btn-primary" onclick="saveToConfig('connector/botBasePort', 'setting-bot-base-port', this)">
+                <button class="btn btn-primary"
+                        onclick="saveToConfig('connector/botBasePort', 'setting-bot-base-port', this)">
                   Save
                 </button>
               </span>
@@ -148,10 +154,12 @@ foreach ($themeFiles as $themeFile) {
             <span>Username for bot</span>
 
             <div class="input-group">
-              <input type="text" class="form-control" id="setting-bot-name" placeholder="<?= $dataStore->getVar('connector', 'botName') ?>"
+              <input type="text" class="form-control" id="setting-bot-name"
+                     placeholder="<?= $dataStore->getVar('connector', 'botName') ?>"
                      value="<?= $dataStore->getVar('connector', 'botName') ?>"/>
               <span class="input-group-btn">
-                <button class="btn btn-primary" onclick="saveToConfig('connector/botName', 'setting-bot-name', this)">Save
+                <button class="btn btn-primary" onclick="saveToConfig('connector/botName', 'setting-bot-name', this)">
+                  Save
                 </button>
               </span>
             </div>
@@ -167,9 +175,11 @@ foreach ($themeFiles as $themeFile) {
 
             <div class="input-group">
               <input type="password" class="form-control" id="bot-oauth"
-                     placeholder="oauth:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" value="<?= $dataStore->getVar('connector', 'botOauthToken') ?>"/>
+                     placeholder="oauth:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                     value="<?= $dataStore->getVar('connector', 'botOauthToken') ?>"/>
               <span class="input-group-btn">
-                <button class="btn btn-primary" onclick="saveToConfig('connector/botOauthToken', 'setting-bot-oauth', this)">
+                <button class="btn btn-primary"
+                        onclick="saveToConfig('connector/botOauthToken', 'setting-bot-oauth', this)">
                   Save
                 </button>
               </span>
@@ -188,10 +198,12 @@ foreach ($themeFiles as $themeFile) {
             <span>Channel owner username</span>
 
             <div class="input-group">
-              <input type="text" class="form-control" id="setting-bot-owner" placeholder="<?= $dataStore->getVar('connector', 'channelOwner') ?>"
+              <input type="text" class="form-control" id="setting-bot-owner"
+                     placeholder="<?= $dataStore->getVar('connector', 'channelOwner') ?>"
                      value="<?= $dataStore->getVar('connector', 'channelOwner') ?>"/>
               <span class="input-group-btn">
-                <button class="btn btn-primary" onclick="saveToConfig('connector/channelOwner', 'setting-bot-owner', this)">Save
+                <button class="btn btn-primary"
+                        onclick="saveToConfig('connector/channelOwner', 'setting-bot-owner', this)">Save
                 </button>
               </span>
             </div>
