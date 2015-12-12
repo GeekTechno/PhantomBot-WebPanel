@@ -55,6 +55,7 @@ foreach ($users as $username => $md5Password) {
       <h3 class="panel-title">
         Panel Users
         <?= $templates->toggleFavoriteButton() ?>
+        <button class="btn btn-default btn-sm" onclick="openPart('extras/panel-settings.php')">Back to Panel Settings</button>
       </h3>
     </div>
     <div class="panel-body">
