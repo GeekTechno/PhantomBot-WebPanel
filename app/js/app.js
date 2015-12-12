@@ -448,8 +448,8 @@ function bindContextMenu(replace) {
   var body = $('body'),
       favorites = pBotStorage.get(pBotStorage.keys.favoritesMenuItems, []),
       contextItems = [
-        {title: 'Favorites'},
-        {title: 'Dashboard', cmd: 'static/dashboard.php'}
+        {title: 'Quick Access'},
+        {title: 'Dashboard', cmd: 'part:static/dashboard.php'}
       ];
   favorites.sort(function (a, b) {
     return a.itemName > b.itemName;
@@ -457,9 +457,14 @@ function bindContextMenu(replace) {
   for (var i in favorites) {
     contextItems.push({
       title: favorites[i].itemName,
-      cmd: favorites[i].itemPath,
+      cmd: 'part:' + favorites[i].itemPath,
     });
   }
+
+  contextItems.push(
+      {title: 'Toggle Chat', cmd: 'func:toggleChat'},
+      {title: 'Toggle Music Player Controls', cmd: 'func:toggleMusicPlayerControls'}
+  );
 
   if (replace) {
     body.contextmenu("replaceMenu", contextItems);
@@ -468,8 +473,13 @@ function bindContextMenu(replace) {
       menu: contextItems,
       select: function (event, ui) {
         if (ui.cmd) {
-          window.scrollTo(0, 0);
-          openPart(ui.cmd);
+          if (ui.cmd.match(/^func:/)) {
+            window[ui.cmd.replace('func:', '')]();
+          }
+          if (ui.cmd.match(/^part:/)) {
+            window.scrollTo(0, 0);
+            openPart(ui.cmd.replace('part:', ''));
+          }
         }
       }
     });
