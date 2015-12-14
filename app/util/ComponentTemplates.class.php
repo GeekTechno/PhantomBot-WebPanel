@@ -109,9 +109,10 @@ class ComponentTemplates
    * @param bool $disableHeightLimit
    * @param string $class
    * @param array $filters
+   * @param bool $collapsible
    * @return string
    */
-  public function dataTable($title, $headers, $dataRows, $disableHeightLimit = false, $class = '', $filters = [])
+  public function dataTable($title, $headers, $dataRows, $disableHeightLimit = true, $class = '', $filters = [], $collapsible = false)
   {
     $headerRows = '';
     $filterButtons = '';
@@ -130,16 +131,19 @@ class ComponentTemplates
       $filterButtons .= '</div>';
     }
 
-    return '<h4>' . $title . '</h4>'
-    . $filterButtons . '
-          <div class="data-table' . ($disableHeightLimit ? ' full-height' : '') . ($class != '' ? ' ' . $class : '') . '">
+    return
+        ($collapsible ? '<h4 class="collapsible-master">' . $title . '</h4>' : '<h4>' . $title . '</h4>')
+        . $filterButtons
+        . ($collapsible ? '<div class="collapsible-content">' : '')
+        . '<div class="data-table' . ($disableHeightLimit ? ' full-height' : '') . ($class != '' ? ' ' . $class : '') . '">
             <table class="table table-striped">
               <thead>
               <tr>' . $headerRows . '</tr>
               </thead>
               <tbody>' . ($dataRows ? $dataRows : '<tr><td colspan="' . count($headers) . '">No Data</td></tr>') . '</tbody>
             </table>
-          </div>';
+          </div>'
+        . ($collapsible ? '</div>' : '');
   }
 
   /**
