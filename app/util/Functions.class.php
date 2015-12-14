@@ -176,7 +176,6 @@ class Functions
     if ($iniStringResult) {
       $iniArray = @parse_ini_string($iniStringResult, null, INI_SCANNER_RAW);
       if ($internal) {
-        $this->_specialIniArrayCases($iniName, $iniArray);
         ksort($iniArray);
         return $iniArray;
       } else {
@@ -213,23 +212,6 @@ class Functions
       }
     }
     return false;
-  }
-
-  /**
-   * @param string $iniName
-   * @param string $iniArray
-   * @return array
-   */
-  private function _specialIniArrayCases($iniName, &$iniArray)
-  {
-    $iniName = preg_replace('/inistore|[\/.]|ini/i', '', $iniName);
-    switch (strtolower($iniName)) {
-      case 'modules':
-        $iniArray['./util/chatModerator.js_enabled'] = '1';
-        break;
-      default:
-        break;
-    }
   }
 
   public function getMusicPlayerPlaylist($requestsFilePath)
@@ -338,6 +320,27 @@ class Functions
     return 1;
   }
 
+  public function getDefaultDisabledModules()
+  {
+    return [
+        '8ballCommand',
+        'killCommand',
+        'marathonCommand',
+        'randomCommand',
+        'donationHandler',
+        'hostHandler',
+        'phraseHandler',
+        'subscribeHandler',
+        'bankheistSystem',
+        'betSystem',
+        'bidSystem',
+        'greetingSystem',
+        'levelQueueSystem',
+        'pollSystem',
+        'queueSystem',
+    ];
+  }
+
   /**
    * @return array
    */
@@ -374,27 +377,6 @@ class Functions
   {
     $this->dataStore->delVar('sfxcommands', $command);
     return true;
-  }
-
-  public function getDefaultDisabledModules()
-  {
-    return [
-        '8ballCommand',
-        'killCommand',
-        'marathonCommand',
-        'randomCommand',
-        'donationHandler',
-        'hostHandler',
-        'phraseHandler',
-        'subscribeHandler',
-        'bankheistSystem',
-        'betSystem',
-        'bidSystem',
-        'greetingSystem',
-        'levelQueueSystem',
-        'pollSystem',
-        'queueSystem',
-    ];
   }
 
   public function getDefaultAlertCSS()

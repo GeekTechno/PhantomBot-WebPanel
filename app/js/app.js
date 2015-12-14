@@ -311,9 +311,9 @@ function getPanelConfig() {
         pBotData.config = data[0];
         loadChannelData();
         /* Apply UI Settings */
-        toggleMusicPlayerControls(true, $('#player-controls-toggle'));
+        toggleMusicPlayerControls(true);
         toggleTooltips(true);
-        toggleChat(true, $('#toggle-chat'));
+        toggleChat(true);
         loadPartFromStorage();
 
       } else {
@@ -463,7 +463,7 @@ function bindContextMenu(replace) {
 
   contextItems.push(
       {title: 'Toggle Chat', cmd: 'func:toggleChat'},
-      {title: 'Toggle Music Player Controls', cmd: 'func:toggleMusicPlayerControls'}
+      {title: 'Toggle Player Controls', cmd: 'func:toggleMusicPlayerControls'}
   );
 
   if (replace) {
@@ -564,7 +564,7 @@ function toggleTooltips(fromLoad) {
 }
 
 //noinspection JSUnusedGlobalSymbols,CoffeeScriptUnusedLocalSymbols
-function toggleChat(fromLoad, button) {
+function toggleChat(fromLoad) {
   //noinspection CoffeeScriptUnusedLocalSymbols
   var body = $('body'),
       chatIframe = $('#chat-iframe'),
@@ -574,18 +574,15 @@ function toggleChat(fromLoad, button) {
     if (pBotStorage.get(pBotStorage.keys.chatDefaultState)) {
       body.addClass(enabledClassName);
       chatIframe.attr('src', 'http://www.twitch.tv/' + pBotData.config.owner + '/chat?popout=');
-      $(button).html('<span class="fa fa-eject text-success"></span>&nbsp;Hide Chat');
     }
     return;
   }
   if (chatEnabled) {
     body.removeClass(enabledClassName);
     chatIframe.attr('src', '');
-    $(button).html('<span class="fa fa-eject"></span>&nbsp;Show Chat')
   } else {
     body.addClass(enabledClassName);
     chatIframe.attr('src', 'http://www.twitch.tv/' + pBotData.config.owner + '/chat?popout=');
-    $(button).html('<span class="fa fa-eject text-success"></span>&nbsp;Hide Chat')
   }
 }
 
@@ -670,9 +667,8 @@ function openPopup(address, name, options) {
 
 function _cleanInput(input) {
   var search = [/^!/],
-      replacements = [''],
-      i = 0;
-  for (i; i < search.length - 1; i++) {
+      replacements = [''];
+  for (i in search) {
     input = input.replace(search[i], replacements[i])
   }
   return input;

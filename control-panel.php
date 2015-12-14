@@ -59,8 +59,8 @@ foreach ($partsList as $parentName => $subItems) {
 
   if ($parentName == 'extras') {
     $renderedMenu .= '<li class="divider"></li>'
-        . '<li><a nohref onclick="toggleChat(false, this);" id="toggle-chat" role="button"><span class="fa fa-eject"></span>&nbsp;Show Chat</a></li>'
-        . '<li><a nohref onclick="toggleMusicPlayerControls(false, this);" id="player-controls-toggle" role="button"><span class="fa fa-eject"></span>&nbsp;Show Music Player Controls</a></li>'
+        . '<li><a nohref onclick="toggleChat(false);" id="toggle-chat" role="button"><span class="fa fa-eject"></span>&nbsp;Toggle Chat</a></li>'
+        . '<li><a nohref onclick="toggleMusicPlayerControls(false);" id="player-controls-toggle" role="button"><span class="fa fa-eject"></span>&nbsp;Toggle Player Controls</a></li>'
         . '<li class="divider"></li>'
         . '<li><a href="http://www.twitch.tv/' . $dataStore->getVar('connector', 'channelOwner') . '" target="_blank"><span class="fa fa-info-circle" role="button"></span>&nbsp;Your Twitch Channel</a></li>'
         . '<li><a href="http://www.twitch.tv/' . $dataStore->getVar('connector', 'channelOwner') . '/profile" target="_blank"><span class="fa fa-info-circle" role="button"></span>&nbsp;Your Twitch Profile</a></li>'
