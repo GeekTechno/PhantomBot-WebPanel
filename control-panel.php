@@ -120,7 +120,7 @@ if ($subscribeHandlerActive == 1) {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a nogref onclick="openPart('extras/panel-users.php')" role="button">Hi <span id="current-user"></span></a>
+          <a nogref onclick="openPart('static/panel-users.php')" role="button">Hi <span id="current-user"></span></a>
         </li>
         <li>
           <a nohref onclick="logOut()" role="button">Logout</a>
