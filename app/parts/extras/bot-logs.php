@@ -31,6 +31,9 @@ function parseDir($dir = '/logs')
   ++$layers;
 
   foreach ($fileList as $fileName) {
+    if ($fileName == '') {
+      break;
+    }
     if (preg_match('/(.*)\.[a-z0-9]{3,}/i', $fileName)) {
       $tableRows = '<tr>'
           . '<td>' . $fileName . '</td>'
@@ -63,10 +66,17 @@ function parseDir($dir = '/logs')
       </h3>
     </div>
     <div class="panel-body">
-      <p>
-        Underneath you will find all files and folders in "./logs".<br/>
-        Click the "View Log" button to open a pop-up with the file's contents.
-      </p>
+      <div class="row">
+        <div class="col-xs-8">
+          <p>
+            Underneath you will find all files and folders in "./logs".<br/>
+            Click the "View Log" button to open a pop-up with the file's contents.
+          </p>
+        </div>
+        <div class="col-xs-4">
+          <button class="btn btn-default pull-right"><span class="fa fa-refresh"></span></button>
+        </div>
+      </div>
       <hr/>
       <?= $logDataTables ?>
     </div>
