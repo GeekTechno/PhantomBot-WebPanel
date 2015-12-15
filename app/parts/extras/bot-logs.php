@@ -74,7 +74,7 @@ function parseDir($dir = '/logs')
           </p>
         </div>
         <div class="col-xs-4">
-          <button class="btn btn-default pull-right"><span class="fa fa-refresh"></span></button>
+          <button class="btn btn-default pull-right" onclick="loadPartFromStorage()"><span class="fa fa-refresh"></span></button>
         </div>
       </div>
       <hr/>
