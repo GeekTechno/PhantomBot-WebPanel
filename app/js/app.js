@@ -667,7 +667,8 @@ function openPopup(address, name, options) {
 
 function _cleanInput(input) {
   var search = [/^!/],
-      replacements = [''];
+      replacements = [''],
+      i;
   for (i in search) {
     input = input.replace(search[i], replacements[i])
   }

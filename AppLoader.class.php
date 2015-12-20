@@ -17,7 +17,7 @@ class AppLoader
    */
   public static function getBaseDir()
   {
-    return realpath(dirname(__FILE__));
+    return dirname(__FILE__);
   }
 
   /**
