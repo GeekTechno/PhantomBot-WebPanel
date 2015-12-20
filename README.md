@@ -19,7 +19,7 @@ Installation
   * A php enabled webserver with cUrl and SQLite support (Try [Apache](http://www.apache.org/))
   * Make sure that the installation directory is writeable by your webserver!
   
-*Notice: Cloud configurations can be tricky and I do not offer support for it. If you have any trouble configuring*
+*Notice: Cloud configurations can be tricky and I do not offer support for it. If you have any trouble configuring I recommend that you conteact your serverhost.*
   
 ###Required Information:###
   * Bot Address: The IP address of your bot, if you've installed PhantomBot locally this will be *localhost*.
