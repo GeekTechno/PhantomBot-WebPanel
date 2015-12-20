@@ -89,6 +89,11 @@ $noticeCount = $functions->getIniValueByKey('notice', 'num_messages');
           </div>
         </div>
       </div>
+      <hr />
+      <h4>Stream Preview</h4>
+      <div class="twitch-video">
+        <iframe src="//www.twitch.tv/<?=$dataStore->getVar('connector', 'channelOwner')?>/embed"></iframe>
+      </div>
     </div>
   </div>
 </div>
