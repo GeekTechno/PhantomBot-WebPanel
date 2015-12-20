@@ -63,6 +63,11 @@ if (count($input) == 7 && !$done) {
             Before you can start using the PhantomBot Web Panel, I&rsquo;m going to need some information about your
             PhantomBot installation first.
           </p>
+
+          <p class="text-muted">
+            Notice: This panel needs <a href="http://phantombot.net/forums/#current-builds.10" target="_blank">PhantomBot</a>.<br />
+            It is not built in!
+          </p>
           <form action="install.php" method="post">
             <div class="row">
               <div class="col-xs-6">
@@ -79,12 +84,11 @@ if (count($input) == 7 && !$done) {
               </div>
             </div>
             <div class="form-group">
-              <label>PhantomBot Webserver Address</label>
+              <label>PhantomBot IP Address</label>
               <input type="text" placeholder="Ip adress or Url" name="botIp" class="form-control"/>
 
               <p class="text-muted">
-                This is generally the Ip address of the PC running PhantomBot.<br/>
-                (Use "localhost" if you have PhantomBot running on the same PC as this webserver)
+                This is generally the Ip address of the machine running PhantomBot.
               </p>
             </div>
             <div class="form-group">

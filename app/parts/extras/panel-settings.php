@@ -110,7 +110,7 @@ foreach ($themeFiles as $themeFile) {
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
-            <label>PhantomBot webserver address</label>
+            <label>PhantomBot IP address</label>
 
             <div class="input-group">
               <input type="text" class="form-control" id="setting-bot-ip"
@@ -122,7 +122,7 @@ foreach ($themeFiles as $themeFile) {
               </span>
             </div>
 
-            <p class="text-muted">This is generally the Ip address of the PC running PhantomBot.</p>
+            <p class="text-muted">This is generally the Ip address of the machine running PhantomBot.</p>
           </div>
         </div>
         <div class="col-sm-4">
