@@ -16,8 +16,10 @@ Installation
 ###Prerequisites:###
 
   * PhantomBot 1.6.6 or later.
-  * A php enabled webserver (Try [Apache](http://www.apache.org/))
+  * A php enabled webserver with cUrl and SQLite support (Try [Apache](http://www.apache.org/))
   * Make sure that the installation directory is writeable by your webserver!
+  
+*Notice: Cloud configurations can be tricky and I do not offer support for it. If you have any trouble configuring*
   
 ###Required Information:###
   * Bot Address: The IP address of your bot, if you've installed PhantomBot locally this will be *localhost*.
@@ -31,7 +33,7 @@ Installation
   3. Walk through the presented installer.
   4. That's it! Enjoy!
   
-  **Don't forget to check out Extras->Preferences for more in depth configuration/customization!**
+  **Don't forget to check out `Extras->Panel Settings` for more in depth configuration/customization!**
 
 ###Updating###
   1. Download the latest release.
