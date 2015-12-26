@@ -8,14 +8,14 @@ This software is free to user under GNU GENERAL PUBLIC LICENSE Version 2.
 Some of the modules in PhantomBot aren't yet supported in this panel. But I will add these as soon as I can!
 
 **This repository is constantly being updated with cutting edge, untested features! Need a stable version? Check the releases.**  
-**Have an idea or fix? Feel free to fork the repository and create a pull request of your changes!**
-*(Please check if your indents and other syling matches that of the original and make sure to only commit the lines that need to be changed.)*
+**Have an idea or fix? Feel free to fork the repository and create a pull request of your changes!**  
+*(Please check if your indents and other styling matches that of the original and make sure to only commit the lines that need to be changed.)*
 
 Installation
 ---
 ###Prerequisites:###
 
-  * PhantomBot 1.6.6 or later.
+  * PhantomBot 1.6.6.1 or later.
   * A php enabled webserver with cUrl and SQLite support (Try [Apache](http://www.apache.org/))
   * Make sure that the installation directory is writeable by your webserver!
   
@@ -38,8 +38,9 @@ Installation
 ###Updating###
   1. Download the latest release.
   2. Copy all the files over the old installation.
-  3. Run call http://webserver/update.php
+  3. Simply open the panel, it will detect the new update and run the updater
 
 ###Known Issues###
   * The panel is known for not running smoothly when it's in a subfolder. I us thereby recommended to place it in the webroot of your webserver.
-  * Install generates permissions error after first form. To circumvent this go back  in your browser and submit the form again.
+  * Install generates permissions error after first form. To circumvent this go back in your browser and submit the form again.
+  * Panel runs slow (pages take long to load e.g.). This issue is caused by the panel trying to retrievev files that do not exist. Go to `Extras->Panel Settings` and correct any file path within the `Bot Add-on Paths` section.
