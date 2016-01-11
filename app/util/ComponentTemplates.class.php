@@ -222,7 +222,7 @@ class ComponentTemplates
   public function streamInfoBanner($data, $faIcon, $iconColorType, $tooltipText, $id = '', $active = true)
   {
     if ($active) {
-      $banner = '<div class="pull-right info-banner-space-left"><span class="fa fa-' . $faIcon . ' text-' . $iconColorType . '"></span> <span'
+      $banner = '<div class="pull-right info-banner-space-left" onclick="loadChannelData(true)"><span class="fa fa-' . $faIcon . ' text-' . $iconColorType . '"></span> <span'
           . ($id != '' ? ' id="' . $id . '"' : '') . ' class="text-muted">' . $data . '</span></div>';
       return $this->addTooltip($banner, $tooltipText, ['offsetX' => 12.75]);
     } else {
