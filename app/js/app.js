@@ -132,6 +132,7 @@ function bindGlobalEventHandlers() {
       }
     }
   });
+
   $('#volume-control-slider').slider({
     min: 0,
     max: 100,
@@ -141,6 +142,8 @@ function bindGlobalEventHandlers() {
       doQuickCommand('volume ' + ui.value);
     }
   });
+
+  $('.side-tab').on('click', sideTabTabHandler);
 }
 
 function bindPartEventHandlers() {
@@ -426,6 +429,54 @@ function setActiveMenuItem(partUrl) {
   $('.active').removeClass('active');
   $('#menu-parent-' + partUrl.replace('static/', '').replace(/([a-z]+).*/i, '$1')).addClass('active');
   $('#menu-favorites-' + partUrl.replace(/.*\/|-|\.php/ig, '')).addClass('active');
+}
+
+function sideTabTabHandler(e) {
+  var targetTab = $(e.target),
+      tabWrapper = targetTab.parent(),
+      iframe = tabWrapper.find('iframe'),
+      activateBtn = tabWrapper.find('button');
+
+  tabWrapper.toggleClass('open');
+  targetTab.toggleClass('active');
+
+  if (activateBtn.length > 0) {
+    activateBtn
+        .off('click')
+        .on('click', function () {
+          if (activateBtn.hasClass('btn-success')) {
+            iframe.attr('src', targetTab.attr('tab-src'));
+          } else {
+            iframe.attr('src', '');
+          }
+          targetTab
+              .toggleClass('pulse')
+          ;
+
+          activateBtn
+              .toggleClass('btn-success')
+              .toggleClass('btn-danger')
+          ;
+
+          activateBtn
+              .find('span')
+              .toggleClass('fa-check')
+              .toggleClass('fa-close')
+          ;
+
+          tabWrapper
+              .find('.notice')
+              .toggleClass('hidden')
+          ;
+        })
+    ;
+  } else {
+    if (tabWrapper.hasClass('open')) {
+      iframe.attr('src', targetTab.attr('tab-src'));
+    } else {
+      iframe.attr('src', '');
+    }
+  }
 }
 
 function getBotStatus() {

@@ -19,6 +19,7 @@ class ComponentTemplates
 
   protected $partFile;
   protected $partUrl;
+  protected $sideTabIndex;
 
   public function __construct()
   {
@@ -27,6 +28,8 @@ class ComponentTemplates
     $partFolder = array_pop($callingFile);
     $this->partFile = $partFile;
     $this->partUrl = $partFolder . '/' . $partFile;
+
+    $this->sideTabIndex = -1;
   }
 
   /**
@@ -294,6 +297,26 @@ class ComponentTemplates
   public function _wrapInJsToggledDoQuickCommand($command, $expression, $trueOption, $falseOption)
   {
     return '(function(){(' . $expression . '?doQuickCommand(\'' . $command . ' ' . $trueOption . '\'):doQuickCommand(\'' . $command . ' ' . $falseOption . '\'))})';
+  }
+
+  /**
+   * @param string $name
+   * @param string $frameUrl
+   * @param string $faIcon
+   * @param bool|false $activateBtn
+   * @return string
+   */
+  public function sideTab($name, $frameUrl, $faIcon, $activateBtn = false)
+  {
+    ++$this->sideTabIndex;
+    return '<div class="side-tabs-wrapper">
+              <iframe></iframe>
+              '.($activateBtn ? '<button class="btn btn-success btn-sm"><span class="fa fa-check"></span></button>' : '').'
+              '.($activateBtn ? '<div class="notice">Click the button in the upper right to activate the '. $name .'!</div>' : '').'
+              <div class="side-tab" tab-src="' . $frameUrl . '" style="top:' . (43 * $this->sideTabIndex) . 'px" title="' . $name . '">
+                <span class="fa ' . $faIcon . '"></span>
+              </div>
+            </div>';
   }
 
   public function randomId()

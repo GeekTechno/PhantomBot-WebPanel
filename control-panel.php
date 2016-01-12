@@ -137,7 +137,8 @@ if ($subscribeHandlerActive == 1) {
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">
-        <?= $dataStore->getVar('connector', 'botName') ?> on channel <?= $dataStore->getVar('connector', 'channelOwner') ?>
+        <?= $dataStore->getVar('connector', 'botName') ?> on
+        channel <?= $dataStore->getVar('connector', 'channelOwner') ?>
         <?= str_repeat('<span class="pull-right info-banner-space-left">&nbsp;</span>', 3) ?>
         <?= $templates->streamInfoBanner($NOSubscribers, 'dollar', 'warning', 'Subscriber Count', '', ($NOSubscribers > -1)) ?>
         <?= '' /* $templates->streamInfoBanner($NOHosts, 'forward', 'info', 'Host Count', 'stream-hosts', ($NOHosts > -1))*/ ?>
@@ -164,7 +165,8 @@ if ($subscribeHandlerActive == 1) {
       PhantomBot Control Panel
       <small><?= $dataStore->getVar('misc', 'currentVersion') ?></small>
       &#xFF0F; <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?>
-      &#xFF0F; Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?= $dataStore->getVar('misc', 'pbCompat') ?></a>
+      &#xFF0F; Compatible with <a href="//www.phantombot.net/"
+                                  target="_blank">PhantomBot <?= $dataStore->getVar('misc', 'pbCompat') ?></a>
     </div>
   </div>
 </div>
@@ -175,5 +177,8 @@ if ($subscribeHandlerActive == 1) {
 <div id="music-player-controls">
   <?php require_once(\PBPanel\AppLoader::getBaseDir() . '/app/parts/static/music-player-controls.php'); ?>
 </div>
+<?= $templates->sideTab('Twitch Preview', 'http://www.twitch.tv/' . strtolower($dataStore->getVar('connector', 'channelOwner')) . '/embed', 'fa-video-camera') ?>
+<?= $templates->sideTab('Music Player', 'pops/music-player.php?botControl=true', 'fa-music', true) ?>
+<?= $templates->sideTab('Sound Effects', 'pops/sound-effects-player.php', 'fa-volume-up', true) ?>
 </body>
 </html>

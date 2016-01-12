@@ -9,7 +9,7 @@
 $dataStore->setVar(
     'misc',
     'currentVersion',
-    '1.5'
+    '1.6'
 );
 
 $dataStore->setVar(
