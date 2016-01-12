@@ -6,7 +6,7 @@
  * Time: 03:43
  */
 
-require_once('AppLoader.class.php');
+require_once('../AppLoader.class.php');
 \PBPanel\AppLoader::loadUtil('DataStore');
 
 $dataStore = new \PBPanel\Util\DataStore();
@@ -39,16 +39,16 @@ $alertSettings = json_encode([
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
-  <link rel="stylesheet" href="app/css/defaultAlertCSS.css"/>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="../app/css/defaultAlertCSS.css"/>
   <script>
     var botAddress = '<?= $eventServerAdress ?>',
         alertSettings = <?= $alertSettings ?>;
   </script>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <script src="app/js/rsocket.min.js"></script>
-  <script src="app/js/stream-alerts.min.js"></script>
+  <script src="../app/js/rsocket.min.js"></script>
+  <script src="../app/js/stream-alerts.min.js"></script>
 </head>
 <body>
 

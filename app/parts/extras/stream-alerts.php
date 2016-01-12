@@ -47,7 +47,7 @@ foreach ($alertCSSFields as $alertCSSField) {
     <div class="panel-body">
       <div class="btn-toolbar">
         <button class="btn btn-primary"
-                onclick="openPopup('stream-alerts-player.php', 'PhantomBot WebPanel Stream Alerts', '<?= $dataStore->getVar('misc', 'alertWindowSize', 'width=550,height=200') ?>')">
+                onclick="openPopup('pops/stream-alerts-player.php', 'PhantomBot WebPanel Stream Alerts', '<?= $dataStore->getVar('misc', 'alertWindowSize', 'width=550,height=200') ?>')">
           Open Alerts Player
         </button>
       </div>
@@ -94,7 +94,7 @@ foreach ($alertCSSFields as $alertCSSField) {
         <div class="col-sm-8">
           <?= $templates->informationPanel(
               '<p>Use (name) in the Alert Text to insert the new follower/hoster\'s name.</p>' .
-              '<p>Use <code>//' . \PBPanel\AppLoader::getBaseUrl() . '/stream-alerts-player.php</code> in your OBS browser, to embed the alerts easily in your stream!</p>' .
+              '<p>Use <code>//' . \PBPanel\AppLoader::getBaseUrl() . '/pops/stream-alerts-player.php</code> in your OBS browser, to embed the alerts easily in your stream!</p>' .
               '<p>Leave the sound field empty if you don\'t want to use sound effects on alerts.</p>' .
               '<p>Empty the CSS field and save to reset it\'s original value!</p>' .
               '<p>Donation alerts will be available soon!</p>'

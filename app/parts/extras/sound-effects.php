@@ -52,7 +52,7 @@ foreach ($sfxCommands as $command => $file) {
     </div>
     <div class="panel-body">
       <div class="btn-toolbar">
-        <button class="btn btn-primary" onclick="openPopup('sound-effects-player.php', 'PhantomBot WebPanel Sound Effects')">Open Sfx Player</button>
+        <button class="btn btn-primary" onclick="openPopup('pops/sound-effects-player.php', 'PhantomBot WebPanel Sound Effects')">Open Sfx Player</button>
       </div>
       <hr/>
       <h4 class="collapsible-master">Add New Sound Effect</h4>

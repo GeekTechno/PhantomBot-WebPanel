@@ -37,7 +37,7 @@ function parseDir($dir = '/logs')
     if (preg_match('/(.*)\.[a-z0-9]{3,}/i', $fileName)) {
       $tableRows = '<tr>'
           . '<td>' . $fileName . '</td>'
-          . '<td style="width:90px;"><button class="btn btn-default btn-sm" onclick="openPopup(\'log-viewer.php?file='
+          . '<td style="width:90px;"><button class="btn btn-default btn-sm" onclick="openPopup(\'pops/log-viewer.php?file='
           . $dir . '/' . $fileName . '\', \'PhantomBot WebPanel Log Viewer\')">View Log</button></td>'
           . '</tr>' . $tableRows;
     } else {

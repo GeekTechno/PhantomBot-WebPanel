@@ -6,7 +6,7 @@
  * Time: 03:43
  */
 
-require_once('AppLoader.class.php');
+require_once('../AppLoader.class.php');
 \PBPanel\AppLoader::load();
 
 $dataStore = new \PBPanel\Util\DataStore();
@@ -20,9 +20,9 @@ $eventServerAdress = $dataStore->getVar('connector', 'botIp') . ':' . (intval($d
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
-  <link href="app/css/music-player.css" rel="stylesheet" type="text/css"/>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+  <link href="../app/css/music-player.css" rel="stylesheet" type="text/css"/>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
   <script>
     var botAddress = '<?= $eventServerAdress ?>',
         commandPermissions = <?= json_encode($functions->getIniArray('permcom')) ?>,
@@ -31,8 +31,8 @@ $eventServerAdress = $dataStore->getVar('connector', 'botIp') . ':' . (intval($d
   </script>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="//code.jquery.com/ui/1.11.3/jquery-ui.min.js" type="text/javascript"></script>
-  <script src="app/js/rsocket.min.js"></script>
-  <script src="app/js/sfx-host.min.js"></script>
+  <script src="../app/js/rsocket.min.js"></script>
+  <script src="../app/js/sfx-host.min.js"></script>
 </head>
 <body>
 <div class="info">

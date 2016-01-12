@@ -6,7 +6,7 @@
  * Date: 12 okt 2015
  * Time: 12:48
  */
-require_once('AppLoader.class.php');
+require_once('../AppLoader.class.php');
 \PBPanel\AppLoader::loadUtil('DataStore');
 
 $dataStore = new \PBPanel\Util\DataStore();
@@ -19,17 +19,17 @@ $musicServerAdress = $dataStore->getVar('connector', 'botIp') . ':' . (intval($d
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
-  <link href="app/css/music-player.css" rel="stylesheet" type="text/css"/>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+  <link href="../app/css/music-player.css" rel="stylesheet" type="text/css"/>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     var botAddress = '<?= $musicServerAdress ?>',
         botControl = <?= ($botControl ? 'true' : 'false') ?>;
   </script>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <script src="app/js/rsocket.min.js"></script>
-  <script src="app/js/music-player.min.js"></script>
+  <script src="../app/js/rsocket.min.js"></script>
+  <script src="../app/js/music-player.min.js"></script>
 </head>
 <body>
 <div class="player-wrapper">

@@ -56,27 +56,27 @@ if (array_key_exists('panelUsers', $oldConfig)) {
 $dataStore->setVar(
     'paths',
     'latestFollower',
-    (array_key_exists('latestFollower', $oldConfig['paths']) ? $oldConfig['paths']['latestFollower'] : '/web/latestfollower.txt')
+    (array_key_exists('latestFollower', $oldConfig['paths']) ? $oldConfig['paths']['latestFollower'] : '')
 );
 $dataStore->setVar(
     'paths',
     'latestDonation',
-    (array_key_exists('latestDonation', $oldConfig['paths']) ? $oldConfig['paths']['latestDonation'] : '/addons/donationchecker/latestdonation.txt')
+    (array_key_exists('latestDonation', $oldConfig['paths']) ? $oldConfig['paths']['latestDonation'] : '')
 );
 $dataStore->setVar(
     'paths',
     'youtubeCurrentSong',
-    (array_key_exists('youtubeCurrentSong', $oldConfig['paths']) ? $oldConfig['paths']['youtubeCurrentSong'] : '/addons/youtubePlayer/currentsong.txt')
+    (array_key_exists('youtubeCurrentSong', $oldConfig['paths']) ? $oldConfig['paths']['youtubeCurrentSong'] : '')
 );
 $dataStore->setVar(
     'paths',
     'youtubePlaylist',
-    (array_key_exists('youtubePlaylist', $oldConfig['paths']) ? $oldConfig['paths']['youtubePlaylist'] : '/addons/youtubePlayer/requests.txt')
+    (array_key_exists('youtubePlaylist', $oldConfig['paths']) ? $oldConfig['paths']['youtubePlaylist'] : '')
 );
 $dataStore->setVar(
     'paths',
     'defaultYoutubePlaylist',
-    (array_key_exists('defaultYoutubePlaylist', $oldConfig['paths']) ? $oldConfig['paths']['defaultYoutubePlaylist'] : '/addons/youtubePlayer/defaultPlaylist.txt')
+    (array_key_exists('defaultYoutubePlaylist', $oldConfig['paths']) ? $oldConfig['paths']['defaultYoutubePlaylist'] : '')
 );
 
 /* Create sfx commands table */
