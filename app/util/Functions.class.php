@@ -280,6 +280,16 @@ class Functions
   }
 
   /**
+   * @param int $seconds
+   * @return string
+   */
+  public function secondsToDate($seconds)
+  {
+    $dtT = new \DateTime("@$seconds");
+    return $dtT->format('D dS F Y H:i');
+  }
+
+  /**
    * @param string $botTime
    * @return array
    */
@@ -320,6 +330,9 @@ class Functions
     return 1;
   }
 
+  /**
+   * @return array
+   */
   public function getDefaultDisabledModules()
   {
     return [
