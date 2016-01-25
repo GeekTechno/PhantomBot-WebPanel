@@ -150,23 +150,6 @@ class ComponentTemplates
   }
 
   /**
-   * @param int $status
-   * @return string
-   */
-  public function moduleActiveIndicator($status)
-  {
-    switch ($status) {
-      case 1:
-        return '<span class="text-success pull-right"><span class="fa fa-check-circle"></span> Module Active</span>';
-      case 0:
-        return $this->addTooltip('<span class="text-danger pull-right"><span class="fa fa-exclamation-circle"></span> Module Inactive</span>',
-            'Enable this module in Extras->Modules Manager to use it.', ['position' => ComponentTemplates::TOOLTIP_POS_LEFT, 'offsetX' => -5]);
-      default:
-        return '<span class="text-warning pull-right"><span class="fa fa-check-circle"></span> Module Status Unknown</span>';
-    }
-  }
-
-  /**
    * @param string $template
    * @param string $text
    * @param array $options

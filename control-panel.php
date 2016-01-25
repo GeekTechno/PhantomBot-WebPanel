@@ -52,9 +52,9 @@ foreach ($partsList as $parentName => $subItems) {
   }
 
   foreach ($subItems as $item) {
-    $openPartParam = '\'' . $parentName . '/' . $item['partFile'] . '\'';
+    $openPartParam = $parentName . '/' . $item['partFile'];
     $customScriptIcon = ($item['isCustom'] ? '&nbsp;&nbsp;&nbsp;<span class="fa fa-wrench"></span>' : '');
-    $renderedMenu .= '<li><a nohref onclick="openPart(' . $openPartParam . ')" role="button"><span class="fa ' . $icon . '"></span>&nbsp;' . $item['partName'] . $customScriptIcon . '</a></li>';
+    $renderedMenu .= '<li><a nohref onclick="openPart(\'' . $openPartParam . '\')" role="button"><span class="fa ' . $icon . '"></span>&nbsp;' . $item['partName'] . $customScriptIcon . '</a></li>';
   }
 
   if ($parentName == 'extras') {
@@ -65,16 +65,12 @@ foreach ($partsList as $parentName => $subItems) {
         . '<li><a href="http://www.twitch.tv/' . $dataStore->getVar('connector', 'channelOwner') . '" target="_blank"><span class="fa fa-info-circle" role="button"></span>&nbsp;Your Twitch Channel</a></li>'
         . '<li><a href="http://www.twitch.tv/' . $dataStore->getVar('connector', 'channelOwner') . '/profile" target="_blank"><span class="fa fa-info-circle" role="button"></span>&nbsp;Your Twitch Profile</a></li>'
         . '<li class="divider"></li>'
-        . '<li><a href="http://www.phantombot.net/threads/command-list-by-script.13/" target="_blank" role="button"><span class="fa fa-question-circle"></span>&nbsp;PhantomBot Commands ist</a></li>'
-        . '<li><a href="http://www.phantombot.net" target="_blank"><span class="fa fa-question-circle" role="button"></span>&nbsp;PhantomBot Forums</a></li>';
+        . '<li><a href="https://community.phantombot.net/" target="_blank"><span class="fa fa-question-circle" role="button"></span>&nbsp;PhantomBot Forums</a></li>';
   }
 
   $renderedMenu .= '</ul></li>';
 }
 
-//if ($hostHandlerActive == 1) {
-//  $NOHosts = $functions->getIniValueByKey('stream_info.ini', 'hosts_amount');
-//}
 if ($subscribeHandlerActive == 1) {
   $subscribers = $functions->getIniArray('subscribed.ini');
   $NOSubscribers = 0;
@@ -179,6 +175,5 @@ if ($subscribeHandlerActive == 1) {
 </div>
 <?= $templates->sideTab('Twitch Preview', 'http://www.twitch.tv/' . strtolower($dataStore->getVar('connector', 'channelOwner')) . '/embed', 'fa-video-camera') ?>
 <?= $templates->sideTab('Music Player', 'pops/music-player.php?botControl=true', 'fa-music', true) ?>
-<?= $templates->sideTab('Sound Effects', 'pops/sound-effects-player.php', 'fa-volume-up', true) ?>
 </body>
 </html>

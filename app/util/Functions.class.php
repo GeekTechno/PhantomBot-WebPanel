@@ -68,7 +68,7 @@ class Functions
       }
     }
     unset($directoryContents['static']);
-    return array_reverse($directoryContents);
+    return $directoryContents;
   }
 
   public function getCurrentTitle()
@@ -289,111 +289,8 @@ class Functions
     return $dtT->format('D dS F Y H:i');
   }
 
-  /**
-   * @param string $botTime
-   * @return array
-   */
-  public function botTimeToStandardFormat($botTime)
+  public function strToBool($value)
   {
-    if (preg_match('/([0-9]{2})-([0-9]{2})-([0-9]{4})\s\@\s([0-9:]+)\s([0-9+]+)/', $botTime, $botTimeMatches)) {
-      $dateTime = new \DateTime(
-          $botTimeMatches[3] . '-'
-          . $botTimeMatches[1] . '-'
-          . $botTimeMatches[2] . 'T'
-          . $botTimeMatches[4]
-          . $botTimeMatches[5]
-      );
-      return $dateTime->format('D dS M Y @ h:m a');
-    } else {
-      return $botTime;
-    }
-  }
-
-  /**
-   * @param string $scriptName
-   * @return int
-   */
-  public function getModuleStatus($scriptName)
-  {
-    $modules = $this->getIniArray('/inistore/modules.ini', true);
-    $defaultSettings = $this->getDefaultDisabledModules();
-    foreach ($modules as $moduleFullPath => $active) {
-      if (strpos(strtolower($moduleFullPath), strtolower($scriptName)) > -1) {
-        return $active;
-      }
-    }
-    foreach ($defaultSettings as $moduleName) {
-      if (strpos(strtolower($scriptName), strtolower($moduleName)) > -1) {
-        return 0;
-      }
-    }
-    return 1;
-  }
-
-  /**
-   * @return array
-   */
-  public function getDefaultDisabledModules()
-  {
-    return [
-        '8ballCommand',
-        'killCommand',
-        'marathonCommand',
-        'randomCommand',
-        'donationHandler',
-        'hostHandler',
-        'phraseHandler',
-        'subscribeHandler',
-        'bankheistSystem',
-        'betSystem',
-        'bidSystem',
-        'greetingSystem',
-        'levelQueueSystem',
-        'pollSystem',
-        'queueSystem',
-    ];
-  }
-
-  /**
-   * @return array
-   */
-  public function getSfxFiles()
-  {
-    $sndExt = ['wav', 'mp3', 'ogg'];
-    $it = new SortedDirectoryIterator(AppLoader::getBaseDir() . '/app/content/sfx');
-    $files = [];
-
-    /* @var \SplFileInfo $item */
-    foreach ($it as $item) {
-      if (in_array($item->getExtension(), $sndExt)) {
-        $files[] = [
-          'fileName' => $item->getFilename(),
-          'path' => 'app/content/sfx/' . $item->getFilename(),
-        ];
-      }
-    }
-
-    return $files;
-  }
-
-  /**
-   * @param $command
-   * @param $file
-   * @return bool
-   */
-  public function saveSfxCommand($command, $file)
-  {
-    return $this->dataStore->setVar('sfxcommands', $command, $file);
-  }
-
-  public function deleteSfxCommand($command)
-  {
-    $this->dataStore->delVar('sfxcommands', $command);
-    return true;
-  }
-
-  public function getDefaultAlertCSS()
-  {
-    return file_get_contents(AppLoader::getBaseDir() . '/app/css/defaultAlertCSS.css');
+    return ($value == 'true');
   }
 }
