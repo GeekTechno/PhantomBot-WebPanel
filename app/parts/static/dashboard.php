@@ -20,9 +20,9 @@ $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
 $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
-$botSettings = $functions->getIniArray('settings');
-$botStreamInfo = $functions->getIniArray('streamInfo');
-$noticeCount = count($functions->getIniArray('notices'));
+$botSettings = $functions->getDbTableArray('settings');
+$botStreamInfo = $functions->getDbTableArray('streamInfo');
+$noticeCount = count($functions->getDbTableArray('notices'));
 $latestFollower = $functions->getOtherFile($dataStore->getVar('paths', 'latestFollower'));
 $latestDonator = $functions->getOtherFile($dataStore->getVar('paths', 'latestDonator'));
 

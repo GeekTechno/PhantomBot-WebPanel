@@ -20,7 +20,7 @@ $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
 $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
-$botSettings = $functions->getIniArray('settings');
+$botSettings = $functions->getDbTableArray('settings');
 $currentTheme = $dataStore->getVar('misc', 'theme', 'style_dark');
 $themeFiles = new \PBPanel\Util\SortedDirectoryIterator(\PBPanel\AppLoader::getBaseDir() . '/app/css', false);
 $themesOptions = '';

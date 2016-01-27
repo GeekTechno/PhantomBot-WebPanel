@@ -18,7 +18,7 @@ $templates = new \PBPanel\Util\ComponentTemplates();
 $username = filter_input(INPUT_GET, 'username');
 
 if ($username) {
-  $singleUserPoints = $functions->getIniValueByKey('points', strtolower($username), true);
+  $singleUserPoints = $functions->getDbTableValueByKey('points', strtolower($username), true);
 } else {
   die('Call this file like ".../external-example2.php?username=[USERNAME]"');
 }

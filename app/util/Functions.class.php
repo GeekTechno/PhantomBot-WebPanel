@@ -149,9 +149,9 @@ class Functions
    * @param bool $partialKey
    * @return string
    */
-  public function getIniValueByKey($iniName, $key, $partialKey = false)
+  public function getDbTableValueByKey($iniName, $key, $partialKey = false)
   {
-    $ini = $this->getIniArray($iniName, true);
+    $ini = $this->getDbTableArray($iniName, true);
     if ($ini && $partialKey) {
       foreach ($ini as $iniKey => $iniValue) {
         if (strpos($iniKey, $key) > -1) {
@@ -169,9 +169,9 @@ class Functions
    * @param bool $internal
    * @return array
    */
-  public function getIniArray($iniName, $internal = true)
+  public function getDbTableArray($iniName, $internal = true)
   {
-    $iniStringResult = $this->getIniRaw($iniName, true);
+    $iniStringResult = $this->getDbTableRaw($iniName, true);
     $iniArray = [];
     if ($iniStringResult) {
       $iniArray = @parse_ini_string($iniStringResult, null, INI_SCANNER_RAW);
@@ -200,7 +200,7 @@ class Functions
    * @param bool $internal
    * @return bool|string
    */
-  public function getIniRaw($iniName, $internal = true)
+  public function getDbTableRaw($iniName, $internal = true)
   {
     $iniName = preg_replace('/inistore|[\/.]|ini/i', '', $iniName);
     $iniStringResult = $this->connection->get('/inistore/' . $iniName . '.ini');
@@ -268,8 +268,8 @@ class Functions
    */
   public function secondsToTime($seconds)
   {
-    $dtF = new \DateTime("@0");
-    $dtT = new \DateTime("@$seconds");
+    $dtF = new \DateTime('@0');
+    $dtT = new \DateTime('@' . $seconds);
     if ($seconds > 86400) {
       return $dtF->diff($dtT)->format('%a days, %h hours and %i minutes');
     } elseif ($seconds > 3600) {

@@ -12,11 +12,10 @@ if (!$session->checkSessionToken(filter_input(INPUT_POST,
 
 $dataStore = new \PBPanel\Util\DataStore();
 $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
-$functions = new \PBPanel\Util\Functions($dataStore,
-    $connection);
+$functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
-$botSettings = $functions->getIniArray('settings');
+$botSettings = $functions->getDbTableArray('settings');
 
 // Merge user settings with default
 $chatModSettings = array_merge(
@@ -38,7 +37,7 @@ $chatModSettings = array_merge(
         'repeatCharTriggerLength' => 0,
         'repeatCharPurgeMessage' => '',
     ],
-    $functions->getIniArray('chatModerator')
+    $functions->getDbTableArray('chatModerator')
 );
 ?>
 <div class="app-part">

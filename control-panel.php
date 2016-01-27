@@ -27,10 +27,10 @@ if (\PBPanel\AppLoader::updateAvailable($dataStore)) {
 
 $session->createToken();
 
-$botSettings = $functions->getIniArray('settings');
+$botSettings = $functions->getDbTableArray('settings');
 $isBotOnline = ($connection->testConnection()[2] == 52);
-$hostHandlerActive = $functions->getIniValueByKey('modules.ini', 'hostHandler.js', true);
-$subscribeHandlerActive = $functions->getIniValueByKey('modules.ini', 'subscribeHandler.js', true);
+$hostHandlerActive = $functions->getDbTableValueByKey('modules.ini', 'hostHandler.js', true);
+$subscribeHandlerActive = $functions->getDbTableValueByKey('modules.ini', 'subscribeHandler.js', true);
 $musicPlayerCurrentSong = $functions->getOtherFile($dataStore->getVar('paths', 'youtubeCurrentSong'));
 $NOHosts = -1;
 $NOSubscribers = -1;
@@ -72,7 +72,7 @@ foreach ($partsList as $parentName => $subItems) {
 }
 
 if ($subscribeHandlerActive == 1) {
-  $subscribers = $functions->getIniArray('subscribed.ini');
+  $subscribers = $functions->getDbTableArray('subscribed.ini');
   $NOSubscribers = 0;
   foreach ($subscribers as $subActive) {
     $NOSubscribers += ($subActive == 1 ? 1 : 0);

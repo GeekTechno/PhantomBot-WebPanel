@@ -18,10 +18,10 @@ $templates = new \PBPanel\Util\ComponentTemplates();
 $username = filter_input(INPUT_GET, 'username');
 
 if ($username) {
-  $userTime = intval($functions->getIniValueByKey('time', strtolower($username), true));
+  $userTime = intval($functions->getDbTableValueByKey('time', strtolower($username), true));
   echo json_encode([
       'username' => $username,
-      'points' => $functions->getIniValueByKey('points', strtolower($username), true),
+      'points' => $functions->getDbTableValueByKey('points', strtolower($username), true),
       'timeInSeconds' => $userTime,
       'timeHMS' => sprintf("%02d%s%02d%s%02d", floor($userTime/3600), ':', ($userTime/60)%60, ':', $userTime%60),
   ]);

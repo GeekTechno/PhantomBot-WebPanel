@@ -20,7 +20,7 @@ $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
 $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
-$botSettings = $functions->getIniArray('settings');
+$botSettings = $functions->getDbTableArray('settings');
 
 ?>
 <div class="app-part">
