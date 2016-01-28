@@ -15,8 +15,6 @@ $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
 $functions = new \PBPanel\Util\Functions($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
-$botSettings = $functions->getDbTableArray('settings');
-
 // Merge user settings with default
 $chatModSettings = array_merge(
     [

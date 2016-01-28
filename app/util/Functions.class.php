@@ -8,8 +8,6 @@
  */
 namespace PBPanel\Util;
 
-use PBPanel\AppLoader;
-
 class Functions
 {
   /* @var DataStore $dataStore */
@@ -144,14 +142,14 @@ class Functions
   }
 
   /**
-   * @param string $iniName
+   * @param string $dbName
    * @param string $key
    * @param bool $partialKey
    * @return string
    */
-  public function getDbTableValueByKey($iniName, $key, $partialKey = false)
+  public function getDbTableValueByKey($dbName, $key, $partialKey = false)
   {
-    $ini = $this->getDbTableArray($iniName, true);
+    $ini = $this->getDbTableArray($dbName, true);
     if ($ini && $partialKey) {
       foreach ($ini as $iniKey => $iniValue) {
         if (strpos($iniKey, $key) > -1) {
@@ -165,13 +163,13 @@ class Functions
   }
 
   /**
-   * @param string $iniName
+   * @param string $dbName
    * @param bool $internal
    * @return array
    */
-  public function getDbTableArray($iniName, $internal = true)
+  public function getDbTableArray($dbName, $internal = true)
   {
-    $iniStringResult = $this->getDbTableRaw($iniName, true);
+    $iniStringResult = $this->getDbTableRaw($dbName, true);
     $iniArray = [];
     if ($iniStringResult) {
       $iniArray = @parse_ini_string($iniStringResult, null, INI_SCANNER_RAW);
@@ -196,14 +194,14 @@ class Functions
   }
 
   /**
-   * @param string $iniName
+   * @param string $dbName
    * @param bool $internal
    * @return bool|string
    */
-  public function getDbTableRaw($iniName, $internal = true)
+  public function getDbTableRaw($dbName, $internal = true)
   {
-    $iniName = preg_replace('/inistore|[\/.]|ini/i', '', $iniName);
-    $iniStringResult = $this->connection->get('/inistore/' . $iniName . '.ini');
+    $dbName = preg_replace('/inistore|[\/.]|ini/i', '', $dbName);
+    $iniStringResult = $this->connection->get('/inistore/' . $dbName . '.ini');
     if ($iniStringResult[1] == 200) {
       if ($internal) {
         return $iniStringResult[0];
@@ -270,13 +268,20 @@ class Functions
   {
     $dtF = new \DateTime('@0');
     $dtT = new \DateTime('@' . $seconds);
+
     if ($seconds > 86400) {
-      return $dtF->diff($dtT)->format('%a days, %h hours and %i minutes');
+      $output = $dtF->diff($dtT)->format('%a days, %h hours and %i minutes');
     } elseif ($seconds > 3600) {
-      return $dtF->diff($dtT)->format('%h hours and %i minutes');
+      $output = $dtF->diff($dtT)->format('%h hours and %i minutes');
     } else {
-      return $dtF->diff($dtT)->format('%i minutes');
+      $output = $dtF->diff($dtT)->format('%i minutes');
     }
+
+    if (($seconds % 60) > 0) {
+      $output .= ' and ' . $dtF->diff($dtT)->format('%s seconds');
+    }
+
+    return $output;
   }
 
   /**

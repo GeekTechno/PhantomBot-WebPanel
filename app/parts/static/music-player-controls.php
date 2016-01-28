@@ -9,7 +9,7 @@
 </div>
 <div class="icons">
   <?= $templates->switchToggle('<span id="music-player-shuffle" class="fa fa-random"></span>', 'doQuickCommand',
-      '[\'musicplayer shuffle\']', '', (array_key_exists('song_shuffle', $botSettings) && $botSettings['song_shuffle'] == '1'), true, true) ?>
+      '[\'musicplayer shuffle\']', '', ($functions->strToBool($functions->getDbTableValueByKey('youtubePlayer', 'shuffleDefaultPlaylist'))), true, true) ?>
 </div>
 <div class="icons">
   <div class="volume-control">

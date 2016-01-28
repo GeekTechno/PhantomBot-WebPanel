@@ -112,6 +112,9 @@ if ($subscribeHandlerActive == 1) {
         <li id="menu-parent-dashboard">
           <a nohref onclick="openPart('static/dashboard.php')" role="button">Dashboard</a>
         </li>
+        <li id="menu-parent-viewers">
+          <a nohref onclick="openPart('static/viewers.php')" role="button">Viewers</a>
+        </li>
         <?= $renderedMenu ?>
       </ul>
       <ul class="nav navbar-nav navbar-right">
