@@ -143,8 +143,8 @@ if ($subscribeHandlerActive == 1) {
         <?= $templates->streamInfoBanner('NA', 'heartbeat', 'danger', 'Follower Count', 'stream-followers') ?>
         <?= $templates->streamInfoBanner('NA', 'users', 'success', 'Viewer Count', 'stream-viewer-count') ?>
         <?= $templates->streamInfoBanner('Offline', 'rss', 'info', 'Stream Status', 'stream-status') ?>
-        <?= (!$isBotOnline ? $templates->streamInfoBanner('Bot Offline', 'exclamation-circle', 'danger',
-            '<span class="text-danger">Could not contact the bot.</span><br />Make sure it\'s running and the HTTP server is active.') : '') ?>
+        <?= (!$isBotOnline ? $templates->streamInfoBanner('Could not find PhantomBot', 'exclamation-circle', 'danger',
+            'Make sure PhantomBot is running and your webserver is able to find it!') : '') ?>
       </h3>
     </div>
     <div class="panel-body">
