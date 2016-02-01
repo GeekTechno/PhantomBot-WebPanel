@@ -86,7 +86,6 @@ if ($subscribeHandlerActive == 1) {
   <title></title>
   <link href="app/css/<?= $dataStore->getVar('misc', 'theme', 'style_dark') ?>.css"
         rel="stylesheet" type="text/css"/>
-  <link href="app/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
@@ -119,7 +118,7 @@ if ($subscribeHandlerActive == 1) {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a nogref onclick="openPart('static/panel-users.php')" role="button">Hi <span id="current-user"></span></a>
+          <a nohref onclick="openPart('static/panel-users.php')" role="button">Hi <span id="current-user"></span></a>
         </li>
         <li>
           <a nohref onclick="logOut()" role="button">Logout</a>
