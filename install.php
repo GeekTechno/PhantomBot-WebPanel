@@ -134,7 +134,7 @@ if (count($input) == 7 && !$done) {
   </div>
   <div class="panel panel-default page-footer">
     <div class="panel-heading">
-      PhantomBot Control Panel
+      PhantomBot Web Panel
       <small><?= $dataStore->getVar('misc', 'currentVersion') ?></small>
       &#xFF0F; <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?>
       &#xFF0F; Compatible with <a href="//www.phantombot.net/" target="_blank">PhantomBot <?= $dataStore->getVar('misc', 'pbCompat') ?></a>
