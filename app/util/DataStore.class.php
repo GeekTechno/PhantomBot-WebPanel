@@ -13,9 +13,13 @@ class DataStore
   /* @var \SQLite3 $db */
   private $db;
 
-  public function __construct()
+  /**
+   * DataStore constructor.
+   * @param bool $skipWriteableTest
+   */
+  public function __construct($skipWriteableTest = false)
   {
-    if (!is_writable(\PBPanel\AppLoader::getBaseDir() . '/app/content/')) {
+    if (!$skipWriteableTest && !is_writable(\PBPanel\AppLoader::getBaseDir() . '/app/content/')) {
       die('The webserver needs read/write permissions on "' . \PBPanel\AppLoader::getBaseDir() . '/app/content/' . '" and it\'s contents!');
     }
 

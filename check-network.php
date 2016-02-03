@@ -15,16 +15,17 @@ if (!class_exists('SQLite3')) {
 } else {
   \PBPanel\AppLoader::load();
 
-  $dataStore = new \PBPanel\Util\DataStore();
+  $dataStore = new \PBPanel\Util\DataStore(true);
   $botConnection = new \PBPanel\Util\BotConnectionHandler($dataStore);
 
   $foundBot = ($botConnection->testConnection());
   $botIp = $dataStore->getVar('connector', 'botIp', 'Unknown (Not Set)');
-  $botBasePort = $dataStore->getVar('connector', 'botBasePort', 'Not set');
+  $botBasePort = $dataStore->getVar('connector', 'botBasePort', 'Unknown (Not Set)');
 }
 
 $clientIp = (filter_input(INPUT_SERVER, 'REMOTE_ADDR') == '::1' ? 'localhost' : filter_input(INPUT_SERVER, 'REMOTE_ADDR'));
 $serverHasInternet = (@file_get_contents('http://www.google.com'));
+$contentWriteable = is_writeable(\PBPanel\AppLoader::getBaseDir() . '/app/content');
 
 function yesNoText($state)
 {
@@ -88,7 +89,7 @@ function validateBotBasePort($botBasePort)
     </div>
     <div class="panel-body">
       <p>
-        This page shows you crucial information the Web Panel needs for functioning proper.<br/>
+        This page shows you crucial information the Web Panel needs to function proper.<br/>
         If any of these show up red, you should check out the issue or find help on our <a
             href="https://community.phantombot.net">Forum</a>.
       </p>
@@ -100,8 +101,11 @@ function validateBotBasePort($botBasePort)
       <h3>Webserver</h3>
       <p>
         Internet connection: <?= yesNoText($serverHasInternet) ?><br/>
-        <?= ($serverHasInternet ? 'Server IP Address: ' . filter_input(INPUT_SERVER, 'SERVER_NAME') . '<br />' : '') ?>
         <span class="text-muted">Is the webserver connected to the internet?</span>
+      </p>
+      <p>
+        Content folder is writeable: <?= yesNoText($contentWriteable) ?><br/>
+        <span class="text-info">./app/content</span><span class="text-muted"> needs to be writeable for PHP in order to save settings.</span>
       </p>
       <p>
         PHP <a href="https://www.google.nl/?q=php%20enable%20curl" target="_blank">cUrl</a>
@@ -119,7 +123,7 @@ function validateBotBasePort($botBasePort)
         Found PhantomBot at the set address: <?= yesNoText($foundBot) ?><br/>
         <span class="text-muted">
           If this is "No" it means something is preventing the webserver from accessing PhantomBot.<br/>
-          Check if PhantomBot is running atthe set address, that PhantomBot's HTTP server is started (Should be stated in PhantomBot's console) and the information above is correct.
+          Check if PhantomBot is running at the set address, that PhantomBot's HTTP server is started (Should be stated in PhantomBot's console) and the information above is correct.
         </span>
       </p>
     </div>
