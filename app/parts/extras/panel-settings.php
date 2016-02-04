@@ -84,20 +84,8 @@ foreach ($themeFiles as $themeFile) {
       <div class="row">
         <div class="col-sm-8">
           <div class="btn-toolbar">
-            <?= $templates->switchToggle('Export Playlist', 'doQuickCommand', '[\'musicplayer storing\']', '', (array_key_exists('song_storing', $botSettings) && $botSettings['song_storing'] == 1)) ?>
-            <?= $templates->switchToggle('Exporting Playlist as ' . (array_key_exists('song_titles', $botSettings) && $botSettings['song_titles'] == '1' ? '.html' : '.txt'), 'doQuickCommand', '[\'musicplayer titles\']', '', (array_key_exists('song_titles', $botSettings) && $botSettings['song_titles'] == '1'), false, false, true) ?>
-            <?= $templates->switchToggle('Whisper Mode', 'doQuickCommand', '[\'whispermode\']', '', (array_key_exists('whisper_mode', $botSettings) && $botSettings['whisper_mode'] == 'true')) ?>
-          </div>
-          <div class="spacer"></div>
-          <div class="btn-toolbar">
-            <?= $templates->switchToggle('Enable Event/Error Logging', $templates->_wrapInJsToggledDoQuickCommand('log', (array_key_exists('logenable', $botSettings) && $botSettings['logenable'] == '1' ? 'true' : 'false'), 'enable', 'disable'), '[]', '', (array_key_exists('logenable', $botSettings) && $botSettings['logenable'] == '1')) ?>
-            <?= $templates->switchToggle('Enable Chat Logging', $templates->_wrapInJsToggledDoQuickCommand('logchat', (array_key_exists('logchat', $botSettings) && $botSettings['logchat'] == '1' ? 'true' : 'false'), 'enable', 'disable'), '[]', '', (array_key_exists('logchat', $botSettings) && $botSettings['logchat'] == '1')) ?>
-          </div>
-          <div class="spacer"></div>
-          <div class="row">
-            <div class="col-sm-4">
-              <?= $templates->botCommandForm('log days', 'Set log rotate days', '[days]', (array_key_exists('logrotatedays', $botSettings) ? $botSettings['logrotatedays'] : '7'), 'Set') ?>
-            </div>
+            <?= $templates->switchToggle('Whisper Mode', 'doQuickCommand', '[\'togglewhispermode\']', '', (array_key_exists('whisperMode', $botSettings) && $botSettings['whisperMode'] == 'true')) ?>
+            <?= $templates->switchToggle('Enable Event/Error Logging', $templates->_wrapInJsToggledDoQuickCommand('log', (array_key_exists('loggingEnabled', $botSettings) && $botSettings['loggingEnabled'] == 'true' ? 'true' : 'false'), 'enable', 'disable'), '[]', '', (array_key_exists('loggingEnabled', $botSettings) && $botSettings['loggingEnabled'] == 'true')) ?>
           </div>
         </div>
         <div class="col-sm-4">

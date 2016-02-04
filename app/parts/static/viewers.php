@@ -40,16 +40,22 @@ $viewers = array_filter(array_keys($viewerTime), function ($username) use ($view
 sort($viewers);
 foreach ($viewers as $username) {
   $viewersDataRows .= '<tr>
-                        <td>' . $username . (array_key_exists($username, $viewerRanks) ? '<br /><span class="text-muted">' . $viewerRanks[$username] . '</span>' : '') . '</td>
+                        <td>
+                          <table>
+                            <tr><td>' . $username . '</td></tr>
+                            <tr><td class="text-muted">' . (array_key_exists($username, $viewerGroups) ? $groups[$viewerGroups[$username]] : $groups[7]) . '</td></tr>
+                            <tr><td>' . (array_key_exists($username, $viewerRanks) ? '<span class="text-muted">' . $viewerRanks[$username] . '</span>' : '') . '</td></tr>
+                          </table>
+                        </td>
                         <td>
                           <table>
                             <tr><td class="text-muted">Last Seen:&nbsp;</td><td>' . (array_key_exists($username, $lastSeen) ? $functions->secondsToDate(round($lastSeen[$username] / 1000)) : 'Unknown') . '</td></tr>
                             <tr><td class="text-muted">Recorded Time:&nbsp;</td><td>' . $functions->secondsToTime($viewerTime[$username]) . '</td></tr>
                             <tr><td class="text-muted">' . $psName . ':&nbsp;</td><td>' . (array_key_exists($username, $viewerPoints) ? $viewerPoints[$username] : 0) . '</td></tr>
-                            <tr><td colspan="2">
-                            ' . (array_key_exists($username, $followers) && $functions->strToBool($followers[$username]) ? '<span class="text-success">Follows you</span>' : '<span class="text-danger">Does not follow you</span>')
-      . (array_key_exists($username, $incRaids) ? ', <span class="text-success">Raided you ' . $incRaids[$username] . ' times!</span>' : '') . '
-                            </td></tr>
+                            <tr>
+                              <td>' . (array_key_exists($username, $followers) && $functions->strToBool($followers[$username]) ? '<span class="text-success">Follows you</span>' : '<span class="text-danger">Does not follow you</span>') . '</td>
+                              <td>' . (array_key_exists($username, $incRaids) ? '<span class="text-success">Raided you ' . $incRaids[$username] . ' times!</span>' : '') . '</td>
+                            </tr>
                           </table>
                         </td>
                       </tr>';
@@ -71,6 +77,7 @@ foreach ($viewers as $username) {
       <?= $templates->dataTable(
           'Recorded Viewers <span class="text-muted">(' . count($viewers) . ')</span>',
           ['username', 'info'],
-          $viewersDataRows) ?>
+          $viewersDataRows
+      ) ?>
     </div>
   </div>

@@ -391,18 +391,34 @@ function logOut() {
 
 //noinspection JSUnusedGlobalSymbols
 function openPart(partUrl, filters) {
+  var partWindow = $('#part-window');
   pBotData.touchedCollapsibles = [];
   setActiveMenuItem(partUrl);
-  if (filters) {
-    filters = $.extend(filters, {token: pBotData.config.token, username: pBotData.login.username});
-    $('#part-window').load('app/parts/' + partUrl, filters, bindPartEventHandlers);
-  } else {
-    $('#part-window').load('app/parts/' + partUrl, {
-      token: pBotData.config.token,
-      username: pBotData.login.username
-    }, bindPartEventHandlers);
-  }
-  pBotStorage.set(pBotStorage.keys.lastUsedPart, partUrl);
+  partWindow.load('app/parts/static/loading.html', null, function () {
+    if (filters) {
+      partWindow.load(
+          'app/parts/' + partUrl,
+          $.extend(
+              filters,
+              {
+                token: pBotData.config.token,
+                username: pBotData.login.username
+              }
+          ),
+          bindPartEventHandlers
+      );
+    } else {
+      partWindow.load(
+          'app/parts/' + partUrl,
+          {
+            token: pBotData.config.token,
+            username: pBotData.login.username
+          },
+          bindPartEventHandlers
+      );
+    }
+    pBotStorage.set(pBotStorage.keys.lastUsedPart, partUrl);
+  });
 }
 
 function saveToConfig(settingPath, inputId, button) {

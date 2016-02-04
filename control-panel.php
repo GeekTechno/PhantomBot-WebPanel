@@ -118,10 +118,9 @@ if ($subscribeHandlerActive == 1) {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a nohref onclick="openPart('static/panel-users.php')" role="button">Hi <span id="current-user"></span></a>
-        </li>
-        <li>
-          <a nohref onclick="logOut()" role="button">Logout</a>
+          <a nohref onclick="logOut()" role="button">
+            Logout
+          </a>
         </li>
       </ul>
     </div>
@@ -135,8 +134,7 @@ if ($subscribeHandlerActive == 1) {
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">
-        <?= $dataStore->getVar('connector', 'botName') ?> on
-        channel <?= $dataStore->getVar('connector', 'channelOwner') ?>
+        Hi <span id="current-user"></span>
         <?= str_repeat('<span class="pull-right info-banner-space-left">&nbsp;</span>', 3) ?>
         <?= $templates->streamInfoBanner($NOSubscribers, 'dollar', 'warning', 'Subscriber Count', '', ($NOSubscribers > -1)) ?>
         <?= '' /* $templates->streamInfoBanner($NOHosts, 'forward', 'info', 'Host Count', 'stream-hosts', ($NOHosts > -1))*/ ?>
@@ -148,13 +146,24 @@ if ($subscribeHandlerActive == 1) {
       </h3>
     </div>
     <div class="panel-body">
-      <div>
-        <span class="fa fa-desktop"></span> <span id="stream-title" class="text-muted">NA <a nohref
-                                                                                             onclick="loadChannelData(true)">Retry</a></span>
-      </div>
-      <div>
-        <span class="fa fa-gamepad"></span> <span id="stream-game" class="text-muted">NA</span>
-      </div>
+      <table>
+        <tr>
+          <td><span class="fa fa-pause-circle"></span>&nbsp;</td>
+          <td class="text-muted">
+            <?= $dataStore->getVar('connector', 'botName') ?>
+            on channel
+            <?= $dataStore->getVar('connector', 'channelOwner') ?>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="fa fa-desktop"></span>&nbsp;</td>
+          <td class="text-muted"><span id="stream-title" class="text-muted">NA <a nohref onclick="loadChannelData(true)">Retry</a></span></td>
+        </tr>
+        <tr>
+          <td><span class="fa fa-gamepad"></span>&nbsp;</td>
+          <td class="text-muted"><span id="stream-game" class="text-muted">NA</span></td>
+        </tr>
+      </table>
     </div>
   </div>
   <div id="part-window"></div>
