@@ -28,7 +28,7 @@ $latestDonator = checkFile($functions->getOtherFile($dataStore->getVar('paths', 
 
 function checkFile($file)
 {
-  return ($file == '' || substr(trim($file), 0, 1) == '<' ? false : $file);
+  return (trim($file) == '' || substr(trim($file), 0, 1) == '<' ? false : $file);
 }
 
 ?>
