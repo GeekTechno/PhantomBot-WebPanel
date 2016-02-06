@@ -47,7 +47,7 @@ $dataStore->setVar(
 $dataStore->setVar(
     'paths',
     'latestDonation',
-    '/addons/donationchecker/latestdonation'
+    '/addons/donationchecker/latestdonation.txt'
 );
 
 $dataStore->setVar(

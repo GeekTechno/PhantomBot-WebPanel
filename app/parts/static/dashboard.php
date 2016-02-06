@@ -23,8 +23,13 @@ $templates = new \PBPanel\Util\ComponentTemplates();
 $botSettings = $functions->getDbTableArray('settings');
 $botStreamInfo = $functions->getDbTableArray('streamInfo');
 $noticeCount = count($functions->getDbTableArray('notices'));
-$latestFollower = $functions->getOtherFile($dataStore->getVar('paths', 'latestFollower'));
-$latestDonator = $functions->getOtherFile($dataStore->getVar('paths', 'latestDonator'));
+$latestFollower = checkFile($functions->getOtherFile($dataStore->getVar('paths', 'latestFollower')));
+$latestDonator = checkFile($functions->getOtherFile($dataStore->getVar('paths', 'latestDonation')));
+
+function checkFile($file)
+{
+  return ($file == '' || substr(trim($file), 0, 1) == '<' ? false : $file);
+}
 
 ?>
 <div class="app-part">
@@ -33,9 +38,9 @@ $latestDonator = $functions->getOtherFile($dataStore->getVar('paths', 'latestDon
       <h3 class="panel-title">Dashboard <span class="text-muted">Update stream info</span></h3>
     </div>
     <div class="panel-body">
-      <?= ($latestFollower != '' ? '<h4><small>Latest Follower</small> ' . $latestFollower . '</h4>' : '')?>
-      <?= ($latestDonator != '' ? '<h4><small>Latest Donator</small> ' . $latestDonator. '</h4>' : '')?>
-      <?= ($latestFollower != '' || $latestDonator != '' ? '<hr />' : '')?>
+      <?= ($latestFollower ? '<h4><small>Latest Follower</small> ' . $latestFollower . '</h4>' : '') ?>
+      <?= ($latestDonator ? '<h4><small>Latest Donator</small> ' . $latestDonator . '</h4>' : '') ?>
+      <?= ($latestFollower || $latestDonator != '' ? '<hr />' : '') ?>
       <h4>Quick Commands</h4>
 
       <div class="btn-toolbar">
@@ -48,7 +53,7 @@ $latestDonator = $functions->getOtherFile($dataStore->getVar('paths', 'latestDon
       <div class="btn-toolbar">
         <?= $templates->botCommandButton('unhost', 'Unhost', 'default btn-sm') ?>
         <?= $templates->botCommandButton('clear', 'Clear Chat', 'default btn-sm') ?>
-        <?= $templates->switchToggle('Mute bot', 'doQuickCommand', '[\'mute\']', null, (array_key_exists('response_@chat', $botSettings) && $botSettings['response_@chat'] == 'false'), true)?>
+        <?= $templates->switchToggle('Mute bot', 'doQuickCommand', '[\'mute\']', null, (array_key_exists('response_@chat', $botSettings) && $botSettings['response_@chat'] == 'false'), true) ?>
         <?= $templates->botCommandButton('d !exit', 'Shutdown ' . $dataStore->getVar('connector', 'botName'), 'danger btn-sm') ?>
       </div>
       <hr/>
