@@ -15,7 +15,7 @@ Installation
 ---
 ###Prerequisites:###
 
-  * PhantomBot 1.6.6.1 or later.
+  * PhantomBot 2.0 or later.
   * A php enabled webserver with cUrl and SQLite support (Try [Apache](http://www.apache.org/))
   * Make sure that the installation directory is writeable by your webserver!
   
