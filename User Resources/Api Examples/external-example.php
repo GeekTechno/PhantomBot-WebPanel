@@ -11,11 +11,11 @@ require_once('../../AppLoader.class.php');
 
 $dataStore = new \PBPanel\Util\DataStore();
 $connection = new PBPanel\Util\BotConnectionHandler($dataStore);
-$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$functions = new \PBPanel\Util\FunctionLibrary($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
-$userPoints = $functions->getIniArray('points');
-$customCommands = $functions->getIniArray('command');
+$userPoints = $functions->getDbTableArray('points');
+$customCommands = $functions->getDbTableArray('command');
 $userPointsDataRows = '';
 $customCommandsDataRows = '';
 

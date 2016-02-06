@@ -11,7 +11,7 @@ require_once('../../AppLoader.class.php');
 
 $dataStore = new \PBPanel\Util\DataStore();
 $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
-$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$functions = new \PBPanel\Util\FunctionLibrary($dataStore, $connection);
 $input = filter_input_array(INPUT_POST);
 
 if (!array_key_exists('username', $input) || trim($input['username']) == '') {

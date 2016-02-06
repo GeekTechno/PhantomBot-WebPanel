@@ -11,14 +11,14 @@ require_once('../../AppLoader.class.php');
 
 $dataStore = new \PBPanel\Util\DataStore();
 $connection = new PBPanel\Util\BotConnectionHandler($dataStore);
-$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$functions = new \PBPanel\Util\FunctionLibrary($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
 // Call this file like ".../external-example2.php?username=[USERNAME]"
 $username = filter_input(INPUT_GET, 'username');
 
 if ($username) {
-  $singleUserPoints = $functions->getIniValueByKey('points', strtolower($username), true);
+  $singleUserPoints = $functions->getDbTableValueByKey('points', strtolower($username), true);
 } else {
   die('Call this file like ".../external-example2.php?username=[USERNAME]"');
 }

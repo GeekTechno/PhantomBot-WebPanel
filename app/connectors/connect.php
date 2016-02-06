@@ -11,7 +11,7 @@ require_once('../../AppLoader.class.php');
 
 $dataStore = new \PBPanel\Util\DataStore();
 $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
-$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$functions = new \PBPanel\Util\FunctionLibrary($dataStore, $connection);
 $input = filter_input_array(INPUT_POST);
 
 if (!array_key_exists('username', $input) || !array_key_exists('password', $input) || !$functions->isValidUser($input['username'], $input['password'])) {
@@ -33,7 +33,7 @@ if (array_key_exists('action', $input) && $input['action'] != '') {
       if (array_key_exists('command', $input) && $input['username']) {
         echo json_encode($connection->send(
             '!' . $input['command'],
-            (array_key_exists(strtolower($input['username']), $functions->getIniArray('visited')) ? $input['username'] : $dataStore->getVar('connector', 'channelOwner'))
+            (array_key_exists(strtolower($input['username']), $functions->getDbTableArray('visited')) ? $input['username'] : $dataStore->getVar('connector', 'channelOwner'))
         ));
       } else {
         $functions->sendBackError('Command is empty');
@@ -41,7 +41,7 @@ if (array_key_exists('action', $input) && $input['action'] != '') {
       break;
     case 'getIni':
       if (array_key_exists('uri', $input)) {
-        $functions->getIniArray($input['uri'], false);
+        $functions->getDbTableArray($input['uri'], false);
       } else {
         $functions->sendBackError('Missing ini uri');
       }
@@ -55,7 +55,7 @@ if (array_key_exists('action', $input) && $input['action'] != '') {
       break;
     case 'getIniValueByKey':
       if (array_key_exists('uri', $input) && array_key_exists('key', $input)) {
-        $functions->sendBackOk($functions->getIniValueByKey($input['uri'], $input['key']));
+        $functions->sendBackOk($functions->getDbTableValueByKey($input['uri'], $input['key']));
       } else {
         $functions->sendBackError('Missing parameters');
       }

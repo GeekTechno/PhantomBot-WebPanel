@@ -1,0 +1,1 @@
+{"version":3,"file":"switch-toggle.min.js","sources":["switch-toggle.js"],"names":["switchToggleCallback","callback","callbackParams","that","this","t","setTimeout","apply","clearTimeout"],"mappings":"AASA,QAASA,sBAAqBC,EAAUC,GACtC,GAAID,EAAU,CACZ,GAAIE,GAAOC,IACX,IAAIC,GAAIC,WAAW,WACjBL,EAASM,MAAMJ,EAAMD,EACrBM,cAAaH,IACZ"}

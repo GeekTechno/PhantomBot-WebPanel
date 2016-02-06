@@ -12,7 +12,7 @@ require_once('AppLoader.class.php');
 $session = new \PBPanel\Util\PanelSession();
 $dataStore = new PBPanel\Util\DataStore();
 $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
-$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$functions = new \PBPanel\Util\FunctionLibrary($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
 if (\PBPanel\AppLoader::runInstall($dataStore)) {
@@ -27,10 +27,10 @@ if (\PBPanel\AppLoader::updateAvailable($dataStore)) {
 
 $session->createToken();
 
-$botSettings = $functions->getIniArray('settings');
+$botSettings = $functions->getDbTableArray('settings');
 $isBotOnline = ($connection->testConnection()[2] == 52);
-$hostHandlerActive = $functions->getIniValueByKey('modules.ini', 'hostHandler.js', true);
-$subscribeHandlerActive = $functions->getIniValueByKey('modules.ini', 'subscribeHandler.js', true);
+$hostHandlerActive = $functions->getDbTableValueByKey('modules.ini', 'hostHandler.js', true);
+$subscribeHandlerActive = $functions->getDbTableValueByKey('modules.ini', 'subscribeHandler.js', true);
 $musicPlayerCurrentSong = $functions->getOtherFile($dataStore->getVar('paths', 'youtubeCurrentSong'));
 $NOHosts = -1;
 $NOSubscribers = -1;
@@ -52,9 +52,9 @@ foreach ($partsList as $parentName => $subItems) {
   }
 
   foreach ($subItems as $item) {
-    $openPartParam = '\'' . $parentName . '/' . $item['partFile'] . '\'';
+    $openPartParam = $parentName . '/' . $item['partFile'];
     $customScriptIcon = ($item['isCustom'] ? '&nbsp;&nbsp;&nbsp;<span class="fa fa-wrench"></span>' : '');
-    $renderedMenu .= '<li><a nohref onclick="openPart(' . $openPartParam . ')" role="button"><span class="fa ' . $icon . '"></span>&nbsp;' . $item['partName'] . $customScriptIcon . '</a></li>';
+    $renderedMenu .= '<li><a nohref onclick="openPart(\'' . $openPartParam . '\')" role="button"><span class="fa ' . $icon . '"></span>&nbsp;' . $item['partName'] . $customScriptIcon . '</a></li>';
   }
 
   if ($parentName == 'extras') {
@@ -65,18 +65,14 @@ foreach ($partsList as $parentName => $subItems) {
         . '<li><a href="http://www.twitch.tv/' . $dataStore->getVar('connector', 'channelOwner') . '" target="_blank"><span class="fa fa-info-circle" role="button"></span>&nbsp;Your Twitch Channel</a></li>'
         . '<li><a href="http://www.twitch.tv/' . $dataStore->getVar('connector', 'channelOwner') . '/profile" target="_blank"><span class="fa fa-info-circle" role="button"></span>&nbsp;Your Twitch Profile</a></li>'
         . '<li class="divider"></li>'
-        . '<li><a href="http://www.phantombot.net/threads/command-list-by-script.13/" target="_blank" role="button"><span class="fa fa-question-circle"></span>&nbsp;PhantomBot Commands ist</a></li>'
-        . '<li><a href="http://www.phantombot.net" target="_blank"><span class="fa fa-question-circle" role="button"></span>&nbsp;PhantomBot Forums</a></li>';
+        . '<li><a href="https://community.phantombot.net/" target="_blank"><span class="fa fa-question-circle" role="button"></span>&nbsp;PhantomBot Forums</a></li>';
   }
 
   $renderedMenu .= '</ul></li>';
 }
 
-//if ($hostHandlerActive == 1) {
-//  $NOHosts = $functions->getIniValueByKey('stream_info.ini', 'hosts_amount');
-//}
 if ($subscribeHandlerActive == 1) {
-  $subscribers = $functions->getIniArray('subscribed.ini');
+  $subscribers = $functions->getDbTableArray('subscribed.ini');
   $NOSubscribers = 0;
   foreach ($subscribers as $subActive) {
     $NOSubscribers += ($subActive == 1 ? 1 : 0);
@@ -90,7 +86,6 @@ if ($subscribeHandlerActive == 1) {
   <title></title>
   <link href="app/css/<?= $dataStore->getVar('misc', 'theme', 'style_dark') ?>.css"
         rel="stylesheet" type="text/css"/>
-  <link href="app/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
   <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
@@ -116,14 +111,16 @@ if ($subscribeHandlerActive == 1) {
         <li id="menu-parent-dashboard">
           <a nohref onclick="openPart('static/dashboard.php')" role="button">Dashboard</a>
         </li>
+        <li id="menu-parent-viewers">
+          <a nohref onclick="openPart('static/viewers.php')" role="button">Viewers</a>
+        </li>
         <?= $renderedMenu ?>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a nogref onclick="openPart('static/panel-users.php')" role="button">Hi <span id="current-user"></span></a>
-        </li>
-        <li>
-          <a nohref onclick="logOut()" role="button">Logout</a>
+          <a nohref onclick="logOut()" role="button">
+            Logout
+          </a>
         </li>
       </ul>
     </div>
@@ -137,32 +134,42 @@ if ($subscribeHandlerActive == 1) {
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">
-        <?= $dataStore->getVar('connector', 'botName') ?> on
-        channel <?= $dataStore->getVar('connector', 'channelOwner') ?>
+        Hi <span id="current-user"></span>
         <?= str_repeat('<span class="pull-right info-banner-space-left">&nbsp;</span>', 3) ?>
         <?= $templates->streamInfoBanner($NOSubscribers, 'dollar', 'warning', 'Subscriber Count', '', ($NOSubscribers > -1)) ?>
         <?= '' /* $templates->streamInfoBanner($NOHosts, 'forward', 'info', 'Host Count', 'stream-hosts', ($NOHosts > -1))*/ ?>
         <?= $templates->streamInfoBanner('NA', 'heartbeat', 'danger', 'Follower Count', 'stream-followers') ?>
         <?= $templates->streamInfoBanner('NA', 'users', 'success', 'Viewer Count', 'stream-viewer-count') ?>
         <?= $templates->streamInfoBanner('Offline', 'rss', 'info', 'Stream Status', 'stream-status') ?>
-        <?= (!$isBotOnline ? $templates->streamInfoBanner('Bot Offline', 'exclamation-circle', 'danger',
-            '<span class="text-danger">Could not contact the bot.</span><br />Make sure it\'s running and the HTTP server is active.') : '') ?>
+        <?= (!$isBotOnline ? $templates->streamInfoBanner('Could not find PhantomBot', 'exclamation-circle', 'danger',
+            'Make sure PhantomBot is running and your webserver is able to find it!') : '') ?>
       </h3>
     </div>
     <div class="panel-body">
-      <div>
-        <span class="fa fa-desktop"></span> <span id="stream-title" class="text-muted">NA <a nohref
-                                                                                             onclick="loadChannelData(true)">Retry</a></span>
-      </div>
-      <div>
-        <span class="fa fa-gamepad"></span> <span id="stream-game" class="text-muted">NA</span>
-      </div>
+      <table>
+        <tr>
+          <td><span class="fa fa-pause-circle"></span>&nbsp;</td>
+          <td class="text-muted">
+            <?= $dataStore->getVar('connector', 'botName') ?>
+            on channel
+            <?= $dataStore->getVar('connector', 'channelOwner') ?>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="fa fa-desktop"></span>&nbsp;</td>
+          <td class="text-muted"><span id="stream-title" class="text-muted">NA <a nohref onclick="loadChannelData(true)">Retry</a></span></td>
+        </tr>
+        <tr>
+          <td><span class="fa fa-gamepad"></span>&nbsp;</td>
+          <td class="text-muted"><span id="stream-game" class="text-muted">NA</span></td>
+        </tr>
+      </table>
     </div>
   </div>
   <div id="part-window"></div>
   <div class="panel panel-default page-footer">
     <div class="panel-heading">
-      PhantomBot Control Panel
+      PhantomBot Web Panel
       <small><?= $dataStore->getVar('misc', 'currentVersion') ?></small>
       &#xFF0F; <a href="//juraji.nl" target="_blank">juraji</a> &copy;<?= date('Y') ?>
       &#xFF0F; Compatible with <a href="//www.phantombot.net/"
@@ -179,6 +186,5 @@ if ($subscribeHandlerActive == 1) {
 </div>
 <?= $templates->sideTab('Twitch Preview', 'http://www.twitch.tv/' . strtolower($dataStore->getVar('connector', 'channelOwner')) . '/embed', 'fa-video-camera') ?>
 <?= $templates->sideTab('Music Player', 'pops/music-player.php?botControl=true', 'fa-music', true) ?>
-<?= $templates->sideTab('Sound Effects', 'pops/sound-effects-player.php', 'fa-volume-up', true) ?>
 </body>
 </html>

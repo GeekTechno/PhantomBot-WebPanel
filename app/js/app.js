@@ -153,17 +153,22 @@ function bindPartEventHandlers() {
       event.target.attributes.botcommand = {value: ''};
     }
     //noinspection JSUnresolvedVariable,CoffeeScriptUnusedLocalSymbols
-    var input = $(event.target[0]), noReload = event.target.attributes.formnoreload.value;
+    var input = $(event.target[0]),
+        button = $(event.target[1]),
+        buttonOrgHtml = button.html(),
+        noReload = event.target.attributes.formnoreload.value;
     if (input.val().length != 0) {
       if (event.target.attributes.botcommand.value == '') {
         requestParams = {command: _cleanInput(input.val())};
       } else {
         requestParams = {command: _cleanInput(event.target.attributes.botcommand.value) + ' ' + _cleanInput(input.val())};
       }
+      button.html('<span class="fa fa-cog fa-spin"></span>');
       doBotRequest('command', function (result) {
         showGeneralAlert(result);
         if (noReload == '1') {
           input.val('');
+          button.html(buttonOrgHtml);
         } else {
           loadPartFromStorage();
         }
@@ -237,10 +242,6 @@ function bindPartEventHandlers() {
       pBotData.touchedCollapsibles.push(owner.text());
     }
     owner.toggleClass('open');
-
-    $('.CodeMirror').each(function (i, el) {
-      el.CodeMirror.refresh();
-    });
   });
 
   /*
@@ -390,18 +391,34 @@ function logOut() {
 
 //noinspection JSUnusedGlobalSymbols
 function openPart(partUrl, filters) {
+  var partWindow = $('#part-window');
   pBotData.touchedCollapsibles = [];
   setActiveMenuItem(partUrl);
-  if (filters) {
-    filters = $.extend(filters, {token: pBotData.config.token, username: pBotData.login.username});
-    $('#part-window').load('app/parts/' + partUrl, filters, bindPartEventHandlers);
-  } else {
-    $('#part-window').load('app/parts/' + partUrl, {
-      token: pBotData.config.token,
-      username: pBotData.login.username
-    }, bindPartEventHandlers);
-  }
-  pBotStorage.set(pBotStorage.keys.lastUsedPart, partUrl);
+  partWindow.load('app/parts/static/loading.html', null, function () {
+    if (filters) {
+      partWindow.load(
+          'app/parts/' + partUrl,
+          $.extend(
+              filters,
+              {
+                token: pBotData.config.token,
+                username: pBotData.login.username
+              }
+          ),
+          bindPartEventHandlers
+      );
+    } else {
+      partWindow.load(
+          'app/parts/' + partUrl,
+          {
+            token: pBotData.config.token,
+            username: pBotData.login.username
+          },
+          bindPartEventHandlers
+      );
+    }
+    pBotStorage.set(pBotStorage.keys.lastUsedPart, partUrl);
+  });
 }
 
 function saveToConfig(settingPath, inputId, button) {
@@ -582,7 +599,7 @@ function toggleInformationPanels(fromPageLoad) {
 //noinspection CoffeeScriptUnusedLocalSymbols
 function toggleMusicPlayerControls(fromLoad, button) {
   if (fromLoad) {
-    $('#music-player-divide-volume').prop({checked: pBotData.musicPlayerControls.volumeDivision});
+
   } else {
     pBotData.musicPlayerControls.controlsEnabled = !pBotData.musicPlayerControls.controlsEnabled;
     pBotStorage.set(pBotStorage.keys.musicPlayer.controlsEnabled, pBotData.musicPlayerControls.controlsEnabled);
