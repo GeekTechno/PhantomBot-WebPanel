@@ -41,15 +41,18 @@ foreach ($quotes as $id => $quote) {
     </div>
     <div class="panel-body">
       <div class="btn-toolbar">
-          <?=$templates->botCommandButton('quote', 'Get Random Quote')?>
+        <?= $templates->botCommandButton('quote', 'Get Random Quote') ?>
       </div>
-      <hr />
+      <hr/>
       <h4 class="collapsible-master">Manage Quotes</h4>
 
       <div class="collapsible-content">
         <div class="row">
           <div class="col-sm-4">
-            <?= $templates->botCommandForm('addquote', 'Add a Quote', '[username] [quote...]') ?>
+            <?= $templates->botCommandFormV2('addquote', 'Add a Quote', [
+                'placeholder' => '[username] [quote...]',
+                'autoComplete' => 'user'
+            ]) ?>
           </div>
           <div class="col-sm-4">
             <?= $templates->botCommandForm('delquote', 'Delete a Quote', '[quoteId]') ?>
@@ -61,5 +64,3 @@ foreach ($quotes as $id => $quote) {
     </div>
   </div>
 </div>
-<script src="app/js/spark-md5.min.js" type="text/javascript"></script>
-<script src="app/js/panel-users.min.js" type="text/javascript"></script>

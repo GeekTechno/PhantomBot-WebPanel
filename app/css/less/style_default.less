@@ -279,10 +279,6 @@ textarea {
 
 .collapsible-content {
   display: none;
-  overflow: hidden;
-  &.open {
-    display: block;
-  }
 }
 
 #favorites-menu {
@@ -492,6 +488,40 @@ textarea {
 
     span {
       pointer-events: none;
+    }
+  }
+}
+
+.custom-commands {
+  table {
+    tbody {
+      tr {
+        td {
+          &:first-child {
+            width: 340px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ac-list {
+  display: none;
+  width: 100%;
+  min-height: 3em;
+  position: absolute;
+  background-color: @panel-bg;
+  padding: 15px 0;
+  border: 1px solid @brand-primary;
+  left: 0;
+  top: 45px;
+  list-style: none;
+
+  li {
+    padding: 0 10px;
+    &:hover {
+      background-color: @brand-primary;
     }
   }
 }

@@ -1,0 +1,149 @@
+8ball
+addcom
+addcommandtimer
+addquote
+addsong
+adventure
+adventure set
+adventure set jointime
+adventure top5
+aliascom
+ban
+bolts
+chat
+chatmod capsallowed
+chatmod linksaggressive
+chatmod linksallowed
+chatmod reglinksallowed
+chatmod repeatchatallowed
+chatmod setcapstriggerlength
+chatmod setcapstriggerration
+chatmod setlinkpermittime
+chatmod setrepeatchartriggerlength
+chatmod setsymboltriggercount
+chatmod symbolsallowed
+chatmod youtubelinksallowed
+checkfollow
+cleanup
+clear
+clearcooldown
+commandtimer setreqmsgs
+commandtimer settime
+commandtimer toggle
+commandtimer togglerandom
+cooldown
+delalias
+delcom
+delcommandtimer
+delquote
+followers
+followreward
+game
+game
+greeting disable
+greeting enable
+greeting setdefault
+greeting toggledefault
+group
+group
+hostcount
+hostlist
+hostreward
+kill
+lang
+lang
+lastseen
+log
+log disable
+log enable
+makeitrain
+mods
+module disable
+module enable
+module list
+module status
+musicplayer
+musicplayer adddefault
+musicplayer deldefault
+musicplayer limit
+musicplayer maxvideolength
+musicplayer pause
+musicplayer reload
+musicplayer shuffle
+musicplayer togglenotify
+mute
+online
+pausecommands
+pausecommands clear
+permcom
+permit
+playsong
+points
+points add
+points all
+points set
+points setgain
+points setinterval
+points setofflinegain
+points setofflineinterval
+points take
+poll
+poll close
+poll open
+poll results
+pricecom
+purge
+quote
+raffle
+raffle close
+raffle redraw
+raffle start
+raid
+raider
+random
+rank
+rank del
+rank set
+rank settime
+reconnect
+roll
+roulette
+roulettetimeouttime
+skipsong
+slot
+stealsong
+streamertime
+tamagotchi
+tgbaccept
+tgbattle
+tgbuy
+tgfeed
+tghug
+tgkill
+tgplay
+tgsetting
+tgsetting baselevelcap
+tgsetting foodlevelttlhrs
+tgsetting foodmax
+tgsetting pricingbuyfood
+tgsetting pricingbuynewtg
+time
+time add
+time modpermtoggle
+time offlinetime
+time promotehours
+time take
+timeout
+title
+title
+toggleme
+togglerequests
+togglewhispermode
+top5
+top5time
+unban
+unhost
+users
+viewers
+volume
+whitelist

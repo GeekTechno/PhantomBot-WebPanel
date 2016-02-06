@@ -53,7 +53,10 @@ foreach ($commandTimerCommands as $command => $active) {
 
       <div class="row">
         <div class="col-sm-4">
-          <?= $templates->botCommandForm('addcommandtimer', 'Add command to command timer', '[command]') ?>
+          <?= $templates->botCommandFormV2('addcommandtimer', 'Add command to command timer', [
+            'placeholder' => '[command]',
+            'autoComplete' => 'command'
+          ]) ?>
         </div>
       </div>
       <hr/>

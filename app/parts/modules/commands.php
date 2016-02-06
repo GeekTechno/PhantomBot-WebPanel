@@ -59,7 +59,10 @@ foreach ($customCommandsIni as $command => $message) {
     $perm = 'Viewer';
   }
   if (preg_match('/\([0-9]\)|\([.]{3}\)/i', $message)) {
-    $actor = $templates->botCommandForm($command, '', '!' . $command);
+    $actor = $templates->botCommandFormV2($command, '', [
+        'placeholder' => '!' . $command,
+        'autoComplete' => 'user'
+    ]);
   } else {
     $actor = $templates->botCommandButton($command, '!' . $command, 'default btn-block');
   }
@@ -177,7 +180,11 @@ function getGroupId($group)
       </h3>
     </div>
     <div class="panel-body">
-      <?= $templates->botCommandForm('', 'Run command', '[command] [params]') ?>
+      <?= $templates->botCommandFormV2('', 'Run Command', [
+          'placeholder' => '[command] [params]',
+          'noReload' => true,
+          'autoComplete' => 'all'
+      ]) ?>
       <hr/>
       <h4 class="collapsible-master">Command Creation</h4>
 
