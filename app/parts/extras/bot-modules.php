@@ -17,44 +17,45 @@ if (!$session->checkSessionToken(filter_input(INPUT_POST, 'token'))) {
 
 $dataStore = new \PBPanel\Util\DataStore();
 $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
-$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$functions = new \PBPanel\Util\FunctionLibrary($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
-$moduleSettingsIni = $functions->getDbTableArray('modules');
+$botModules = $functions->getDbTableArray('modules');
 $modulesTableRows = '';
-$moduleNameReplacements = [
-    './',
-    '_enabled',
-];
+$NOModules = 0;
 $NOModulesActive = 0;
 
-uksort($moduleSettingsIni, function ($a, $b) use ($moduleNameReplacements) {
-  return strcasecmp(
-      str_replace($moduleNameReplacements, '', $a),
-      str_replace($moduleNameReplacements, '', $b)
-  );
-});
+ksort($botModules);
 
-foreach ($moduleSettingsIni as $fullPath => $active) {
-  if (strpos($fullPath, 'lang-') > -1) {
+foreach ($botModules as $modulePath => $status) {
+  if (strpos($modulePath, './lang') > -1) {
     continue;
   }
-  $moduleName = ucfirst(str_replace($moduleNameReplacements, '', $fullPath));
-  $moduleFullPath = str_replace('_enabled', '', $fullPath);
-  $active = ($active == 1 || strpos($moduleFullPath, 'util') > -1);
 
-  if ($active) {
+  $NOModules++;
+  if ($functions->strToBool($status)) {
     $NOModulesActive++;
   }
 
+  $toggle = $templates->switchToggle(
+      '',
+      $templates->_wrapInJsToggledDoQuickCommand(
+          'module',
+          ($functions->strToBool($status) ? 'true' : 'false'),
+          'disable ' . $modulePath,
+          'enable ' . $modulePath
+      ),
+      null,
+      null,
+      $functions->strToBool($status),
+      false,
+      true,
+      false,
+      (strpos($modulePath, './core') > -1)
+  );
 
-  $toggleButton = $templates->switchToggle('', $templates->_wrapInJsToggledDoQuickCommand(
-      'module', ($active ? 'true' : 'false'), 'disable ' . $moduleFullPath, 'enable ' . $moduleFullPath
-  ), null, null, $active, false, true, false, (strpos($moduleFullPath, 'util') > -1 || strpos($moduleFullPath, 'lang') > -1));
-
-  $modulesTableRows .= '<tr><td>' . $templates->switchToggleText($moduleName, false, true) . '</td><td>' . $toggleButton . '</td></tr>';
+  $modulesTableRows .= '<tr><td>' . $modulePath . '</td><td>' . $toggle . '</td></tr>';
 }
-
 
 ?>
 <div class="app-part">
@@ -63,7 +64,7 @@ foreach ($moduleSettingsIni as $fullPath => $active) {
       <h3 class="panel-title">
         Module Manager
         <?= $templates->toggleFavoriteButton() ?>
-        <span class="text-info pull-right"><span class="fa fa-info-circle"></span> <?= count($moduleSettingsIni) ?>
+        <span class="text-info pull-right"><span class="fa fa-info-circle"></span> <?= $NOModules ?>
           Known Module's, <?= $NOModulesActive ?>
           Active</span>
       </h3>

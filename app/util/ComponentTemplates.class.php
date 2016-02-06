@@ -302,9 +302,26 @@ class ComponentTemplates
             </div>';
   }
 
+  /**
+   * @return string
+   */
   public function randomId()
   {
     $randomIdSeed = str_shuffle('abcdefghijklmnipqrstuvwzyxabcdefghijklmnipqrstuvwzyxabcdefghijklmnipqrstuvwzyx');
     return substr($randomIdSeed, rand(0, 72), 5);
+  }
+
+  /**
+   * @param boolean $status
+   * @return string
+   */
+  public function moduleActiveIndicator($status)
+  {
+    if ($status) {
+      return '<span class="text-success pull-right"><span class="fa fa-check-circle"></span> Module Active</span>';
+    } else {
+      return $this->addTooltip('<span class="text-danger pull-right"><span class="fa fa-exclamation-circle"></span> Module Inactive</span>',
+          'Enable this module in Extras->Modules Manager to use it.', ['position' => ComponentTemplates::TOOLTIP_POS_LEFT, 'offsetX' => -5]);
+    }
   }
 } 

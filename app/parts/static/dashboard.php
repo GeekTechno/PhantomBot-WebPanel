@@ -17,7 +17,7 @@ if (!$session->checkSessionToken(filter_input(INPUT_POST, 'token'))) {
 
 $dataStore = new \PBPanel\Util\DataStore();
 $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
-$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$functions = new \PBPanel\Util\FunctionLibrary($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
 $botSettings = $functions->getDbTableArray('settings');

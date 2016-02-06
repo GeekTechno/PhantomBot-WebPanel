@@ -8,7 +8,7 @@
  */
 namespace PBPanel\Util;
 
-class Functions
+class FunctionLibrary
 {
   /* @var DataStore $dataStore */
   private $dataStore;
@@ -66,7 +66,7 @@ class Functions
       }
     }
     unset($directoryContents['static']);
-    return $directoryContents;
+    return array_reverse($directoryContents);
   }
 
   public function getCurrentTitle()
@@ -297,5 +297,14 @@ class Functions
   public function strToBool($value)
   {
     return ($value == 'true');
+  }
+
+  /**
+   * @param string $moduleName
+   * @return bool
+   */
+  public function getModuleStatus($moduleName)
+  {
+    return $this->strToBool($this->getDbTableValueByKey('modules', $moduleName, true));
   }
 }

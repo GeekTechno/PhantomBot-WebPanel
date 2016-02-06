@@ -17,7 +17,7 @@ if (!$session->checkSessionToken(filter_input(INPUT_POST, 'token'))) {
 
 $dataStore = new \PBPanel\Util\DataStore();
 $connection = new \PBPanel\Util\BotConnectionHandler($dataStore);
-$functions = new \PBPanel\Util\Functions($dataStore, $connection);
+$functions = new \PBPanel\Util\FunctionLibrary($dataStore, $connection);
 $templates = new \PBPanel\Util\ComponentTemplates();
 
 $botSettings = $functions->getDbTableArray('settings');
@@ -89,7 +89,7 @@ foreach ($themeFiles as $themeFile) {
           </div>
         </div>
         <div class="col-sm-4">
-          <?= $templates->informationPanel('The bot is able to whisper any messages intended for a specific user to that user, instead of posting it in the chat.') ?>
+          <?= $templates->informationPanel('The bot is able to whisper some messages intended for a specific user to that user, instead of posting it in the chat.') ?>
         </div>
       </div>
       <hr/>
