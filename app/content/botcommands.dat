@@ -1,62 +1,70 @@
 8ball
 addcom
-addcommandtimer
 addquote
 addsong
 adventure
+adventure
 adventure set
 adventure set jointime
-adventure top5
+adventure top
 aliascom
-ban
-bolts
+blacklist
+blacklist add
+blacklist remove
+blacklist show
 chat
-chatmod capsallowed
-chatmod linksaggressive
-chatmod linksallowed
-chatmod reglinksallowed
-chatmod repeatchatallowed
-chatmod setcapstriggerlength
-chatmod setcapstriggerration
-chatmod setlinkpermittime
-chatmod setrepeatchartriggerlength
-chatmod setsymboltriggercount
-chatmod symbolsallowed
-chatmod youtubelinksallowed
 checkfollow
 cleanup
-clear
 clearcooldown
-commandtimer setreqmsgs
-commandtimer settime
-commandtimer toggle
-commandtimer togglerandom
+command
+commands
 cooldown
 delalias
 delcom
-delcommandtimer
 delquote
+editcom
 followers
+followmessage
 followreward
-game
 game
 greeting disable
 greeting enable
 greeting setdefault
 greeting toggledefault
 group
-group
 hostcount
 hostlist
 hostreward
+keyword
+keyword add
+keyword remove
 kill
-lang
 lang
 lastseen
 log
 log disable
 log enable
 makeitrain
+moderation
+moderation blacklistmessage
+moderation caps
+moderation capslimimt
+moderation capsmessage
+moderation capstriggerlength
+moderation links
+moderation links
+moderation links
+moderation linksmessage
+moderation permittime
+moderation regulars
+moderation spamlimit
+moderation spammessage
+moderation subscribers
+moderation symbolslimit
+moderation symbolsmessage
+moderation symbolstriggerlength
+moderation timeouttime
+moderation warningtime
 mods
 module disable
 module enable
@@ -72,6 +80,16 @@ musicplayer reload
 musicplayer shuffle
 musicplayer togglenotify
 mute
+notice
+notice add
+notice config
+notice edit
+notice get
+notice interval
+notice reload
+notice remove
+notice req
+notice toggle
 online
 pausecommands
 pausecommands clear
@@ -84,6 +102,8 @@ points all
 points set
 points setgain
 points setinterval
+points setname multiple
+points setname single
 points setofflinegain
 points setofflineinterval
 points take
@@ -92,12 +112,12 @@ poll close
 poll open
 poll results
 pricecom
-purge
 quote
 raffle
 raffle close
 raffle redraw
 raffle start
+RAFFLEKEYWORD
 raid
 raider
 random
@@ -106,44 +126,40 @@ rank del
 rank set
 rank settime
 reconnect
+resubmessage
+resubwelcometoggle
 roll
 roulette
 roulettetimeouttime
+setraidmsg
 skipsong
 slot
 stealsong
 streamertime
-tamagotchi
-tgbaccept
-tgbattle
-tgbuy
-tgfeed
-tghug
-tgkill
-tgplay
-tgsetting
-tgsetting baselevelcap
-tgsetting foodlevelttlhrs
-tgsetting foodmax
-tgsetting pricingbuyfood
-tgsetting pricingbuynewtg
+submessae
+subscribercount
+subscribereward
+subscribers
+subscribersoff
+subwelcometoggle
 time
 time add
 time modpermtoggle
 time offlinetime
 time promotehours
 time take
-timeout
-title
 title
 toggleme
+togglemodcooldown
 togglerequests
 togglewhispermode
 top5
 top5time
-unban
 unhost
 users
 viewers
 volume
 whitelist
+whitelist add
+whitelist remove
+whitelist show
