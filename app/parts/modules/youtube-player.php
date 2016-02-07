@@ -82,7 +82,12 @@ foreach ($requestQueue as $item) {
         </div>
       </div>
       <hr/>
-      <?= $templates->dataTable('Request Queue <small>(' . $requestQueueLength . ' items)</small>', ['', 'Video Title', 'Requested By'], $requestQueueDataRows, true) ?>
+      <?= $templates->dataTable(
+          'Request Queue <small>(' . $requestQueueLength . ' items)</small> ' . ($requestQueueLength > 0 ? $templates->botCommandButton('stealsong', 'Steal Current Song', 'default btn-sm') : ''),
+          ['', 'Video Title', 'Requested By'],
+          $requestQueueDataRows,
+          true
+      ) ?>
       <hr/>
       <div class="row">
         <div class="col-sm-4">
