@@ -55,18 +55,60 @@ class ComponentTemplates
    * @param bool $disabled
    * @param bool $small
    * @param bool $noReload
+   * @param null|string $autoComplete
    * @return string
    */
-  public function botCommandForm($command, $description, $inputPlaceHolder = '[username]', $inputValue = null, $buttonText = null, $disabled = false, $small = false, $noReload = false)
+  public function botCommandForm($command, $description, $inputPlaceHolder = '[username]', $inputValue = null, $buttonText = null, $disabled = false, $small = false, $noReload = false, $autoComplete = null)
   {
-    return '<form class="bot-command-form" botcommand="' . $command . '" formnoreload="' . ($noReload ? '1' : '0') . '"">
+    $autoCompeteId = $this->randomId();
+
+    return '<form class="bot-command-form' . ($autoComplete ? ' auto-complete' : '') . '" botcommand="'
+    . $command . '" formnoreload="' . ($noReload ? '1' : '0') . '"' . ($autoComplete ? ' autocompleteon="' . $autoComplete . '" autocompleteid="' . $autoCompeteId . '"' : '') . '>
           <div class="form-group' . ($small ? ' form-group-sm' : '') . '">
             <span>' . $description . '</span>
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="' . $inputPlaceHolder . '" value="' . $inputValue . '"' . ($disabled ? ' disabled' : '') . '/>
+              <input type="text"' . ($autoComplete ? ' id="ac-field-' . $autoCompeteId . '" autocomplete="off"' : '') . ' class="form-control" placeholder="' . $inputPlaceHolder . '" value="' . $inputValue . '"' . ($disabled ? ' disabled' : '') . '/>
               <span class="input-group-btn">
                 <button type="submit" class="btn btn-primary' . ($small ? ' btn-sm' : '') . '"' . ($disabled ? ' disabled' : '') . '>' . ($buttonText ? $buttonText : '<span class="fa fa-paper-plane-o"></span>') . '</button>
               </span>
+              ' . ($autoComplete ? '<ul class="ac-list" id="ac-list-' . $autoCompeteId . '"></ul>' : '') . '
+            </div>
+          </div>
+        </form>';
+  }
+
+  /**
+   * @param string $command
+   * @param string $description
+   * @param array $options
+   * @return string
+   */
+  public function botCommandFormV2($command, $description, $options = [])
+  {
+    $options = array_merge(
+        [
+            'placeholder' => '[username]',
+            'value' => null,
+            'buttonText' => '<span class="fa fa-paper-plane-o"></span>',
+            'disabled' => false,
+            'small' => false,
+            'noReload' => false,
+            'autoComplete' => null,
+        ],
+        $options
+    );
+    $autoCompeteId = $this->randomId();
+
+    return '<form class="bot-command-form' . ($options['autoComplete'] ? ' auto-complete' : '') . '" botcommand="'
+    . $command . '" formnoreload="' . ($options['noReload'] ? '1' : '0') . '"' . ($options['autoComplete'] ? ' autocompleteon="' . $options['autoComplete'] . '" autocompleteid="' . $autoCompeteId . '"' : '') . '>
+          <div class="form-group' . ($options['small'] ? ' form-group-sm' : '') . '">
+            <span>' . $description . '</span>
+            <div class="input-group">
+              <input type="text"' . ($options['autoComplete'] ? ' id="ac-field-' . $autoCompeteId . '" autocomplete="off"' : '') . ' class="form-control" placeholder="' . $options['placeholder'] . '" value="' . $options['value'] . '"' . ($options['disabled'] ? ' disabled' : '') . '/>
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-primary' . ($options['small'] ? ' btn-sm' : '') . '"' . ($options['disabled'] ? ' disabled' : '') . '>' . $options['buttonText'] . '</button>
+              </span>
+              ' . ($options['autoComplete'] ? '<ul class="ac-list" id="ac-list-' . $autoCompeteId . '"></ul>' : '') . '
             </div>
           </div>
         </form>';
@@ -294,8 +336,8 @@ class ComponentTemplates
     ++$this->sideTabIndex;
     return '<div class="side-tabs-wrapper">
               <iframe></iframe>
-              '.($activateBtn ? '<button class="btn btn-success btn-sm"><span class="fa fa-check"></span></button>' : '').'
-              '.($activateBtn ? '<div class="notice">Click the button in the upper right to activate the '. $name .'!</div>' : '').'
+              ' . ($activateBtn ? '<button class="btn btn-success btn-sm"><span class="fa fa-check"></span></button>' : '') . '
+              ' . ($activateBtn ? '<div class="notice">Click the button in the upper right to activate the ' . $name . '!</div>' : '') . '
               <div class="side-tab" tab-src="' . $frameUrl . '" style="top:' . (43 * $this->sideTabIndex) . 'px" title="' . $name . '">
                 <span class="fa ' . $faIcon . '"></span>
               </div>

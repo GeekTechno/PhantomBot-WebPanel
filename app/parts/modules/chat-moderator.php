@@ -76,25 +76,21 @@ $chatModSettings = $functions->getDbTableArray('chatModerator');
         <div class="row">
           <div class="col-xs-6">
             <h4>Links:</h4>
-            <?= $templates->botCommandForm('chatmod setlinkpurgemessage', 'Purged Link Message', '[message]', (array_key_exists('linkPurgeMessage', $chatModSettings) ? $chatModSettings['linkPurgeMessage'] : '')) ?>
             <?= $templates->botCommandForm('chatmod setlinkpermittime', 'Link Permit Timout', '[seconds]', (array_key_exists('linkPermitTime', $chatModSettings) ? $chatModSettings['linkPermitTime'] : '')) ?>
           </div>
           <div class="col-xs-6">
             <h4>Symbols & Grapheme Clusters:</h4>
-            <?= $templates->botCommandForm('chatmod setsymbolspurgemessage', 'Purged Symbol Spam Message', '[message]', (array_key_exists('symbolsPurgeMessage', $chatModSettings) ? $chatModSettings['symbolsPurgeMessage'] : '')) ?>
             <?= $templates->botCommandForm('chatmod setsymbolstriggercount', 'Set Maximum Symbols per message', '[amount]', (array_key_exists('symbolsTriggerCount', $chatModSettings) ? $chatModSettings['symbolsTriggerCount'] : '')) ?>
           </div>
         </div>
         <div class="row">
           <div class="col-xs-6">
             <h4>Caps:</h4>
-            <?= $templates->botCommandForm('chatmod setcapspurgemessage', 'Purged Caps Spam Message', '[message]', (array_key_exists('capsPurgeMessage', $chatModSettings) ? $chatModSettings['capsPurgeMessage'] : '')) ?>
             <?= $templates->botCommandForm('chatmod setcapstriggerlength', 'Set Minimim Caps Before Checking', '[amount]', (array_key_exists('capsTriggerLength', $chatModSettings) ? $chatModSettings['capsTriggerLength'] : '')) ?>
             <?= $templates->botCommandForm('chatmod setcapstriggerratio', 'Set Caps count To Message Ratio', '[float 0-1]', (array_key_exists('capsTriggerRatio', $chatModSettings) ? $chatModSettings['capsTriggerRatio'] : '')) ?>
           </div>
           <div class="col-xs-6">
             <h4>Repeating Characters:</h4>
-            <?= $templates->botCommandForm('chatmod setrepeatcharpurgemessage', 'Purged Repeating Characters Message', '[message]', (array_key_exists('repeatCharPurgeMessage', $chatModSettings) ? $chatModSettings['repeatCharPurgeMessage'] : '')) ?>
             <?= $templates->botCommandForm('chatmod setrepeatchartriggerlength', 'Set Maximum Repeating Character Chain', '[amount]', (array_key_exists('repeatCharTriggerLength', $chatModSettings) ? $chatModSettings['repeatCharTriggerLength'] : '')) ?>
           </div>
         </div>

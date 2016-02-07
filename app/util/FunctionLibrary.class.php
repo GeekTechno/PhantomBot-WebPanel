@@ -17,12 +17,26 @@ class FunctionLibrary
   /* @var PanelSession $session */
   private $session;
 
+  private $phpInput;
+
   /**
    * @param DataStore $dataStore
    * @param BotConnectionHandler $connection
    */
   public function __construct($dataStore, $connection)
   {
+    if (count($_GET) > 0) {
+      $this->phpInput = filter_input_array(INPUT_GET);
+    } elseif (count($_POST) > 0) {
+      $this->phpInput = filter_input_array(INPUT_POST);
+    } else {
+      $this->phpInput = json_decode(file_get_contents('php://input'), true);
+
+      if (!is_array($this->phpInput)) {
+        $this->phpInput = [];
+      }
+    }
+
     $this->dataStore = $dataStore;
     $this->connection = $connection;
     $this->session = new PanelSession();
@@ -306,5 +320,13 @@ class FunctionLibrary
   public function getModuleStatus($moduleName)
   {
     return $this->strToBool($this->getDbTableValueByKey('modules', $moduleName, true));
+  }
+
+  /**
+   * @return array
+   */
+  public function getPhpInput()
+  {
+    return $this->phpInput;
   }
 }

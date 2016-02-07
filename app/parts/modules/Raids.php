@@ -46,19 +46,19 @@ foreach ($outgoingRaids as $username => $count) {
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-4">
-          <?= $templates->botCommandForm('raid', 'Throw a raid!', '[username]') ?>
+          <?= $templates->botCommandFormV2('raid', 'Throw a raid!', ['autoComplete' => 'user']) ?>
         </div>
         <div class="col-sm-4">
-          <?= $templates->botCommandForm('raider', 'Record an incomming raid!', '[username]') ?>
+          <?= $templates->botCommandFormV2('raider', 'Record an incomming raid!', ['autoComplete' => 'user']) ?>
         </div>
       </div>
-      <hr />
+      <hr/>
       <div class="row">
         <div class="col-xs-6">
-          <?=$templates->dataTable('Past Outgoing Raids', ['Username', 'Count'], $outgoingRaidsDataRows, false)?>
+          <?= $templates->dataTable('Past Outgoing Raids', ['Username', 'Count'], $outgoingRaidsDataRows) ?>
         </div>
         <div class="col-xs-6">
-          <?=$templates->dataTable('Past Incomming Raids', ['Username', 'Count'], $incommingRaidsDataRows, false)?>
+          <?= $templates->dataTable('Past Incomming Raids', ['Username', 'Count'], $incommingRaidsDataRows) ?>
         </div>
       </div>
     </div>

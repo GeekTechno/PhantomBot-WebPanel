@@ -21,7 +21,7 @@ $templates = new \PBPanel\Util\ComponentTemplates();
 
 $botSettings = $functions->getDbTableArray('settings');
 $youtubePlayerSettings = $functions->getDbTableArray('youtubePlayer');
-$requestQueue = preg_split('/\n/', trim($functions->getOtherFile($dataStore->getVar('paths', 'youtubeRequestQueue'))));
+$requestQueue = preg_split('/\n/', trim($functions->getOtherFile($dataStore->getVar('paths', 'youtubePlaylist'))));
 $defaultPlaylist = preg_split('/\n/', trim($functions->getOtherFile($dataStore->getVar('paths', 'defaultYoutubePlaylist'))));
 $defaultPlaylistLength = 0;
 $requestQueueLength = 0;
@@ -39,7 +39,7 @@ foreach ($defaultPlaylist as $item) {
 
 foreach ($requestQueue as $item) {
   if ($item == '') {
-    break;
+    continue;
   }
   preg_match('/(.*)\s\(.+\s([a-z0-9_]+)\)$/i', $functions->cleanYTVideoTitle($item), $matches);
   $requestQueueDataRows .= '<tr><td>' . ($requestQueueLength + 1) . '.</td><td>' . $matches[1] . '</td><td>' . $matches[2] . '</td></tr>';
@@ -82,7 +82,12 @@ foreach ($requestQueue as $item) {
         </div>
       </div>
       <hr/>
-      <?= $templates->dataTable('Request Queue <small>(' . $requestQueueLength . ' items)</small>', ['', 'Video Title', 'Requested By'], $requestQueueDataRows, true) ?>
+      <?= $templates->dataTable(
+          'Request Queue <small>(' . $requestQueueLength . ' items)</small> ' . ($requestQueueLength > 0 ? $templates->botCommandButton('stealsong', 'Steal Current Song', 'default btn-sm') : ''),
+          ['', 'Video Title', 'Requested By'],
+          $requestQueueDataRows,
+          true
+      ) ?>
       <hr/>
       <div class="row">
         <div class="col-sm-4">

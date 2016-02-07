@@ -244,6 +244,44 @@ function bindPartEventHandlers() {
     owner.toggleClass('open');
   });
 
+  $('.auto-complete').on('change input keyup. paste', function (event) {
+    //noinspection JSValidateTypes
+    var target = $(event.target),
+        wrapper = target.parent().parent().parent(),
+        autoCompleteId = wrapper.attr('autocompleteid'),
+        autoCompleteType = wrapper.attr('autocompleteon'),
+        autoCompleteList = $('#ac-list-' + autoCompleteId);
+
+    if (target.val().length > 2) {
+      var splitValue = target.val().split(' ');
+      $.ajax({
+        type: 'POST',
+        url: 'app/connectors/autocomplete.php',
+        data: {
+          'type': autoCompleteType,
+          'input': splitValue[splitValue.length - 1],
+          'token': pBotData.config.token
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.length > 0) {
+            autoCompleteList.show().html('');
+            for (var i in data) {
+              autoCompleteList.append(
+                  '<li role="button" onclick="insertAutoComplete(\'' + autoCompleteId + '\', \'' + data[i] + '\')">' + data[i] + '</li>'
+              )
+            }
+          } else {
+            autoCompleteList.hide().html('');
+          }
+        }
+      });
+    } else {
+      autoCompleteList.hide().html('');
+    }
+  })
+  ;
+
   /*
    * Open previously opened collapsibles for current part
    * pBotData.touchedCollapsibles gets reset on changing parts
@@ -257,6 +295,16 @@ function bindPartEventHandlers() {
 
   toggleTooltips(true);
   toggleInformationPanels(true);
+}
+
+function insertAutoComplete(autoCompleteId, value) {
+  var field = $('#ac-field-' + autoCompleteId),
+      fieldValues = field.val().split(' '),
+      autoCompleteList = $('#ac-list-' + autoCompleteId);
+
+  fieldValues[fieldValues.length - 1] = value;
+  field.val(fieldValues.join(' '));
+  autoCompleteList.hide().html('');
 }
 
 function channelDataCache(data) {
@@ -705,7 +753,7 @@ function updateMusicPlayerState() {
 function togglePlayPause() {
   doBotRequest('command', function (result) {
     showGeneralAlert(result, 'success');
-  }, {command: 'pause'});
+  }, {command: 'musicplayer pause'});
 }
 
 //noinspection JSUnusedGlobalSymbols

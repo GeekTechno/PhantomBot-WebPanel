@@ -39,22 +39,28 @@ foreach ($commandCooldowns as $command => $seconds) {
       <h3 class="panel-title">
         Command Cooldown
         <?= $templates->toggleFavoriteButton() ?>
-        <?= $templates->moduleActiveIndicator($functions->getModuleStatus('commandCoolDown.js'))?>
+        <?= $templates->moduleActiveIndicator($functions->getModuleStatus('commandCoolDown.js')) ?>
       </h3>
     </div>
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-4">
-          <?= $templates->botCommandForm('cooldown', 'Set Command Cooldown', '[command] [seconds]') ?>
+          <?= $templates->botCommandFormV2('cooldown', 'Set Command Cooldown', [
+              'placeholder' => '[command] [seconds]',
+              'autoComplete' => 'command'
+          ]) ?>
         </div>
         <div class="col-sm-4">
           <div class="btn-toolbar">
-            <?= $templates->botCommandForm('clearcooldown', 'Clear All Cooldowns', '[command]') ?>
+            <?= $templates->botCommandFormV2('clearcooldown', 'Clear All Cooldowns', [
+                'placeholder' => '[command]',
+                'autoComplete' => 'command'
+            ]) ?>
           </div>
         </div>
       </div>
-      <hr />
-      <?=$templates->dataTable('Default Command Cooldowns', ['Command', 'Cooldown', 'Delete'], $commandCooldownsDataRows, true)?>
+      <hr/>
+      <?= $templates->dataTable('Default Command Cooldowns', ['Command', 'Cooldown', 'Delete'], $commandCooldownsDataRows, true) ?>
     </div>
   </div>
 </div>
