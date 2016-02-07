@@ -753,7 +753,7 @@ function updateMusicPlayerState() {
 function togglePlayPause() {
   doBotRequest('command', function (result) {
     showGeneralAlert(result, 'success');
-  }, {command: 'pause'});
+  }, {command: 'musicplayer pause'});
 }
 
 //noinspection JSUnusedGlobalSymbols
